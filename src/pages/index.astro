@@ -1,16 +1,21 @@
 ---
-
+	import Layout from "../layouts/Layout.astro"
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Sustainable action foundation</title>
-	</head>
-	<body>
-		<h1>Sustainable Action Foundation</h1>
-	</body>
-</html>
+<Layout>
+	<main>
+		<section class="padding-inline-50">
+			<container class="margin-inline-auto"> 
+				<h1>Sustainable Action Foundation</h1>
+			</container>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	section h1 {
+		font-size: 2em;
+		margin-block-start: .5rem;
+		margin-block-end: .5rem;
+	}
+</style>
