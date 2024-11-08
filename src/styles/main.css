@@ -40,7 +40,8 @@ input[type=date],
 input[type=datetime-local],
 input[type=month],
 input[type=time],
-input[type=week]) {
+input[type=week]),
+textarea {
   background-color: #e0e6eb;
   display: block;
   width: 100%;
@@ -59,7 +60,8 @@ input[type=date],
 input[type=datetime-local],
 input[type=month],
 input[type=time],
-input[type=week]):focus {
+input[type=week],
+textarea):focus {
   outline: 2px solid #0075FF;
   box-shadow: 0 0 0.5rem -3px #0075FF;
   background-color: transparent;
