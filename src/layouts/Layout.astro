@@ -9,13 +9,32 @@ import '@styles/main.css';
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Sustainable action foundation</title>
+
+		<script>
+			const header = document.getElementsByTagName("header")[0];
+			header.style.backgroundColor = 'unset';
+
+			window.onscroll = function() {
+				if (window.scrollY > 50) {
+					header.style.transition = 'background-color .2s ease'
+					header.style.backgroundColor = 'rgba(245, 245, 245, .9)';
+					header.style.backdropFilter = 'blur(1px)'
+				} else {
+					header.style.transition = 'background-color .2s ease'
+					header.style.backgroundColor = 'unset';
+					header.style.backdropFilter = 'unset'
+				}
+			};
+        </script>
+
 	</head>
 	<body>
 		<header class="position-sticky padding-inline-50 padding-block-100">
-			<container class="margin-inline-auto flex justify-content-space-between">
-				<strong>Sustainable action foundation</strong>
-				<nav class="flex align-items-center gap-50">
+			<container class="margin-inline-auto flex align-items-center justify-content-space-between">
+				<strong class="font-weight-500">Sustainable action foundation</strong>
+				<nav class="flex align-items-center gap-100">
 					<a href="/">Hem</a>
+					<a href="/#contact" class="call-to-action">Kontakta oss</a>
 				</nav>
 			</container>
 		</header>
@@ -32,23 +51,40 @@ import '@styles/main.css';
 <style>
     body {
         margin: 0;
-        background-color: #f5f5f5;
+        background-color: rgb(245, 245, 245);
     }
 
 	header {
 		top: 0;
 		z-index: 9999;
+		background-color: rgb(245, 245, 245, .9);
 	}
 
-	header a {
+	header a:not(.call-to-action) {
 		color: black;
 		font-weight: 500;
 		text-decoration: none;
 		text-underline-offset: 2px;
 	}
 
-	header a:hover {
+	header a:hover:not(.call-to-action) {
 		text-decoration: 2px underline;
+	}
+
+	.call-to-action {
+		text-decoration: none;
+		font-weight: 500;
+		border-radius: 2px;
+		padding: .5rem;
+		background-color: black;
+		color: white;
+		transition: box-shadow .2s ease,
+					background-color .2s ease;
+	}
+
+	.call-to-action:hover {
+		background-color: #191919;
+		box-shadow: 2px 2px black;
 	}
 
 </style>
