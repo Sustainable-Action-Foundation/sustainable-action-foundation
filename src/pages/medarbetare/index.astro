@@ -1,21 +1,77 @@
 ---
-	import Layout from "@layouts/Layout.astro"
+import { pbFetch } from "@functions";
+import Layout from "@layouts/Layout.astro";
+
+const people: Array<Person> = await pbFetch({
+  collection: "people",
+  sort: "name",
+});
+
 ---
 
 <Layout
-	title="Medarbetare - Sustainable action foundation"
-	description="Medarbetare"
+  title="Medarbetare - Sustainable action foundation"
+  description="Medarbetare"
 >
-	<main>
-		<section class="padding-inline-50">
-            <container class="margin-inline-auto">
-                <h1>Våra Medarbetare</h1>
-                <h2>Styrelse</h2>
-                <p>...</p>
-                <h2>Utvecklare</h2>
-                <p>...</p>
-            </container>
+  <main>
+    <section class="padding-inline-50">
+      <container class="margin-inline-auto">
+        <h1>Våra Medarbetare</h1>
+        <section>
+          <h2>Styrelse</h2>
+          <p>...</p>
         </section>
-    </main>
+        <section>
+          <h2>Utvecklare</h2>
+          <block>
+            {
+              people.map((person: Person) => (
+                <article>
+                  <address>
+                    {person.portrait ? (
+                      <img src="" alt="" width="128" height="128" />
+                    ) : (
+                      <img src="/icons/user.svg" alt="" width="128" height="128" />
+                    )}
+                    <flex class="flex-direction-column justify-content-flex-end padding-25" style="height: 100%;">
+                      <h3 class="margin-0">{person.name}</h3>
+                      <small>{person.role}</small>
+                      <span>{person.email}</span>
+                      <span>{person.phone}</span>
+                    </flex>
+                  </address>
+                </article>
+              ))
+            }
+          </block>
+        </section>
+      </container>
+    </section>
+  </main>
 </Layout>
 
+<style>
+  address {
+    --height: 275px;
+    width: fit-content;
+    font-style: normal;
+    position: relative;
+    height: var(--height);
+    border-radius: .25rem;
+    box-shadow: 0 0 .5rem -.25rem gray;
+  }
+
+  address flex {
+    position: relative;
+  }
+
+  img {
+    position: absolute;
+    height: calc(var(--height) - 75px);
+    width: 100%;
+    top: 0;
+    left: 0;
+    border-radius: .25rem;
+  }
+
+</style>
