@@ -1,0 +1,83 @@
+---
+
+    interface Props {
+        route: Route
+    }
+
+    const { route } = Astro.props
+
+---
+
+<nav class="menu">
+    <a class="flex align-items-center gap-25" href={route.href}> 
+        {route.text}
+        <img src="/icons/caret-down.svg" alt="" height="16" width="16" />
+    </a>
+    <div class="dropdown">
+        <div>
+            {route.subroutes && route.subroutes.map((subroute: {text: string, href: string}) => 
+                <a href={subroute.href}>{subroute.text}</a>
+            )}
+        </div>
+    </div>
+</nav>    
+
+<style>
+     a {
+        text-decoration: none;
+        color: black;
+        text-underline-offset: 2px;
+        font-weight: 500;
+    }
+
+    .menu:hover > a {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+    }
+
+    nav {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .menu {
+        position: relative;
+    }
+
+    .menu:hover > .dropdown, .menu:focus-within > .dropdown {
+        display: block;
+
+    }
+
+    .dropdown {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(calc(-50% - calc(16px / 2)), 0);
+        z-index: 9;
+        display: none;
+        padding: 1rem 2rem 2rem 2rem;
+    }
+
+    .dropdown > div {
+        background-color: white;
+        padding: .25rem;
+        border-radius: .25rem;
+        box-shadow: 0 0 .5rem -.25rem gray;
+    }
+
+    .dropdown a {
+        display: block;
+        nav-index: 1;
+        white-space: nowrap;
+        padding: .5rem;
+    }
+
+    .dropdown a:hover, .dropdown a:focus {
+        background-color: black;
+        color: white;
+        border-radius: 2px;
+    }
+
+</style>

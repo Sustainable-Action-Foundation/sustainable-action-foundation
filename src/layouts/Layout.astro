@@ -1,14 +1,26 @@
 ---
+import Dropdown from '@components/dropdown.astro';
 import '@styles/main.css';
+
+
+interface Props {
+	title: string,
+	description: string,
+}
+
+const { title, description } = Astro.props;
+
 ---
 
 <html lang="se">
 	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.jfif" />
+		<title>{title}</title>
+		<meta name="description" content={description}>
+
+		<meta name="viewport" content="width=device-width" />		
 		<meta name="generator" content={Astro.generator} />
-		<title>Sustainable action foundation</title>
+		<meta charset="utf-8" />
 
 		<script>
 			const header = document.getElementsByTagName("header")[0];
@@ -34,6 +46,7 @@ import '@styles/main.css';
 				<strong class="font-weight-500">Sustainable action foundation</strong>
 				<nav class="flex align-items-center gap-100">
 					<a href="/">Hem</a>
+					<Dropdown route={{text: 'Om oss', href: 'om', subroutes: [{text: 'Om oss', href: 'om'}, {text: 'styrelse', href: 'styrelse'}]}} />
 					<a href="/#contact" class="call-to-action">Kontakta oss</a>
 				</nav>
 			</container>
