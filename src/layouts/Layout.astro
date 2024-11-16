@@ -61,9 +61,18 @@ const { title, description } = Astro.props;
 		</header>
         <slot></slot>
 		<footer class="padding-50">
-			<container-text class="margin-inline-auto display-flex align-items-center justify-content-flex-end ">
-				<script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" is:inline defer></script>
-				<div id="wcb" class="carbonbadge"></div>
+			<container-text class="margin-inline-auto">
+				<flex class="align-items-center justify-content-space-between gap-100 flex-wrap-wrap">
+					<nav>
+						<a href="https://www.linkedin.com/company/stiftelsen-sustainable-action/posts/" target="_blank">
+							<img src="/icons/linkedin.svg" width="24" height="24">
+						</a>
+					</nav>
+					<div>
+						<script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" is:inline defer></script>
+						<div id="wcb" class="carbonbadge"></div>
+					</div>
+				</flex>
 			</container-text>
 		</footer>
 	</body>
@@ -106,6 +115,17 @@ const { title, description } = Astro.props;
 	.call-to-action:hover {
 		background-color: #191919;
 		box-shadow: 2px 2px black;
+	}
+
+	a:has(img[src="/icons/linkedin.svg"]) {
+		padding: .5rem;
+		display: grid;
+		border-radius: 9999px;
+		transition: background-color .2s ease;
+	}
+
+	a:has(img[src="/icons/linkedin.svg"]):hover {
+		background-color: #e0e6eb;
 	}
 
 </style>
