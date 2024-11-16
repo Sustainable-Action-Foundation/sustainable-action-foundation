@@ -17,6 +17,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PB_USERNAME: ${{ secrets.PB_USERNAME  }}
+      PB_PASSWORD: ${{ secrets.PB_PASSWORD }}
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
