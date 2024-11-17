@@ -1,10 +1,11 @@
 ---
+import CoworkerCard from "@components/CoworkerCard.astro";
 import { pbFetch } from "@functions";
 import Layout from "@layouts/Layout.astro";
 
 const people: Array<Person> = await pbFetch({
   collection: "people",
-  sort: "name",
+  sort: "-created",
 });
 
 ---
@@ -14,64 +15,34 @@ const people: Array<Person> = await pbFetch({
   description="Medarbetare"
 >
   <main>
-    <section class="padding-inline-50">
-      <container class="margin-inline-auto">
+    <section class="padding-inline-50 padding-bottom-300">
+      <container-custom class="margin-inline-auto">
         <h1>Våra Medarbetare</h1>
-        <section>
-          <h2>Styrelse</h2>
-          <p>...</p>
-        </section>
-        <section>
-          <h2>Utvecklare</h2>
-          <block>
-            {
-              people.map((person: Person) => (
-                <article>
-                  <address>
-                    {person.portrait ? (
-                      <img src="" alt="" width="128" height="128" />
-                    ) : (
-                      <img src="/icons/user.svg" alt="" width="128" height="128" />
-                    )}
-                    <flex class="flex-direction-column justify-content-flex-end padding-25" style="height: 100%;">
-                      <h3 class="margin-0">{person.name}</h3>
-                      <small>{person.role}</small>
-                      <span>{person.email}</span>
-                      <span>{person.phone}</span>
-                    </flex>
-                  </address>
-                </article>
-              ))
-            }
-          </block>
-        </section>
-      </container>
+        <grid class="custom-grid">
+          { people.map((person: Person) => (
+            <CoworkerCard person={person} />
+          )) }
+        </grid>
+      </container-custom>
     </section>
   </main>
 </Layout>
 
 <style>
-  address {
-    --height: 275px;
-    width: fit-content;
-    font-style: normal;
-    position: relative;
-    height: var(--height);
-    border-radius: .25rem;
-    box-shadow: 0 0 .5rem -.25rem gray;
+  h1 {
+    text-align: center;
+    margin-block: 5rem;
+    font-size: 2rem;
   }
 
-  address flex {
-    position: relative;
+  .custom-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(256px, 100%), 1fr ));
+    gap: 3rem;
   }
 
-  img {
-    position: absolute;
-    height: calc(var(--height) - 75px);
-    width: 100%;
-    top: 0;
-    left: 0;
-    border-radius: .25rem;
+  container-custom {
+    display: block;
+    width: min(1000px, 100%);
   }
 
 </style>

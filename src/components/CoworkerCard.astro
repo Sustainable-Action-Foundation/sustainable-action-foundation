@@ -1,0 +1,46 @@
+---
+
+interface Props {
+	person: Person,
+}
+
+const { person } = Astro.props;
+
+
+---
+
+<article class="flex justify-content-center"> 
+    <address>
+      {person.portrait ? (
+        <img src={`https://sustainable-action-foundation.pockethost.io/api/files/${person.collectionId}/${person.id}/${person.portrait}`}  alt="" width="256" height="205" />
+      ) : (
+        <img src="/icons/user.svg" alt="" width="256" height="205" />
+      )}
+      <flex class="flex-direction-column justify-content-flex-end Z">
+        <h3 class="margin-bottom-0 margin-top-75">{person.name}</h3>
+        <small>{person.role}</small>
+        <span>{person.email}</span>
+        <span>{person.phone}</span>
+      </flex>
+    </address>
+</article>
+
+<style>
+    
+    address {
+        height: 100%;
+        font-style: normal;
+    }
+
+    img {
+        border-radius: 2px;
+        object-fit: cover;
+        object-position: top;
+        overflow-clip-margin: unset;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+</style>
