@@ -1,5 +1,22 @@
 ---
-	import Layout from "@layouts/Layout.astro"
+import Layout from "@layouts/Layout.astro"
+import { pbFetch, removeTags } from "@functions";
+
+const news: Array<Article> = await pbFetch({
+  collection: "news",
+  sort: "-published_date",
+});
+
+
+news.forEach((article: Article) => {
+    const previewString = removeTags(article.text)
+    if (previewString && previewString.length > 150) {
+        article.preview = `${previewString.slice(0, 147)}...`
+    } else if (previewString) {
+        article.preview = previewString
+    }
+})
+
 ---
 
 <Layout
@@ -8,9 +25,35 @@
 >
 	<main>
 		<section class="padding-inline-50 padding-block-300">
-            <container-text class="margin-inline-auto">
+            <container class="margin-inline-auto">
                 <h1>Nyheter</h1>
-            </container-text>
+                <grid class="news-grid-layout">
+                    { news.map((article: Article) => (
+                        <article>
+                            <h2 class="margin-bottom-0">{article.title}</h2>
+                            <flex class="align-items-center gap-50">
+                                <address>{article.author}</address>
+                                •
+                                <time datetime={article.published_date.toString()}>
+                                    {article.published_date}
+                                </time>
+                            </flex>
+                            <div class="margin-block-100">{article.preview}</div>
+                        </article>
+                    )) }
+                </grid>
+            </container>
         </section>
     </main>
 </Layout>
+
+<style>
+    article {
+        width: min(50ch, 100%);
+    }
+
+    .news-grid-layout {
+        grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    }
+
+</style>

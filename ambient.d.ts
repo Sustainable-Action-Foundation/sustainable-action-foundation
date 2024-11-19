@@ -20,7 +20,7 @@ type Person = pbItem &  {
     phone?: string,
 }
 
-type News = pbItem & {
+type Article = pbItem & {
     banner?: string,
     title: string,
     author: Person,

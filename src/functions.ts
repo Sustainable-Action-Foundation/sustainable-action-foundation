@@ -48,3 +48,19 @@ export async function pbFetch(params: PocketBaseParams): Promise<any> {
   
 }
 
+/**
+ * Removes html tags from a string
+ * @param htmlString - A string which contains html tags
+*/
+
+export function removeTags(htmlString: string) {
+    if ((htmlString === null) || (htmlString === ''))
+        return false;
+    else
+        htmlString = htmlString.toString();
+
+    // Regular expression to identify HTML tags in
+    // the input string. Replacing the identified
+    // HTML tag with a null string.
+    return htmlString.replace(/(<([^>]+)>)/ig, '');
+}
