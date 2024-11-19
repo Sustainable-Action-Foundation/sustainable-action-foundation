@@ -25,9 +25,15 @@ const om: Route = {
     ]
 }
 
+const nyheter: Route = {
+	text: "Nyheter", 
+	href: "/nyheter"
+}
+
 const links = [
 	hem,
 	om,
+	nyheter
 ]
 
 
@@ -67,16 +73,16 @@ const links = [
 				<strong class="font-weight-500">Sustainable action foundation</strong>
 				<flex class="align-items-center justify-content-flex-end gap-100">
 					<nav class="flex align-items-center gap-100">
-						<a href="/">Hem</a>
-						<Dropdown route={{	
-								text: 'Om oss', 
-								href: '/om', 
-								subroutes: [
-									{text: 'Om oss', href: '/om'}, 
-									{text: 'Medarbetare', href: '/medarbetare'}
-								]
-							}} 
-						/>
+						{links.map((route: Route) => 
+							<>
+								{!route.subroutes &&
+									<a href={route.href}>{route.text}</a> 
+								} 
+								{route.subroutes && 
+									<Dropdown route={route} /> 
+								}
+							</>
+						)}
 					</nav>
 					<a href="/#contact" class="call-to-action">Kontakta oss</a>
 					<div class="hamburger">

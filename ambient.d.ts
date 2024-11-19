@@ -19,3 +19,12 @@ type Person = pbItem &  {
     email?: string,
     phone?: string,
 }
+
+type News = pbItem & {
+    banner?: string,
+    title: string,
+    author: Person,
+    published_date: Date,
+    text: string,
+    preview?: string,
+}
