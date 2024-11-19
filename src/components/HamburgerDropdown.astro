@@ -1,0 +1,79 @@
+---
+    interface Props {
+        link: Route
+    }
+
+    const { link } = Astro.props
+---
+
+<div class="wrapper">
+    {link.subroutes ?
+    <a href={link.href}>
+        {link.text}
+        <div class="open-sublinks">
+            <input type="checkbox"  />
+            <img src="/icons/chevron-down.svg" alt="" style="pointer-events: none;" />
+        </div>
+    </a>
+    <div class="sublinks">   
+        {link.subroutes.map((subroute: Route) =>
+            <a href={subroute.href} class="margin-left-25 sublink">{subroute.text}</a>
+        )}
+    </div>
+    : <a href={link.href}>{link.text}</a> }
+</div>
+
+<style>
+
+    a {
+        display: block;
+        position: relative;
+        font-weight: 500;
+        color: black !important;
+        text-decoration: none;
+        padding: .75rem .5rem;
+    }
+
+    a:hover {
+        @media not (pointer:coarse) {
+            background-color: black;
+            color: white !important;
+            border-radius: 2px;
+        }
+    }
+
+    .sublinks {
+        margin-left: .5rem;
+        margin-block: .25rem;
+    }
+ 
+    .open-sublinks {
+        display: grid;
+        place-items: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+        aspect-ratio: 1 / 1;
+    }
+
+    input[type="checkbox"] {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+    }
+
+    input[type="checkbox"]:checked ~ img {
+        transform: rotate(180deg);
+    }
+
+    a:has(input[type="checkbox"]:checked) ~ .sublinks {
+        display: block;
+    }
+
+    a:has(input[type="checkbox"]) ~ .sublinks {
+        display: none;
+    }
+
+</style>

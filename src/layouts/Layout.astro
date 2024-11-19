@@ -1,5 +1,6 @@
 ---
-import Dropdown from '@components/dropdown.astro';
+import Dropdown from '@components/Dropdown.astro';
+import Hamburger from '@components/Hamburger.astro';
 import '@styles/main.css';
 
 
@@ -9,6 +10,26 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+const hem: Route = {
+	text: "Hem", 
+	href: "/",
+}
+
+const om: Route = {
+	text: "Om", 
+	href: "/om",
+    subroutes: [
+        {text: "Om", href: "/om"},
+        {text: "Medarbetare", href: "/medarbetare"}
+    ]
+}
+
+const links = [
+	hem,
+	om,
+]
+
 
 ---
 
@@ -44,19 +65,24 @@ const { title, description } = Astro.props;
 		<header class="position-sticky padding-inline-50 padding-block-100">
 			<container class="margin-inline-auto flex align-items-center justify-content-space-between">
 				<strong class="font-weight-500">Sustainable action foundation</strong>
-				<nav class="flex align-items-center gap-100">
-					<a href="/">Hem</a>
-					<Dropdown route={{	
-							text: 'Om oss', 
-							href: '/om', 
-							subroutes: [
-								{text: 'Om oss', href: '/om'}, 
-								{text: 'Medarbetare', href: '/medarbetare'}
-							]
-						}} 
-					/>
+				<flex class="align-items-center justify-content-flex-end gap-100">
+					<nav class="flex align-items-center gap-100">
+						<a href="/">Hem</a>
+						<Dropdown route={{	
+								text: 'Om oss', 
+								href: '/om', 
+								subroutes: [
+									{text: 'Om oss', href: '/om'}, 
+									{text: 'Medarbetare', href: '/medarbetare'}
+								]
+							}} 
+						/>
+					</nav>
 					<a href="/#contact" class="call-to-action">Kontakta oss</a>
-				</nav>
+					<div class="hamburger">
+						<Hamburger links={links} />
+					</div>
+				</flex>
 			</container>
 		</header>
         <slot></slot>
@@ -89,6 +115,10 @@ const { title, description } = Astro.props;
 		z-index: 9999;
 		background-color: rgb(245, 245, 245, .9);
 	}
+
+	header:has(input[type="checkbox"]:checked) {
+        background-color: rgba(245, 245, 245, .9) !important;
+    }
 
 	header a:not(.call-to-action) {
 		color: black;
@@ -126,6 +156,19 @@ const { title, description } = Astro.props;
 
 	a:has(img[src="/icons/linkedin.svg"]):hover {
 		background-color: #e0e6eb;
+	}
+
+    .hamburger {
+		display: none;
+		@media(max-width: 850px) {
+			display: initial;
+		}
+	}
+
+	header nav {
+		@media(max-width: 850px) {
+			display: none;
+		}
 	}
 
 </style>

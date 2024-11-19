@@ -1,0 +1,41 @@
+---
+import HamburgerDropdown from './HamburgerDropdown.astro'
+
+interface Props {
+    links: Array<Route>
+}
+
+const { links } = Astro.props
+---
+
+<div>
+    <div style="position: relative; display:grid;">
+        <input type="checkbox" style="position: absolute; top:0;left:0;width:100%;height:100%;opacity:0;" />
+        <img src="/icons/hamburger.svg" alt="" style="pointer-events: none;" height="32" width="32" />
+    </div>
+    <nav class="padding-inline-50">
+        <container>
+            {links.map((link: Route) =>
+                <HamburgerDropdown link={link} />
+            )}
+        <container>
+    </nav> 
+</div>
+
+<style>
+
+    div:has(input[type="checkbox"]:checked) ~ nav {
+        display: block;
+    }
+
+    nav {
+        position: absolute;
+        left: 0;
+        top: 100%;
+        background-color: rgba(245, 245, 245, 0.9);
+        width: 100%;
+        display: none;
+        box-shadow: 0 .25rem .5rem -.25rem rgba(0, 0, 0, .25);
+    }
+
+</style>
