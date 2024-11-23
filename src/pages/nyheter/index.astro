@@ -1,6 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro"
 import { pbFetch, removeTags } from "@functions";
+import NewsCard from "@components/NewsCard.astro";
 
 const news: Array<Article> = await pbFetch({
   collection: "news",
@@ -10,8 +11,8 @@ const news: Array<Article> = await pbFetch({
 
 news.forEach((article: Article) => {
     const previewString = removeTags(article.text)
-    if (previewString && previewString.length > 150) {
-        article.preview = `${previewString.slice(0, 147)}...`
+    if (previewString && previewString.length > 100) {
+        article.preview = `${previewString.slice(0, 97)}...`
     } else if (previewString) {
         article.preview = previewString
     }
@@ -24,22 +25,12 @@ news.forEach((article: Article) => {
 	description="Nyheter"
 >
 	<main>
-		<section class="padding-inline-50 padding-block-300">
+		<section class="padding-inline-50 padding-bottom-300">
             <container class="margin-inline-auto">
                 <h1>Nyheter</h1>
-                <grid class="news-grid-layout">
+                <grid class="news-grid-layout gap-100">
                     { news.map((article: Article) => (
-                        <article>
-                            <h2 class="margin-bottom-0">{article.title}</h2>
-                            <flex class="align-items-center gap-50">
-                                <address>{article.author}</address>
-                                •
-                                <time datetime={article.published_date.toString()}>
-                                    {article.published_date}
-                                </time>
-                            </flex>
-                            <div class="margin-block-100">{article.preview}</div>
-                        </article>
+                        <NewsCard article={article} />
                     )) }
                 </grid>
             </container>
@@ -48,9 +39,12 @@ news.forEach((article: Article) => {
 </Layout>
 
 <style>
-    article {
-        width: min(50ch, 100%);
-    }
+
+    h1 {
+        text-align: center;
+        margin-block: 3rem;
+        font-size: 2rem;
+    }     
 
     .news-grid-layout {
         grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
