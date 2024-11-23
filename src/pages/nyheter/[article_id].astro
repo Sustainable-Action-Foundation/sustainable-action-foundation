@@ -1,0 +1,52 @@
+---
+import { pbFetch, removeTags } from '@functions';
+import Layout from '@layouts/Layout.astro';
+
+const { article_id } = Astro.params;
+export async function getStaticPaths() {
+    let data = await pbFetch({
+        collection: "news",
+        sort: "-published_date",
+    });
+
+    let params: Array<{
+        params: {
+            article_id: string;
+        };
+    }> = [];
+
+    data.forEach((element: Article) => {
+        params.push({
+            params: { article_id: element.id }
+        });
+    });
+
+    return params;
+}
+
+const article: Article = await pbFetch({
+    collection: 'news',
+    sort: "-published_date",
+    id: article_id
+})
+
+const previewString = removeTags(article.text)
+if (previewString && previewString.length > 100) {
+    article.preview = `${previewString.slice(0, 97)}...`
+} else if (previewString) {
+    article.preview = previewString
+}
+
+
+---
+
+<Layout
+    title={article.title}
+    description={article.preview ?? article.title} {/* TODO: Is this okay?? */}
+>   
+    <main>
+        <container-text class="margin-inline-auto padding-inline-50 padding-block-300">
+            <h1>{article.title}</h1>
+        </container-text>
+    </main>
+</Layout>

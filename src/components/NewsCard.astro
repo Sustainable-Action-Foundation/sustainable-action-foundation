@@ -11,19 +11,19 @@ const { article } = Astro.props;
 ---
 
 <article>
-    <a href=""> 
+    <a href={`/nyheter/${article.id}`} class="flex flex-direction-column"> 
         {article.banner ? (
             <img src={`https://sustainable-action-foundation.pockethost.io/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="176" />
         ) : (
             <img src='/images/image.jpg' alt="" height="176" />
         )}
-        <section class="padding-100 flex flex-direction-column">
+        <section class="padding-75 flex flex-direction-column flex-grow-100">
             <h2 class="margin-0" style="text-align: center;">{article.title}</h2>
             <time datetime={article.published_date.toString()} class="block" style="text-align: center; color: gray; font-size: .9rem;">
                 {new Date(article.published_date).toLocaleDateString('sv-SE', options)}
             </time>
             <div class="margin-top-100">{article.preview}</div>
-            <address class="flex-grow-100">{article.author}</address>
+            <address class="flex align-items-flex-end flex-grow-100 margin-top-25" style="font-size: .9rem; color: gray;">{article.author}</address>
         </section>
     </a>
 </article>
@@ -40,7 +40,6 @@ const { article } = Astro.props;
     } 
 
     a {
-        display: block;
         height: 100%;
         text-decoration: none;
         color: black;
