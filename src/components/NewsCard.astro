@@ -23,7 +23,7 @@ const { article } = Astro.props;
                 {new Date(article.published_date).toLocaleDateString('sv-SE', options)}
             </time>
             <div class="margin-top-100">{article.preview}</div>
-            <address class="flex align-items-flex-end flex-grow-100 margin-top-25" style="font-size: .9rem; color: gray;">{article.author}</address>
+            <address class="flex align-items-flex-end flex-grow-100 margin-top-75" style="font-size: .75rem; color: gray;">{article.author}</address>
         </section>
     </a>
 </article>

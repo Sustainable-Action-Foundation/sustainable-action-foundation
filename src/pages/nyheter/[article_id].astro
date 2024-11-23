@@ -1,6 +1,7 @@
 ---
 import { pbFetch, removeTags } from '@functions';
 import Layout from '@layouts/Layout.astro';
+import { options } from '@options';
 
 const { article_id } = Astro.params;
 export async function getStaticPaths() {
@@ -40,13 +41,44 @@ if (previewString && previewString.length > 100) {
 
 ---
 
+{/* TODO: Is the description okay?? */}
 <Layout
-    title={article.title}
-    description={article.preview ?? article.title} {/* TODO: Is this okay?? */}
+    title={`${article.title} - Sustainable action foundation`}
+    description={article.preview ?? article.title} 
 >   
     <main>
         <container-text class="margin-inline-auto padding-inline-50 padding-block-300">
-            <h1>{article.title}</h1>
+            <article>
+                {article.banner ? (
+                    <img src={`https://sustainable-action-foundation.pockethost.io/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="320" />
+                ) : (
+                    <img src='/images/image.jpg' alt="" height="320" />
+                )}
+                <h1 class="margin-bottom-25">{article.title}</h1>
+                <div>
+                    Publicerad
+                    <time datetime={article.published_date.toString()}>
+                        {new Date(article.published_date).toLocaleDateString('sv-SE', options)}
+                    </time>
+                </div>
+                <div set:html={article.text}></div>
+                <address>{article.author}</address>
+                <small class="block margin-top-25" style="color: gray;">
+                    Artikel senast uppdaterad
+                    <time datetime={article.updated.toString()}>
+                        {new Date(article.updated).toLocaleDateString('sv-SE', options)}
+                    </time>
+                </small>
+            </article>
         </container-text>
     </main>
 </Layout>
+
+<style>
+    img {
+        border-radius: 2px;
+        object-fit: cover;
+        overflow-clip-margin: unset;
+        width: 100%;
+    }
+</style>
