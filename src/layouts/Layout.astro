@@ -95,9 +95,15 @@ const links = [
 		<footer class="padding-50">
 			<container-text class="margin-inline-auto">
 				<flex class="align-items-center justify-content-space-between gap-100 flex-wrap-wrap">
-					<nav>
+					<nav class="flex gap-50 align-items-center">
 						<a href="https://www.linkedin.com/company/stiftelsen-sustainable-action/posts/" target="_blank">
 							<img src="/icons/linkedin.svg" width="24" height="24">
+						</a>
+						<a href="https://mastodon.social/@sustainableactionfoundation" target="_blank">
+							<img src="/icons/mastodon.svg" width="24" height="24">
+						</a>
+						<a href="https://bsky.app/profile/sustainable-action.org" target="_blank">
+							<img src="/icons/bluesky.svg" width="24" height="24">
 						</a>
 					</nav>
 					<div>
@@ -153,14 +159,18 @@ const links = [
 		box-shadow: 2px 2px black;
 	}
 
-	a:has(img[src="/icons/linkedin.svg"]) {
+	a:has(img[src="/icons/linkedin.svg"]), 
+	a:has(img[src="/icons/mastodon.svg"]),
+	a:has(img[src="/icons/bluesky.svg"]) {
 		padding: .5rem;
 		display: grid;
 		border-radius: 9999px;
 		transition: background-color .2s ease;
 	}
 
-	a:has(img[src="/icons/linkedin.svg"]):hover {
+	a:has(img[src="/icons/linkedin.svg"]):hover,
+	a:has(img[src="/icons/mastodon.svg"]):hover,
+	a:has(img[src="/icons/bluesky.svg"]):hover {
 		background-color: #e0e6eb;
 	}
 
