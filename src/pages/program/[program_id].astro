@@ -1,0 +1,69 @@
+---
+import PocketBase from 'pocketbase';
+const pb = new PocketBase('https://sustainable-action-foundation.pockethost.io/');
+
+import { pbFetch } from '@functions';
+import Layout from '@layouts/Layout.astro';
+
+const { program_id } = Astro.params;
+export async function getStaticPaths() {
+    let data = await pbFetch({
+        collection: "programs",
+        sort: "-created",
+    });
+
+    let params: Array<{
+        params: {
+            program_id: string;
+        };
+    }> = [];
+
+    data.forEach((element: Article) => {
+        params.push({
+            params: { program_id: element.id }
+        });
+    });
+
+    return params;
+}
+
+const program: any = await pbFetch({
+    collection: 'programs',
+    sort: "-created",
+    id: program_id
+})
+
+// TODO: Move this function prbly
+async function fetchProjects() {
+    await pb.admins.authWithPassword(import.meta.env.PB_USERNAME, import.meta.env.PB_PASSWORD);
+
+    // TODO: What happens here if we have more than 500projects? 
+    const records = await pb.collection("projects").getFullList({
+        filter: `program ~ "${program.id}"`,
+    })
+
+    return records
+}
+
+const projects = await fetchProjects()
+
+---
+
+<Layout 
+    title={program.title}
+    description={program.title}
+>
+    <main>
+        <section class="padding-inline-50 padding-block-300">
+            <container class="margin-inline-auto">        
+                <h1>{program.title}</h1>
+                <h2>Projekt inom programmet</h2>
+                <ul>
+                    {projects.map((project: any) => (
+                        <li>{project.title}</li>
+                    ))}
+                </ul>
+            </container>
+        </section>
+    </main>
+</Layout>
