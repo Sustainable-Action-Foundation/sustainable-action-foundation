@@ -57,7 +57,7 @@ const links = [
 			window.onscroll = function() {
 				if (window.scrollY > 50) {
 					header.style.transition = 'background-color .2s ease'
-					header.style.backgroundColor = 'rgba(245, 245, 245, .9)';
+					header.style.backgroundColor = 'rgba(245, 245, 245, .92)';
 					header.style.backdropFilter = 'blur(1px)'
 				} else {
 					header.style.transition = 'background-color .2s ease'
@@ -126,11 +126,12 @@ const links = [
 	header {
 		top: 0;
 		z-index: 9999;
-		background-color: rgb(245, 245, 245, .9);
+		background-color: rgb(245, 245, 245, .92);
+		backdrop-filter: blur(2px);
 	}
 
 	header:has(input[type="checkbox"]:checked) {
-        background-color: rgba(245, 245, 245, .9) !important;
+        background-color: rgba(245, 245, 245, .92) !important;
     }
 
 	header a:not(.call-to-action) {

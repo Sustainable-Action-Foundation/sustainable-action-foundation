@@ -7,17 +7,6 @@ const news: Array<Article> = await pbFetch({
   collection: "news",
   sort: "-published_date",
 });
-
-
-news.forEach((article: Article) => {
-    const previewString = removeTags(article.text)
-    if (previewString && previewString.length > 100) {
-        article.preview = `${previewString.slice(0, 97)}...`
-    } else if (previewString) {
-        article.preview = previewString
-    }
-})
-
 ---
 
 <Layout

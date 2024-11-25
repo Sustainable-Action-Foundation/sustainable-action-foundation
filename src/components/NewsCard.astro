@@ -1,4 +1,5 @@
 ---
+import { removeTags } from "@functions";
 import { options } from "@options"
 import Image from "astro/components/Image.astro";
 
@@ -7,6 +8,13 @@ interface Props {
 }
 
 const { article } = Astro.props;
+
+const previewString = removeTags(article.text)
+if (previewString && previewString.length > 100) {
+    article.preview = `${previewString.slice(0, 97)}...`
+} else if (previewString) {
+    article.preview = previewString
+}
 
 
 ---
@@ -19,8 +27,8 @@ const { article } = Astro.props;
             <Image src='/images/image.jpg' alt="" height="176" width="300" />
         )}
         <section class="padding-75 flex flex-direction-column flex-grow-100">
-            <h2 class="margin-0" style="text-align: center;">{article.title}</h2>
-            <time datetime={article.published_date.toString()} class="block" style="text-align: center; color: gray; font-size: .9rem;">
+            <h2 class="margin-0 text-align-center">{article.title}</h2>
+            <time datetime={article.published_date.toString()} class="block text-align-center" style="color: gray; font-size: .9rem;">
                 {new Date(article.published_date).toLocaleDateString('sv-SE', options)}
             </time>
             <div class="margin-top-100">{article.preview}</div>

@@ -1,5 +1,14 @@
 ---
-	import Layout from "@layouts/Layout.astro"
+	import NewsCard from "@components/NewsCard.astro";
+import { pbFetch } from "@functions";
+import Layout from "@layouts/Layout.astro"
+
+	const articles_latest: Array<Article> = await pbFetch({
+		collection: "news",
+		sort: "-published_date",
+		interval: { start: 1, end: 3 }
+	});
+
 ---
 
 <Layout
@@ -41,16 +50,24 @@
 		</section>
 		
 		<section class="padding-inline-50 padding-block-300" id="about"> 
-			<container-text class="margin-inline-auto">
-				<h2>Nyheter</h2>
-			</container-text>
+			<container class="margin-inline-auto">
+				<h2 class="text-align-center">Senaste nyheter</h2>
+				<grid class="news-grid-layout">
+					{articles_latest.map((article: Article) => (
+						<NewsCard article={article} />
+					))}
+				</grid>
+				<block class="text-align-center margin-inline-auto margin-block-300">	
+					<a href="/nyheter">Visa alla nyheter</a>
+				</block>
+			</container>
 		</section>
 
 		<section class="padding-inline-50 padding-block-300" id="contact">
 			<container-text class="margin-inline-auto">
 				<h2>Kontakt</h2>
 				<form>
-					<label class="font-weight-500 block  margin-block-100">
+					<label class="font-weight-500 block margin-block-100">
 						E-postadress
 						<input class="margin-block-25" type="email" />
 					</label>
@@ -89,5 +106,14 @@
 		background-color: #191919;
 		box-shadow: 2px 2px black;
 	}
+
+	.news-grid-layout {
+		--gap: 1rem;
+		--grid-width: 300px;
+		gap: var(--gap);
+		width: min(calc(var(--grid-width) * 3 + var(--gap) * 3), 100%);
+		margin-inline: auto;
+        grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-width), 100%), 1fr));
+    }
 
 </style>
