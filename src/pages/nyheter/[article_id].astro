@@ -27,7 +27,6 @@ export async function getStaticPaths() {
 
 const article: Article = await pbFetch({
     collection: 'news',
-    sort: "-published_date",
     id: article_id
 })
 

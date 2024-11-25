@@ -1,52 +1,70 @@
 import PocketBase from 'pocketbase';
 
-interface PocketBaseParams {
+// TODO: Prly wanna rename theese types (chatgpt generated names)
+// TODO: See if pocketbase options already exist as a defined type somewhere
+interface BaseParams {
     collection: string;
-    id?: string;
-    sort?: string;
-    interval?: {start: number, end: number};
 }
+
+type IdExclusiveParams = BaseParams & { 
+    id: string; 
+    sort?: never; 
+    filter?: never; 
+    interval?: never; 
+};
+
+type NonIdParams = BaseParams & { 
+    id?: never; 
+    sort?: string; 
+    filter?: string; 
+    interval?: { start: number; end: number }; 
+};
+
+type PocketBaseParams = IdExclusiveParams | NonIdParams;
+
 
 const pb = new PocketBase('https://sustainable-action-foundation.pockethost.io/');
 
 /**
  * Gets data from pocketbase
- * @param collection - The collection from which to get data
+ * @param collection - Collection name
  * @param id - The ID of a specific element
- * @param sort - Pocketbase sorting string
- * @param interval - Get specific amount of records (starts at 1) 
+ * @param sort - PocketBase sorting string
+ * @param filter - PocketBase filter string
+ * @param interval - Gets a range of records 
 */
 
-export async function pbFetch(params: PocketBaseParams): Promise<any> {
+export async function pbFetch(params: PocketBaseParams): Promise<any> { 
     await pb.admins.authWithPassword(import.meta.env.PB_USERNAME, import.meta.env.PB_PASSWORD);
-    
-    const { collection, id, sort, interval } = params;
 
-    if (id) {
-        const data = await pb.collection(collection).getOne(id)
+    const { collection, id, sort, filter, interval } = params;
+    const options: any = {};
+
+    if (sort) options.sort = sort;
+    if (filter) options.filter = filter;
+
+    try {
+        const collectionRef = pb.collection(collection);
+
+        if (id) {
+            return await collectionRef.getOne(id);
+        } 
+
+        if (interval) {
+            return (await collectionRef.getList(interval.start, interval.end, options)).items;
+        }
+
+        // Default to fetch full list with sorting
+        return await collectionRef.getFullList(options);
+    } catch (error) {
+        console.error("Error fetching data from PocketBase:", error);
+        throw new Error("An error occurred while fetching data. Please try again.");
+    } 
+    finally {
         pb.authStore.clear();
-        
-        return data
     }
-
-    if (interval) {
-        const data = await pb.collection(collection).getList(interval.start, interval.end, {
-            sort: sort
-        }) 
-        pb.authStore.clear();
-
-        return data.items
-    }
-    
-    const data = await pb.collection(collection).getFullList({
-        sort: sort
-    });
-
-    pb.authStore.clear();
-  
-    return data
-  
 }
+
 
 /**
  * Removes html tags from a string
