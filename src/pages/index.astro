@@ -52,7 +52,7 @@ import Layout from "@layouts/Layout.astro"
 		<section class="padding-inline-50 padding-block-300" id="about"> 
 			<container class="margin-inline-auto">
 				<h2 class="text-align-center">Senaste nyheter</h2>
-				<grid class="news-grid-layout">
+				<grid class="news-grid-layout margin-inline-auto" style="--nr_columns: 3;">
 					{articles_latest.map((article: Article) => (
 						<NewsCard article={article} />
 					))}
@@ -106,14 +106,5 @@ import Layout from "@layouts/Layout.astro"
 		background-color: #191919;
 		box-shadow: 2px 2px black;
 	}
-
-	.news-grid-layout {
-		--gap: 1rem;
-		--grid-width: 300px;
-		gap: var(--gap);
-		width: min(calc(var(--grid-width) * 3 + var(--gap) * 3), 100%);
-		margin-inline: auto;
-        grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-width), 100%), 1fr));
-    }
 
 </style>

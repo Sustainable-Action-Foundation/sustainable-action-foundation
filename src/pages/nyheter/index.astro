@@ -17,7 +17,7 @@ const news: Array<Article> = await pbFetch({
 		<section class="padding-inline-50 padding-bottom-300">
             <container class="margin-inline-auto">
                 <h1>Nyheter</h1>
-                <grid class="news-grid-layout gap-100">
+                <grid class="news-grid-layout-dynamic">
                     { news.map((article: Article) => (
                         <NewsCard article={article} />
                     )) }
@@ -34,9 +34,5 @@ const news: Array<Article> = await pbFetch({
         margin-block: 3rem;
         font-size: 2rem;
     }     
-
-    .news-grid-layout {
-        grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-    }
 
 </style>

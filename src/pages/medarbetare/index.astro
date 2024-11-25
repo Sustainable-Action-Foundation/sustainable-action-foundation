@@ -18,7 +18,7 @@ const people: Array<Person> = await pbFetch({
     <section class="padding-inline-50 padding-bottom-300">
       <container-custom class="margin-inline-auto">
         <h1>Våra Medarbetare</h1>
-        <grid class="custom-grid">
+        <grid class="coworkers-grid-layout">
           { people.map((person: Person) => (
             <CoworkerCard person={person} />
           )) }
@@ -33,11 +33,6 @@ const people: Array<Person> = await pbFetch({
     text-align: center;
     margin-block: 3rem;
     font-size: 2rem;
-  }
-
-  .custom-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(256px, 100%), 1fr ));
-    gap: 3rem;
   }
 
   container-custom {

@@ -1,0 +1,22 @@
+.coworkers-grid-layout {
+    grid-template-columns: repeat(auto-fit, minmax(min(256px, 100%), 1fr ));
+    gap: 3rem;
+}
+
+
+/* Rezises grid to fit parent width */
+.news-grid-layout-dynamic {
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+}
+
+/* Sets grid width to correspond with total column count */
+/* We do this to prevent elements from stretching when parent element is considerably larger than the sum of all children */
+.news-grid-layout {
+    --nr_columns: 3; /* Default value corresponds to our homepage */ 
+    --gap: 1rem;
+    --grid-width: 300px;
+    gap: var(--gap);
+    width: min(calc(var(--grid-width) * var(--nr_columns) + var(--gap) * var(--nr_columns)), 100%);
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-width), 100%), 1fr));
+}
