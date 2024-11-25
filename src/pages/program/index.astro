@@ -1,0 +1,35 @@
+--- 
+    import { pbFetch } from "@functions";
+import Layout from "@layouts/Layout.astro";
+
+    const programs: Array<any> = await pbFetch({
+        collection: "programs",
+        sort: "-created",
+    });
+---
+
+<Layout
+    title="Program - Sustainable action foundation"
+    description="Program"
+>
+    <main>
+		<section class="padding-inline-50 padding-bottom-300">
+            <container class="margin-inline-auto">
+                <h1>Program</h1>
+                <ul>
+                    {programs.map((program: any) => (
+                        <li><a href={`/program/${program.id}`}>{program.title}</a></li>
+                    ))}
+                </ul>
+            </container>
+        </section>
+    </main>
+</Layout>
+
+<style>
+    h1 {
+        margin-block: 3rem;
+        font-size: 2rem;
+    }
+
+</style>
