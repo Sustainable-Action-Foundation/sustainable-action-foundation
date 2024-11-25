@@ -72,7 +72,10 @@ const links = [
 	<body>
 		<header class="position-sticky padding-inline-50 padding-block-100">
 			<container class="margin-inline-auto flex align-items-center justify-content-space-between">
-				<strong class="font-weight-500">Sustainable action foundation</strong>
+				<a href="/" class="font-weight-500 flex align-items-center gap-100">
+					<img src="/favicon.jfif" alt="" width="32" height="32" style="border-radius: 2px;" />
+					Sustainable action foundation
+				</a>
 				<flex class="align-items-center justify-content-flex-end gap-100">
 					<nav class="flex align-items-center gap-100">
 						{links.map((route: Route) => 
@@ -142,7 +145,7 @@ const links = [
 		text-underline-offset: 2px;
 	}
 
-	header a:hover:not(.call-to-action) {
+	header a:hover:not(.call-to-action, :has(img[src="/favicon.jfif"])) {
 		text-decoration: 2px underline;
 	}
 
