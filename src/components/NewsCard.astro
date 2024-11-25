@@ -1,5 +1,6 @@
 ---
 import { options } from "@options"
+import Image from "astro/components/Image.astro";
 
 interface Props {
 	article: Article,
@@ -13,9 +14,9 @@ const { article } = Astro.props;
 <article>
     <a href={`/nyheter/${article.id}`} class="flex flex-direction-column"> 
         {article.banner ? (
-            <img src={`https://sustainable-action-foundation.pockethost.io/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="176" />
+            <Image src={`https://sustainable-action-foundation.pockethost.io/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="176" width="300" />
         ) : (
-            <img src='/images/image.jpg' alt="" height="176" />
+            <Image src='/images/image.jpg' alt="" height="176" width="300" />
         )}
         <section class="padding-75 flex flex-direction-column flex-grow-100">
             <h2 class="margin-0" style="text-align: center;">{article.title}</h2>
@@ -50,7 +51,6 @@ const { article } = Astro.props;
     img {
         border-radius: 2px;
         object-fit: cover;
-        overflow-clip-margin: unset;
         width: 100%;
     }
 

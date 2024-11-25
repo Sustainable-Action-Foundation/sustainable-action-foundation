@@ -1,4 +1,6 @@
 ---
+import Image from 'astro/components/Image.astro';
+
 
 interface Props {
 	person: Person,
@@ -12,9 +14,9 @@ const { person } = Astro.props;
 <article class="flex justify-content-center"> 
     <address>
       {person.portrait ? (
-        <img src={`https://sustainable-action-foundation.pockethost.io/api/files/${person.collectionId}/${person.id}/${person.portrait}`}  alt="" width="256" height="205" />
+        <Image src={`https://sustainable-action-foundation.pockethost.io/api/files/${person.collectionId}/${person.id}/${person.portrait}`}  alt="" width="256" height="205" />
       ) : (
-        <img src="/icons/user.svg" alt="" width="256" height="205" />
+        <Image src="/icons/user.svg" alt="" width="256" height="205" />
       )}
       <flex class="flex-direction-column justify-content-flex-end Z">
         <h3 class="margin-bottom-0 margin-top-75">{person.name}</h3>
@@ -36,7 +38,6 @@ const { person } = Astro.props;
         border-radius: 2px;
         object-fit: cover;
         object-position: top;
-        overflow-clip-margin: unset;
     }
 
     h3 {
