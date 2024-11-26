@@ -1,6 +1,10 @@
 .coworkers-grid-layout {
-    grid-template-columns: repeat(auto-fit, minmax(min(256px, 100%), 1fr ));
-    gap: 3rem;
+    --nr_columns: ; /* No default value (corresponds to length of fetched array) */ 
+    --gap: 1rem;
+    --grid-width: 256px;
+    gap: var(--gap);
+    width: min(calc(var(--grid-width) * var(--nr_columns) + var(--gap) * var(--nr_columns)), 100%);
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-width), 100%), 1fr));
 }
 
 /* Rezises grid to fit parent width */
