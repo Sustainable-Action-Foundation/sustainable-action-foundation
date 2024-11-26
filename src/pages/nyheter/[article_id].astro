@@ -27,7 +27,8 @@ export async function getStaticPaths() {
 
 const article: Article = await pbFetch({
     collection: 'news',
-    id: article_id
+    id: article_id,
+    expand: 'author'
 })
 
 const previewString = removeTags(article.text)
@@ -61,7 +62,7 @@ if (previewString && previewString.length > 100) {
                     </time>
                 </div>
                 <div set:html={article.text}></div>
-                <address>{article.author}</address>
+                <address>Ansvarig utgivare: {article.expand.author.name}</address>
                 <small class="block margin-top-25" style="color: gray;">
                     Artikel senast uppdaterad
                     <time datetime={article.updated.toString()}>

@@ -1,12 +1,13 @@
 ---
 	import NewsCard from "@components/NewsCard.astro";
-import { pbFetch } from "@functions";
-import Layout from "@layouts/Layout.astro"
+	import { pbFetch } from "@functions";
+	import Layout from "@layouts/Layout.astro"
 
 	const articles_latest: Array<Article> = await pbFetch({
 		collection: "news",
 		sort: "-published_date",
-		interval: { start: 1, end: 3 }
+		interval: { start: 1, end: 3 },
+		expand: 'author'
 	});
 
 ---

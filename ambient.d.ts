@@ -10,6 +10,7 @@ type pbItem = {
     created: Date,
     updated: Date,
     id: string,
+    expand?: any /* TODO: How does typing work for this?  */
 }
 
 type Person = pbItem &  {

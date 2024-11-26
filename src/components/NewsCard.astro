@@ -16,7 +16,6 @@ if (previewString && previewString.length > 100) {
     article.preview = previewString
 }
 
-
 ---
 
 <article>
@@ -33,7 +32,7 @@ if (previewString && previewString.length > 100) {
             </time>
             <div class="margin-top-100">{article.preview}</div>
             <address class="flex align-items-flex-end flex-grow-100 margin-top-75" style="font-size: .75rem; color: gray;">
-                Ansvarig utgivare: {article.author}
+                Ansvarig utgivare: {article.expand.author.name}
             </address>
         </section>
     </a>

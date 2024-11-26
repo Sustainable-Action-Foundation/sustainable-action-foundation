@@ -10,6 +10,7 @@ type IdExclusiveParams = BaseParams & {
     id: string; 
     sort?: never; 
     filter?: never; 
+    expand?: string;
     interval?: never; 
 };
 
@@ -17,6 +18,7 @@ type NonIdParams = BaseParams & {
     id?: never; 
     sort?: string; 
     filter?: string; 
+    expand?: string;
     interval?: { start: number; end: number }; 
 };
 
@@ -31,23 +33,25 @@ const pb = new PocketBase('https://sustainable-action-foundation.pockethost.io/'
  * @param id - The ID of a specific element
  * @param sort - PocketBase sorting string
  * @param filter - PocketBase filter string
+ * @param expand - Relation to expand
  * @param interval - Gets a range of records 
 */
 
 export async function pbFetch(params: PocketBaseParams): Promise<any> { 
     await pb.admins.authWithPassword(import.meta.env.PB_USERNAME, import.meta.env.PB_PASSWORD);
 
-    const { collection, id, sort, filter, interval } = params;
+    const { collection, id, sort, filter, expand, interval } = params;
     const options: any = {};
 
     if (sort) options.sort = sort;
     if (filter) options.filter = filter;
+    if (expand) options.expand = expand
 
     try {
         const collectionRef = pb.collection(collection);
 
         if (id) {
-            return await collectionRef.getOne(id);
+            return await collectionRef.getOne(id, options);
         } 
 
         if (interval) {
