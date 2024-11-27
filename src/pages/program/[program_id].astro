@@ -1,5 +1,6 @@
 ---
 import { pbFetch } from '@functions';
+import { year_month } from '@options';
 import Layout from '@layouts/Layout.astro';
 
 const { program_id } = Astro.params;
@@ -42,14 +43,26 @@ const projects = await pbFetch({
 >
     <main>
         <section class="padding-inline-50 padding-block-300">
-            <container class="margin-inline-auto">        
-                <h1>{program.title}</h1>
-                <h2>Projekt inom programmet</h2>
-                <ul>
-                    {projects.map((project: Project) => (
-                        <li>{project.title}</li>
-                    ))}
-                </ul>
+            <container class="margin-inline-auto">
+                <container-text>        
+                    <h1>{program.title}</h1>
+                    <div set:html={program.description}></div>
+                    <h2>Projekt inom programmet</h2>
+                    <ul>
+                        {projects.map((project: Project) => (
+                            <li>
+                                <h3>{project.title}</h3>
+                                <time datetime={`${project.start_date}`}>
+                                    {new Date(project.start_date).toLocaleDateString('sv-SE', year_month)}
+                                </time>
+                                - 
+                                <time datetime={`${project.end_date}`}>
+                                    {new Date(project.end_date).toLocaleDateString('sv-SE', year_month)}
+                                </time>
+                            </li>
+                        ))}
+                    </ul>
+                </container-text>
             </container>
         </section>
     </main>
