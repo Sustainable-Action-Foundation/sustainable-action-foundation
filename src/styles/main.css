@@ -6,10 +6,12 @@
 
 h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
+  margin-top: 2em;
 }
 
 p {
   line-height: 1.5;
+  width: min(90ch, 100%);
 }
 
 .text-align-center {
