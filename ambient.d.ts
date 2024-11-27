@@ -24,8 +24,21 @@ type Person = pbItem &  {
 type Article = pbItem & {
     banner?: string,
     title: string,
-    author: Person,
+    author: Person.id,
     published_date: Date,
     text: string,
     preview?: string,
+}
+
+type Program = pbItem & {
+    title: string,
+    description: string,
+    preview?: string,
+}
+
+type Project = pbItem & {
+    title: string,
+    program: Program.id,
+    start_date: Date,
+    end_date: Date
 }

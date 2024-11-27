@@ -15,7 +15,7 @@ export async function getStaticPaths() {
         };
     }> = [];
 
-    data.forEach((element: Article) => {
+    data.forEach((element: Program) => {
         params.push({
             params: { program_id: element.id }
         });
@@ -46,7 +46,7 @@ const projects = await pbFetch({
                 <h1>{program.title}</h1>
                 <h2>Projekt inom programmet</h2>
                 <ul>
-                    {projects.map((project: any) => (
+                    {projects.map((project: Project) => (
                         <li>{project.title}</li>
                     ))}
                 </ul>
