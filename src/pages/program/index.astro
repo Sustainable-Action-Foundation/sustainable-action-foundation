@@ -1,11 +1,23 @@
 --- 
-    import { pbFetch } from "@functions";
+    import { pbFetch, removeTags } from "@functions";
 import Layout from "@layouts/Layout.astro";
 
     const programs: Array<any> = await pbFetch({
         collection: "programs",
         sort: "-created",
     });
+
+    programs.forEach((program: any) => {
+        const previewString = removeTags(program.description)
+        if (previewString && previewString.length > 100) {
+            program.preview = `${previewString.slice(0, 97)}...`
+        } else if (previewString) {
+            program.preview = previewString
+        }
+
+    })
+
+
 ---
 
 <Layout
@@ -18,7 +30,12 @@ import Layout from "@layouts/Layout.astro";
                 <h1>Program</h1>
                 <ul>
                     {programs.map((program: any) => (
-                        <li><a href={`/program/${program.id}`}>{program.title}</a></li>
+                        <li>
+                            <a href={`/program/${program.id}`}>
+                                <h2>{program.title}</h2> 
+                                {program.preview}
+                            </a>
+                        </li>
                     ))}
                 </ul>
             </container>
@@ -30,6 +47,19 @@ import Layout from "@layouts/Layout.astro";
     h1 {
         margin-block: 3rem;
         font-size: 2rem;
+    }
+
+    li {
+        width: min(75ch, 100%);
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    a:hover {
+        text-decoration: underline;
     }
 
 </style>
