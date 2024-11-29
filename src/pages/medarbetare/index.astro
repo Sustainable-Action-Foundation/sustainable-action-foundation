@@ -17,7 +17,7 @@ const people: Array<Person> = await pbFetch({
   <main>
     <section class="padding-inline-50 padding-bottom-300">
       <container class="margin-inline-auto">
-        <h1 <h1 class="text-align-center margin-block-300">Våra Medarbetare</h1>
+        <h1 class="text-align-center margin-block-300">Våra Medarbetare</h1>
         <grid class="coworkers-grid-layout margin-inline-auto" style=`--nr_columns: ${people.length > 4 ? 4 : people.length};`>
           { people.map((person: Person) => (
             <CoworkerCard person={person} />
