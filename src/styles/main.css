@@ -18,6 +18,22 @@ p {
   text-align: center;
 }
 
+a:has(img[src="/icons/back.svg"]) {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem;
+  border-radius: 9999px;
+  width: fit-content;
+  color: black;
+  text-decoration: none;
+  transition: background-color .2s ease;
+}
+
+a:has(img[src="/icons/back.svg"]):hover {
+  background-color: #e0e6eb;
+}
+
 /* CSS reset */
 * {
   box-sizing: border-box;

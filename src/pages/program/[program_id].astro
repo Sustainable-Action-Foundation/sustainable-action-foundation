@@ -45,6 +45,10 @@ const projects = await pbFetch({
         <section class="padding-inline-50 padding-block-300">
             <container class="margin-inline-auto">
                 <container-text>        
+                    <a href="/program" class="margin-bottom-100">
+                        <img src="/icons/back.svg" width="24" height="24" alt="" />
+                        Tillbaka till program
+                    </a>
                     <h1>{program.title}</h1>
                     <div set:html={program.description}></div>
                     <h2>Projekt inom programmet</h2>

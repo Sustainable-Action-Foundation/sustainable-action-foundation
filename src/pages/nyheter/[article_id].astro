@@ -48,6 +48,10 @@ if (previewString && previewString.length > 100) {
 >   
     <main>
         <container-text class="margin-inline-auto padding-inline-50 padding-block-300">
+            <a href="/nyheter" class="margin-bottom-100">
+                <img src="/icons/back.svg" width="24" height="24" alt="" />
+                Tillbaka till nyheter
+            </a>
             <article>
                 {article.banner ? (
                     <img src={`https://sustainable-action-foundation.pockethost.io/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="320" />
@@ -75,7 +79,7 @@ if (previewString && previewString.length > 100) {
 </Layout>
 
 <style>
-    img {
+    article > img {
         border-radius: 2px;
         object-fit: cover;
         overflow-clip-margin: unset;
