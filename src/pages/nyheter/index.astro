@@ -19,7 +19,7 @@ const news: Array<Article> = await pbFetch({
 		<section class="padding-inline-50 padding-bottom-300">
             <container class="margin-inline-auto">
                 <h1 class="text-align-center margin-block-300">Nyheter</h1>
-                <grid class="news-grid-layout-dynamic">
+                <grid class="news-grid-layout" style="--nr_columns: 4;">
                     { news.map((article: Article) => (
                         <NewsCard article={article} />
                     )) }

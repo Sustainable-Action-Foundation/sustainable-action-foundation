@@ -1,10 +1,11 @@
 .coworkers-grid-layout {
     --nr_columns: ; /* No default value (corresponds to length of fetched array) */ 
     --gap: 1rem;
-    --grid-width: 256px;
+    --column-width: 256px;
+    place-content: center;
     gap: var(--gap);
-    width: min(calc(var(--grid-width) * var(--nr_columns) + var(--gap) * var(--nr_columns)), 100%);
-    grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-width), 100%), 1fr));
+    width: min(calc(var(--column-width) * var(--nr_columns) + var(--gap) * var(--nr_columns)), 100%);
+    grid-template-columns: repeat(auto-fit, var(--column-width));
 }
 
 /* Rezises grid to fit parent width */
@@ -18,8 +19,9 @@
 .news-grid-layout {
     --nr_columns: 3; /* Default value corresponds to our homepage */ 
     --gap: 1rem;
-    --grid-width: 300px;
+    --column-width: 300px;
+    place-content: center;
     gap: var(--gap);
-    width: min(calc(var(--grid-width) * var(--nr_columns) + var(--gap) * var(--nr_columns)), 100%);
-    grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-width), 100%), 1fr));
+    width: min(calc(var(--column-width) * var(--nr_columns) + var(--gap) * var(--nr_columns)), 100%);
+    grid-template-columns: repeat(auto-fit, var(--column-width));
 }
