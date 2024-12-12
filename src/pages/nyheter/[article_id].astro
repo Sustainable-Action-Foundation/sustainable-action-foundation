@@ -2,6 +2,7 @@
 import { pbFetch, removeTags } from '@functions';
 import Layout from '@layouts/Layout.astro';
 import { options } from '@options';
+import Image from 'astro/components/Image.astro';
 
 const { article_id } = Astro.params;
 export async function getStaticPaths() {
@@ -54,7 +55,7 @@ if (previewString && previewString.length > 100) {
             </a>
             <article>
                 {article.banner ? (
-                    <img src={`https://sustainable-action-foundation.pockethost.io/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="320" />
+                    <Image src={`https://sustainable-action-foundation.pockethost.io/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="1080" width="1920" />
                 ) : (
                     <img src='/images/image.jpg' alt="" height="320" />
                 )}
@@ -66,7 +67,7 @@ if (previewString && previewString.length > 100) {
                     </time>
                 </div>
                 <div set:html={article.text}></div>
-                <address>Ansvarig utgivare: {article.expand.author.name}</address>
+                <address>Av: {article.expand.author.name}</address>
                 <small class="block margin-top-25" style="color: gray;">
                     Artikel senast uppdaterad
                     <time datetime={article.updated.toString()}>
@@ -82,7 +83,7 @@ if (previewString && previewString.length > 100) {
     article > img {
         border-radius: 2px;
         object-fit: cover;
-        overflow-clip-margin: unset;
+        max-height: 350px;
         width: 100%;
     }
 </style>

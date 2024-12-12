@@ -21,9 +21,9 @@ if (previewString && previewString.length > 100) {
 <article>
     <a href={`/nyheter/${article.id}`} class="flex flex-direction-column"> 
         {article.banner ? (
-            <Image src={`https://sustainable-action-foundation.pockethost.io/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="176" width="300" />
+            <Image src={`https://sustainable-action-foundation.pockethost.io/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="720" width="1280" />
         ) : (
-            <Image src='/images/image.jpg' alt="" height="176" width="300" />
+            <div style="width: 300px; height: 176px"></div>
         )}
         <section class="padding-75 flex flex-direction-column flex-grow-100">
             <h2 class="margin-0 text-align-center">{article.title}</h2>
@@ -32,7 +32,7 @@ if (previewString && previewString.length > 100) {
             </time>
             <div class="margin-top-100">{article.preview}</div>
             <address class="flex align-items-flex-end flex-grow-100 margin-top-75" style="font-size: .75rem; color: gray;">
-                Ansvarig utgivare: {article.expand.author.name}
+                Av: {article.expand.author.name}
             </address>
         </section>
     </a>
@@ -56,9 +56,14 @@ if (previewString && previewString.length > 100) {
     }
     
     img {
-        border-radius: 2px;
+        border-radius: 2px 2px 0 0;
         object-fit: cover;
+        height: 176px;
         width: 100%;
+    }
+
+    h2 {
+        font-size: 1.25rem;
     }
 
 </style>
