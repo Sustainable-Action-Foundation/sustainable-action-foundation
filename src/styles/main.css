@@ -1,5 +1,20 @@
 /* Added stuff */
 
+a:has(img[src="/icons/chevron-right.svg"]) {
+  color: #000;
+  font-weight: 500;
+  text-decoration: none;
+  width: fit-content;
+  display: flex;
+  gap: .25rem;
+  align-items: center;
+  transition: gap .2s ease;
+}
+
+a:has(img[src="/icons/chevron-right.svg"]):hover {
+  gap: .5rem;
+}
+
 .flex-direction-column {
   flex-direction: column;
 }
