@@ -55,16 +55,17 @@
 		</section>
 		
 		<section class="padding-inline-50 padding-block-300" id="about"> 
-			<container class="margin-inline-auto">
-				<h2 class="text-align-center margin-revert">Senaste nyheter</h2>
+			<container class="margin-inline-auto" style="font-size: 1.25rem;">
+				<h2 class="text-align-center">Senaste nyheter</h2>
 				<grid class="news-grid-layout margin-inline-auto" style="--nr_columns: 3;">
 					{articles_latest.map((article: Article) => (
 						<NewsCard article={article} />
 					))}
 				</grid>
-				<block class="text-align-center margin-inline-auto margin-top-300 margin-bottom-100">	
-					<a href="/nyheter">Visa alla nyheter</a>
-				</block>
+				<a class="margin-bottom-300 margin-top-200 margin-inline-auto" href="/nyheter">
+					Visa alla nyheter
+					<img src="/icons/chevron-right.svg" alt="" />
+				</a>
 			</container>
 		</section>
 
