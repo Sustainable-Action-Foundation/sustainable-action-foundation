@@ -95,7 +95,7 @@ const links = [
 			</container>
 		</header>
         <slot></slot>
-		<footer class="padding-50">
+		<footer class="padding-inline-50 padding-block-300 margin-top-300">
 			<container-text class="margin-inline-auto">
 				<flex class="align-items-center justify-content-space-between gap-100 flex-wrap-wrap">
 					<nav class="flex gap-50 align-items-center">
@@ -148,6 +148,7 @@ const links = [
 	}
 
 	.call-to-action {
+		text-wrap: nowrap;
 		text-decoration: none;
 		font-weight: 500;
 		border-radius: 2px;
@@ -188,6 +189,17 @@ const links = [
 	header nav {
 		@media(max-width: 850px) {
 			display: none;
+		}
+	}
+
+	footer {
+		border-top: 1px solid #e0e6eb;
+		box-shadow: 0 -.5rem .5rem -.75rem lightgray;
+	}
+
+	footer flex {
+		@media(max-width: 850px) {
+			justify-content: center;
 		}
 	}
 
