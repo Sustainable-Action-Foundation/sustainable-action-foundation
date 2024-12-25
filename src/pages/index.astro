@@ -1,6 +1,6 @@
 ---
 	import NewsCard from "@components/NewsCard.astro";
-	import { pbFetch } from "@functions";
+	import { pbFetch, removeTags } from "@functions";
 	import Layout from "@layouts/Layout.astro"
 
 	const articles_latest: Array<Article> = await pbFetch({
@@ -9,6 +9,11 @@
 		interval: { start: 1, end: 3 },
 		expand: 'author'
 	});
+
+    const programs: Array<Program> = await pbFetch({
+        collection: "programs",
+        sort: "-created",
+    });
 
 ---
 
@@ -20,14 +25,14 @@
 		<section class="position-relative padding-inline-50">
 			<container 
 				class="margin-inline-auto flex flex-direction-column justify-content-center position-relative" 
-				style="z-index: 2; height: calc(85dvh - 69px);"> 
+				style="z-index: 2; height: calc(85vh - 69px);"> 
 				<h1 class="margin-0">Sustainable Action Foundation</h1>
 				<h2 class="margin-0 font-weight-500" style="font-style: italic;">För en hållbar framtid inom planetens gränser</h2>
 				<a class="cta-neutral margin-block-100" href="#about">Läs mer</a>
 			</container> 
 			<img 
 				class="position-absolute"
-				style="top: -69px; right: 0; width: 100%; height: 85dvh; object-fit: cover; object-position: bottom; z-index: 1; filter: grayscale(1);"
+				style="top: -69px; right: 0; width: 100%; height: 85vh; object-fit: cover; object-position: bottom; z-index: 1; filter: grayscale(1);"
 				src="https://images.unsplash.com/photo-1473984951266-787b955c9e0b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
 			/>
 		</section>
@@ -54,7 +59,31 @@
 			</container-text>
 		</section>
 		
-		<section class="padding-inline-50 padding-block-300" id="about"> 
+		<section class="padding-inline-50 padding-block-300" id="programs">
+			<container class="margin-inline-auto" style="font-size: 1.25rem;">
+				<h2 class="text-align-center">Progam och projekt</h2>
+				<p class="text-align-center margin-inline-auto">
+                    Stiftelsen planerar att organisera sitt arbete under program, vilka i sin tur inrymmer olika projekt. 
+                    Programmen kan ha sin egna styrelse, budget och referensgrupp.
+				</p>
+				<h3>Några av våra program</h3>
+				<ul>
+					{programs.map((program: Program) => (
+						<li>
+							<a href={`/program/${program.id}`} style="color: black; text-decoration: none;">
+								<h4>{program.title}</h4> 
+							</a>
+						</li>
+					))}
+				</ul>
+				<a class="margin-bottom-300 margin-top-200 margin-inline-auto" href="/program">
+					Se alla program
+					<img src="/icons/chevron-right.svg" alt="" />
+				</a>
+			</container>
+		</section>
+
+		<section class="padding-inline-50 padding-block-300" id="about" style="font-size: 1.25rem; background-color: #f9f9f9;"> 
 			<container class="margin-inline-auto" style="font-size: 1.25rem;">
 				<h2 class="text-align-center">Senaste nyheter</h2>
 				<grid class="news-grid-layout margin-inline-auto" style="--nr_columns: 3;">
