@@ -1,0 +1,64 @@
+---
+import NewsCard from '@components/NewsCard.astro';
+import { pbFetch } from '@functions';
+import Layout from '@layouts/Layout.astro';
+
+const { index } = Astro.params;
+const article_chunk_size = 4
+
+export async function getStaticPaths() {
+    const article_chunk_size = 4
+
+    let data = await pbFetch({
+        collection: "news",
+    });
+
+    // Split articles to arrays of 4
+    // Get the lenght of all arrays of 4
+    // Use this length to create /nyheter/1, /nyheter/2...
+    let article_indices: Array<number> = []
+    for (let i = 0; i < data.length; i += article_chunk_size) {
+        const article_chunk = data.slice(i, i + article_chunk_size);
+        article_indices.push(article_chunk)
+    }
+
+    let params: Array<{ params: { index: string } }> = [];
+
+    for (let i = 0; i < article_indices.length; i++) {
+        params.push({
+            params: { index: (i + 1).toString() }
+        })
+    } 
+    
+    return params;  
+}
+
+const news: Array<Article> = await pbFetch({
+    collection: 'news',
+    expand: 'author',
+    interval: {
+        start: parseInt(index),
+        end: article_chunk_size
+    }
+})
+
+---
+
+
+<Layout
+	title="Nyheter - Sustainable action foundation"
+	description="Nyheter"
+>
+	<main>
+		<section class="padding-inline-50 padding-bottom-300">
+            <container class="margin-inline-auto">
+                <h1 class="text-align-center margin-block-300">Nyheter</h1>
+                <grid class="news-grid-layout" style="--nr_columns: 4;">
+                    { news.map((article: Article) => (
+                        <NewsCard article={article} />
+                    )) }
+                </grid>
+            </container>
+        </section>
+    </main>
+</Layout>

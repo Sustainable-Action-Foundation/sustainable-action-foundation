@@ -23,14 +23,14 @@ if (previewString && previewString.length > 100) {
         {article.banner ? (
             <Image src={`${import.meta.env.PB_URL}/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="720" width="1280" />
         ) : (
-            <div style="width: 300px; height: 176px"></div>
+        <Image src='/images/article.png'  alt="" height="720" width="1280" />
         )}
         <section class="padding-75 flex flex-direction-column flex-grow-100">
             <h2 class="margin-0 text-align-center">{article.title}</h2>
             <time datetime={article.published_date.toString()} class="block text-align-center" style="color: gray; font-size: .9rem;">
                 {new Date(article.published_date).toLocaleDateString('sv-SE', options)}
             </time>
-            <div class="margin-top-100">{article.preview}</div>
+            <div class="margin-top-100 preview">{article.preview}</div>
             <address class="flex align-items-flex-end flex-grow-100 margin-top-75" style="font-size: .75rem; color: gray;">
                 Av: {article.expand.author.name}
             </address>
@@ -64,6 +64,12 @@ if (previewString && previewString.length > 100) {
 
     h2 {
         font-size: 1.25rem;
+    }
+
+    .preview {
+        font-size: 1rem;
+        flex-grow: 1;
+        align-items: end;
     }
 
 </style>

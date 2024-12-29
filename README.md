@@ -38,7 +38,7 @@ All commands are run from the root of the project, from a terminal:
 We use PocketBase as a very lightweight CMS.  
 
 ### Set up working enviroment
-The following steps apply assuming you have a `sustainable-action-foundation.pockethost.io` account. If not, contact <a href="https://github.com/Axelgustavschnurer">@Axelgustavschnurer</a>
+The following steps apply assuming you have a **sustainable-action-foundation.pockethost.io** account. If not, contact: <a href="https://github.com/Axelgustavschnurer">@Axelgustavschnurer</a>
 
 1. Download the latest release of PocketBase v.0.22 from <a href="https://github.com/pocketbase/pocketbase/releases">pocketbase on github</a> into the root of this project. 
 2. Extract the files into `/pocketbase` and create the path: `/pocketbase/pb_data/`.

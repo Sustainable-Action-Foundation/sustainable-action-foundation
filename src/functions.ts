@@ -37,6 +37,7 @@ const pb = new PocketBase(import.meta.env.PB_URL);
  * @param interval - Gets a range of records 
 */
 
+{/* TOOD: return an actual type */}
 export async function pbFetch(params: PocketBaseParams): Promise<any> { 
     await pb.admins.authWithPassword(import.meta.env.PB_USERNAME, import.meta.env.PB_PASSWORD);
 
@@ -54,6 +55,7 @@ export async function pbFetch(params: PocketBaseParams): Promise<any> {
             return await collectionRef.getOne(id, options);
         } 
 
+        {/* TODO: This isnt an interval, this gets a chunk i.e 1, 4 gets elements 1 - 4, 2,4 gets elements 5 - 8 */}
         if (interval) {
             return (await collectionRef.getList(interval.start, interval.end, options)).items;
         }

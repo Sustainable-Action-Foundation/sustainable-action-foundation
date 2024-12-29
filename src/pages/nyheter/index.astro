@@ -6,7 +6,11 @@ import NewsCard from "@components/NewsCard.astro";
 const news: Array<Article> = await pbFetch({
   collection: "news",
   sort: "-published_date",
-  expand: "author"
+  expand: "author",
+  interval: {
+    start: 0,
+    end: 4
+  }
 });
 
 ---
