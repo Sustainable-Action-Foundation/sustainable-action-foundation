@@ -21,7 +21,7 @@ if (previewString && previewString.length > 100) {
 <article>
     <a href={`/nyheter/${article.id}`} class="flex flex-direction-column"> 
         {article.banner ? (
-            <Image src={`https://sustainable-action-foundation.pockethost.io/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="720" width="1280" />
+            <Image src={`${import.meta.env.PB_URL}/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="720" width="1280" />
         ) : (
             <div style="width: 300px; height: 176px"></div>
         )}

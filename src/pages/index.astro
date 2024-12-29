@@ -1,6 +1,6 @@
 ---
 	import NewsCard from "@components/NewsCard.astro";
-	import { pbFetch, removeTags } from "@functions";
+	import { pbFetch } from "@functions";
 	import Layout from "@layouts/Layout.astro"
 
 	const articles_latest: Array<Article> = await pbFetch({

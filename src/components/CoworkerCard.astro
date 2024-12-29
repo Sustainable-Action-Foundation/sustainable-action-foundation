@@ -14,7 +14,7 @@ const { person } = Astro.props;
 <article class="flex justify-content-center"> 
     <address>
       {person.portrait ? (
-        <Image src={`https://sustainable-action-foundation.pockethost.io/api/files/${person.collectionId}/${person.id}/${person.portrait}`}  alt="" width="512" height="512" />
+        <Image src={`${import.meta.env.PB_URL}/api/files/${person.collectionId}/${person.id}/${person.portrait}`}  alt="" width="512" height="512" />
       ) : (
         <Image src="/icons/user.svg" alt="" width="512" height="512" />
       )}

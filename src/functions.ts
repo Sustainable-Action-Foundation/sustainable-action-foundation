@@ -25,7 +25,7 @@ type NonIdParams = BaseParams & {
 type PocketBaseParams = IdExclusiveParams | NonIdParams;
 
 
-const pb = new PocketBase('https://sustainable-action-foundation.pockethost.io/');
+const pb = new PocketBase(import.meta.env.PB_URL);
 
 /**
  * Gets data from pocketbase

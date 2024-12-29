@@ -55,7 +55,7 @@ if (previewString && previewString.length > 100) {
             </a>
             <article>
                 {article.banner ? (
-                    <Image src={`https://sustainable-action-foundation.pockethost.io/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="1080" width="1920" />
+                    <Image src={`${import.meta.env.PB_URL}/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="1080" width="1920" />
                 ) : (
                     <img src='/images/image.jpg' alt="" height="320" />
                 )}
