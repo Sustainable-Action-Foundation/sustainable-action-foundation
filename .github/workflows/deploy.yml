@@ -20,6 +20,7 @@ jobs:
     env:
       PB_USERNAME: ${{ secrets.PB_USERNAME  }}
       PB_PASSWORD: ${{ secrets.PB_PASSWORD }}
+      PB_URL: ${{ secrets.PB_URL }}
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
