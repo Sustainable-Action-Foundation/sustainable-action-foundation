@@ -1,16 +1,8 @@
-# Astro Starter Kit: Minimal
+# Sustainable action foundation webpage
 
-```sh
-npm create astro@latest -- --template minimal
-```
+## Working with Astro 
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
+### 🚀 Project Structure
 
 Inside of your Astro project, you'll see the following folders and files:
 
@@ -29,7 +21,7 @@ There's nothing special about `src/components/`, but that's where we like to put
 
 Any static assets, like images, can be placed in the `public/` directory.
 
-## 🧞 Commands
+### 🧞 Commands
 
 All commands are run from the root of the project, from a terminal:
 
@@ -41,7 +33,22 @@ All commands are run from the root of the project, from a terminal:
 | `npm run preview`         | Preview your build locally, before deploying     |
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
+ 
+ ## Working with PocketBase
+We use PocketBase as a very lightweight CMS.  
 
-## 👀 Want to learn more?
+### Set up working enviroment
+The following steps apply assuming you have a `sustainable-action-foundation.pockethost.io` account. If not, contact <a href="https://github.com/Axelgustavschnurer">@Axelgustavschnurer</a>
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+1. Download the latest release of PocketBase v.0.22 from <a href="https://github.com/pocketbase/pocketbase/releases">pocketbase on github</a> into the root of this project. 
+2. Extract the files into `/pocketbase` and create the path: `/pocketbase/pb_data/`.
+3. Head to the current <a href="https://sustainable-action-foundation.pockethost.io/_/#/settings/backups
+">live version</a> of our pocketbase instance and download the latest backup.
+4. Extract the backup and copy the files to: `/pocketbase/pb_data/`.
+5. Setup the following enviroment variables:
+
+    - `PB_URL=""` *(http://127.0.0.1/8090 by default)*
+    - `PB_PASSWORD=""`
+    - `PB_USERNAME=""`
+
+6. Open the PocketBase server using `pocketbase serve`.
