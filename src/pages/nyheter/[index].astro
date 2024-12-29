@@ -1,5 +1,6 @@
 ---
 import NewsCard from '@components/NewsCard.astro';
+import Pagination from '@components/Pagination.astro';
 import { pbFetch } from '@functions';
 import Layout from '@layouts/Layout.astro';
 
@@ -58,6 +59,11 @@ const news: Array<Article> = await pbFetch({
                         <NewsCard article={article} />
                     )) }
                 </grid>
+                {/*
+                <flex class="justify-content-center margin-top-300">
+                    <Pagination />
+                </flex>
+                 */}
             </container>
         </section>
     </main>
