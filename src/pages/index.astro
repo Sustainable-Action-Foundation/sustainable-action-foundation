@@ -6,7 +6,7 @@
 	const articles_latest: Array<Article> = await pbFetch({
 		collection: "news",
 		sort: "-published_date",
-		interval: { start: 1, end: 3 },
+		list_options: { page: 1, perPage: 3 },
 		expand: 'author'
 	});
 

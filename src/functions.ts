@@ -11,7 +11,7 @@ type IdExclusiveParams = BaseParams & {
     sort?: never; 
     filter?: never; 
     expand?: string;
-    interval?: never; 
+    list_options?: never; 
 };
 
 type NonIdParams = BaseParams & { 
@@ -19,7 +19,7 @@ type NonIdParams = BaseParams & {
     sort?: string; 
     filter?: string; 
     expand?: string;
-    interval?: { start: number; end: number }; 
+    list_options?: { page: number; perPage: number }; 
 };
 
 type PocketBaseParams = IdExclusiveParams | NonIdParams;
@@ -41,7 +41,7 @@ const pb = new PocketBase(import.meta.env.PB_URL);
 export async function pbFetch(params: PocketBaseParams): Promise<any> { 
     await pb.admins.authWithPassword(import.meta.env.PB_USERNAME, import.meta.env.PB_PASSWORD);
 
-    const { collection, id, sort, filter, expand, interval } = params;
+    const { collection, id, sort, filter, expand, list_options } = params;
     const options: any = {};
 
     if (sort) options.sort = sort;
@@ -55,9 +55,8 @@ export async function pbFetch(params: PocketBaseParams): Promise<any> {
             return await collectionRef.getOne(id, options);
         } 
 
-        {/* TODO: This isnt an interval, this gets a chunk i.e 1, 4 gets elements 1 - 4, 2,4 gets elements 5 - 8 */}
-        if (interval) {
-            return (await collectionRef.getList(interval.start, interval.end, options)).items;
+        if (list_options) {
+            return (await collectionRef.getList(list_options.page, list_options.perPage, options)).items;
         }
 
         // Default to fetch full list with sorting

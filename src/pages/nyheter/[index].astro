@@ -40,9 +40,9 @@ const news: Array<Article> = await pbFetch({
     collection: 'news',
     expand: 'author',
     sort: '-published_date',
-    interval: {
-        start: parseInt(index),
-        end: article_chunk_size
+    list_options: {
+        page: parseInt(index),
+        perPage: article_chunk_size
     }
 })
 

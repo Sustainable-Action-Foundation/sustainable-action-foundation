@@ -33,11 +33,11 @@
 
 <nav class="flex gap-50 align-items-center">
     {current_index > 1 ? 
-        <a href={`${initial_route.href}`} class="grid">
+        <a href={`${initial_route.href}/${current_index}`} class="grid">
             <img src="/icons/arrow-narrow-left.svg" alt="" class="margin-right-100" />
         </a>
     :
-        <a href={`${initial_route.href}/${current_index}`} class="grid">
+        <a href={`${initial_route.href}`} class="grid">
             <img src="/icons/arrow-narrow-left.svg" alt="" class="margin-right-100" />
         </a> 
     }
@@ -53,9 +53,17 @@
     ))}
 
     {current_index != length ? 
-        <a href={`${initial_route.href}/${current_index + 1}`} class="grid">
-            <img src="/icons/arrow-narrow-right.svg" alt="" class="margin-left-100" />
-        </a>
+        <>
+            {current_index > 1 ? 
+                <a href={`${initial_route.href}/${current_index}`} class="grid">
+                    <img src="/icons/arrow-narrow-left.svg" alt="" class="margin-right-100" />
+                </a>
+            :
+                <a href={`${initial_route.href}`} class="grid">
+                    <img src="/icons/arrow-narrow-left.svg" alt="" class="margin-right-100" />
+                </a> 
+            }
+        </>
     : 
         <a href={`${initial_route.href}/${current_index}`} class="grid">
             <img src="/icons/arrow-narrow-right.svg" alt="" class="margin-left-100" />
