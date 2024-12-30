@@ -1,4 +1,5 @@
 ---
+import NewsCard from '@components/NewsCard.astro';
 import { pbFetch, removeTags } from '@functions';
 import Layout from '@layouts/Layout.astro';
 import { options } from '@options';
@@ -26,6 +27,13 @@ export async function getStaticPaths() {
     return params;
 }
 
+const articles_latest: any = await pbFetch({
+    collection: "news",
+    sort: "-published_date",
+    list_options: { page: 1, perPage: 4 },
+    expand: 'author'
+});
+
 const article: Article = await pbFetch({
     collection: 'news',
     id: article_id,
@@ -49,10 +57,6 @@ if (previewString && previewString.length > 100) {
 >   
     <main>
         <container-text class="margin-inline-auto padding-inline-50 padding-block-300">
-            <a href="/nyheter" class="margin-bottom-100">
-                <img src="/icons/back.svg" width="24" height="24" alt="" />
-                Tillbaka till nyheter
-            </a>
             <article>
                 {article.banner ? (
                     <Image src={`${import.meta.env.PB_URL}/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="1080" width="1920" />
@@ -76,6 +80,22 @@ if (previewString && previewString.length > 100) {
                 </small>
             </article>
         </container-text>
+        <section class="padding-inline-50 padding-block-300" style="background-color: #f9f9f9;">
+            <container class="margin-inline-auto">
+                <flex class="justify-content-space-between gap-50 margin-bottom-200 padding-bottom-100" style="border-bottom: 1px solid lightgray;">
+                    <h2 class="margin-0">Fler nyheter</h2>
+                    <a href="/nyheter">
+                        Visa alla nyheter
+                        <img src="/icons/chevron-right.svg" alt="" />
+                    </a>
+                </flex>
+				<grid class="news-grid-layout margin-inline-auto" style="--nr_columns: 4;">
+					{articles_latest.items.map((article: Article) => (
+						<NewsCard article={article} />
+					))}
+				</grid>
+            </container>
+        </section>
     </main>
 </Layout>
 
