@@ -1,41 +1,56 @@
 ---
-    const length: number = 10
-    const current_index: number = 9
+    const length: number = 1
+    const current_index: number = 1
     const initial_route: Route = { text: 'nyheter', href: '/nyheter' } 
+
+    function returnIndices(length: number, current_index: number): Array<number> {
+
+        if (current_index > length) {
+            throw new Error(`Invalid input: current_index (${current_index}) cannot be larger than length (${length}).`);
+        }
+
+        let indices: Array<number>;
+
+        if (current_index == 1 || current_index == 2) {
+            indices = [1, 2, 3, 4, length];
+        } else if (current_index + 2 >= length - 1 || current_index == length) {
+            indices = [1, length - 3, length - 2, length - 1, length];
+        } else {
+            indices = [1, current_index, current_index + 1, current_index + 2, length];
+        }
+
+        // Filter values to include only those <= length, > 1 and remove duplicates
+        return [...new Set(indices.filter(index => index >= 1 && index <= length))];
+    }
+
+    console.log(returnIndices(length, current_index))
+
 ---
 
 <nav class="flex gap-50 align-items-center">
-    <img src="/icons/arrow-narrow-left.svg" alt="" class="margin-right-100" />
-
-    {current_index == 1 ?  
-        <a href={`${initial_route.href}/1`} class="font-weight-500">1</a>
-    : <a href={`${initial_route.href}/1`}>1</a> }
-
-    {current_index == 2 ?  
-        <a href={`${initial_route.href}/2`} class="font-weight-500">2</a>
-        <a href={`${initial_route.href}/2`}>3</a>
-    : 
-        <>
-            {current_index - 1 != 0 ?  
-                <a href={`${initial_route.href}/${current_index - 1}`}>{current_index - 1}</a>
-            : null }
-
-            {current_index != 1 ?  
-                <a href={`${initial_route.href}/${current_index}`} class="font-weight-500">{current_index}</a>
-            : null }
-        </>
+    {current_index > 1 ? 
+        <a href={`${initial_route.href}/${current_index - 1}`} class="grid">
+            <img src="/icons/arrow-narrow-left.svg" alt="" class="margin-right-100" />
+        </a>
+    :
+        <a href={`${initial_route.href}/${current_index}`} class="grid">
+            <img src="/icons/arrow-narrow-left.svg" alt="" class="margin-right-100" />
+        </a> 
     }
 
-    {current_index + 1 != length && current_index + 1 != 3 ?  
-        <a href={`${initial_route.href}/${current_index + 1}`}>{current_index + 1}</a>
-        <span>...</span>
-    : null }
+    {returnIndices(length, current_index).map((index: number) => (
+        <a href={`${initial_route.href}/${index}`}>{index}</a>
+    ))}
 
-    {current_index == length ?  
-        <a href={`${initial_route.href}/${length}`} class="font-weight-500">{length}</a>
-    : <a href={`${initial_route.href}/${length}`}>{length}</a> }
-
-    <img src="/icons/arrow-narrow-right.svg" alt="" class="margin-left-100" />
+    {current_index != length ? 
+        <a href={`${initial_route.href}/${current_index + 1}`} class="grid">
+            <img src="/icons/arrow-narrow-right.svg" alt="" class="margin-left-100" />
+        </a>
+    : 
+        <a href={`${initial_route.href}/${current_index}`} class="grid">
+            <img src="/icons/arrow-narrow-right.svg" alt="" class="margin-left-100" />
+        </a>
+    }
 </nav>
 
 <style>
