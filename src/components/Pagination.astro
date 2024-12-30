@@ -52,20 +52,20 @@
         </>   
     ))}
 
-    {current_index != length ? 
+    {length != 1 ? 
         <>
-            {length > 1 ? 
+            {current_index != length ?
                 <a href={`${initial_route.href}/${current_index + 1}`} class="grid margin-left-100">
                     <img src="/icons/arrow-narrow-right.svg" alt=""/>
                 </a>
-            :
-                <a href={`${initial_route.href}`} class="grid margin-left-100">
-                    <img src="/icons/arrow-narrow-right.svg" alt="" />
-                </a> 
+            : 
+                <a href={`${initial_route.href}/${current_index}`} class="grid margin-left-100">
+                    <img src="/icons/arrow-narrow-right.svg" alt=""/>
+                </a>
             }
         </>
     : 
-        <a href={`${initial_route.href}/${current_index}`} class="grid margin-left-100">
+        <a href={`${initial_route.href}`} class="grid margin-left-100">
             <img src="/icons/arrow-narrow-right.svg" alt="" />
         </a>
     }
