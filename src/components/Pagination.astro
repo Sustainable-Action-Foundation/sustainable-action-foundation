@@ -29,13 +29,11 @@
         return [...new Set(indices.filter(index => index >= 1 && index <= length))];
     }
 
-    console.log(returnIndices(length, current_index))
-
 ---
 
 <nav class="flex gap-50 align-items-center">
     {current_index > 1 ? 
-        <a href={`${initial_route.href}/${current_index - 1}`} class="grid">
+        <a href={`${initial_route.href}`} class="grid">
             <img src="/icons/arrow-narrow-left.svg" alt="" class="margin-right-100" />
         </a>
     :
@@ -45,7 +43,13 @@
     }
 
     {returnIndices(length, current_index).map((index: number) => (
-        <a href={`${initial_route.href}/${index}`}>{index}</a>
+        <>
+            {index != 1 ?
+                <a href={`${initial_route.href}/${index}`}>{index}</a>
+            :   
+                <a href={`${initial_route.href}`}>{index}</a> 
+            } 
+        </>   
     ))}
 
     {current_index != length ? 

@@ -31,7 +31,9 @@ export async function getStaticPaths() {
         })
     } 
     
-    return params;  
+    // Remove first element to prevent duplicated content on /news
+    params.shift()
+    return params;   
 }
 
 const news: Array<Article> = await pbFetch({
