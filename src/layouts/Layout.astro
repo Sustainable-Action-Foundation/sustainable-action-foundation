@@ -97,7 +97,7 @@ const links = [
         <slot></slot>
 		<footer class="padding-inline-50 padding-block-300">
 			<container-text class="margin-inline-auto">
-				<flex class="align-items-center justify-content-space-between gap-100 flex-wrap-wrap">
+				<flex class="align-items-center justify-content-space-between gap-100 flex-wrap-wrap-reverse">
 					<nav class="flex gap-50 align-items-center">
 						<a href="https://www.linkedin.com/company/stiftelsen-sustainable-action/posts/" target="_blank">
 							<img src="/icons/linkedin.svg" width="24" height="24">
@@ -114,6 +114,14 @@ const links = [
 						<div id="wcb" class="carbonbadge"></div>
 					</div>
 				</flex>
+				<h2 class="margin-bottom-75">Genvägar</h2>
+				<nav class="flex flex-direction-column gap-25">
+					<a href="/">Hem</a>
+					<a href="/om">Om</a>
+					<a href="/program">Program</a>
+					<a href="/medarbetare">Medarbetare</a>
+					<a href="/nyheter">Nyheter</a>
+				</nav>
 			</container-text>
 		</footer>
 	</body>
@@ -196,11 +204,15 @@ const links = [
 		border-top: 1px solid #e0e6eb;
 		box-shadow: 0 -.5rem .5rem -.75rem lightgray;
 	}
+ 
 
-	footer flex {
-		@media(max-width: 850px) {
-			justify-content: center;
-		}
+	footer a {
+		color: black;
+		text-decoration: none;
+	}
+
+	footer a:hover {
+		text-decoration: underline;
 	}
 
 </style>
