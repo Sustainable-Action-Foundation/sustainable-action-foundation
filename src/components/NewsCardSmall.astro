@@ -1,0 +1,72 @@
+---
+import { removeTags } from "@functions";
+import { options } from "@options"
+import Image from "astro/components/Image.astro";
+
+interface Props {
+	article: Article,
+}
+
+const { article } = Astro.props;
+
+const previewString = removeTags(article.text)
+if (previewString && previewString.length > 100) {
+    article.preview = `${previewString.slice(0, 97)}...`
+} else if (previewString) {
+    article.preview = previewString
+}
+
+---
+
+
+<article>
+    <a href={`/nyheter/${article.id}`} class="flex"> 
+        {article.banner ? (
+            <Image src={`${import.meta.env.PB_URL}/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="240" width="426" />
+        ) : (
+        <Image src='/images/article.png'  alt="" height="720" width="1280" />
+        )}
+        <flex class="flex-direction-column justify-content-center">
+            <h2 class="margin-0">{article.title}</h2>
+            <time datetime={article.published_date.toString()} class="block" style="color: gray; font-size: .9rem;">
+                {new Date(article.published_date).toLocaleDateString('sv-SE', options)}
+            </time>
+        </flex>
+    </a>
+</article>
+
+<style>
+
+    article {
+        box-shadow: 0 0 .5rem -.25rem gray;
+        transition: box-shadow .2s ease;
+    }
+
+    article:has(a:hover) {
+        text-decoration: underline;
+    } 
+
+    a {
+        height: 100%;
+        text-decoration: none;
+        color: black;
+    }
+    
+    img {
+        border-radius: 2px 2px 0 0;
+        object-fit: cover;
+        height: 96px;
+        width: 96px;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    .preview {
+        font-size: 1rem;
+        flex-grow: 1;
+        align-items: end;
+    }
+
+</style>

@@ -1,5 +1,5 @@
 ---
-import NewsCard from '@components/NewsCard.astro';
+import NewsCardSmall from '@components/NewsCardSmall.astro';
 import { pbFetch, removeTags } from '@functions';
 import Layout from '@layouts/Layout.astro';
 import { options } from '@options';
@@ -86,7 +86,7 @@ if (previewString && previewString.length > 100) {
         </block>
     </main>
     <nav class="padding-inline-50 padding-block-300" style="background-color: #f9f9f9;">
-        <container class="margin-inline-auto">
+        <container-text class="margin-inline-auto">
             <flex class="justify-content-space-between gap-50 margin-bottom-200 padding-bottom-100" style="border-bottom: 1px solid lightgray;">
                 <h2 class="margin-0">Fler nyheter</h2>
                 <a href="/nyheter">
@@ -94,13 +94,12 @@ if (previewString && previewString.length > 100) {
                     <img src="/icons/chevron-right.svg" alt="" />
                 </a>
             </flex>
-            {/* TODO: Do like a smaller listview type thing for this */}
-            <grid class="news-grid-layout margin-inline-auto" style="--nr_columns: 4;">
+            <flex class="flex-direction-column gap-100">
                 {articles_latest.items.map((article: Article) => (
-                    <NewsCard article={article} />
+                    <NewsCardSmall article={article} />
                 ))}
-            </grid>
-        </container>
+            </flex>
+        </container-text>
     </nav>
 </Layout>
 
