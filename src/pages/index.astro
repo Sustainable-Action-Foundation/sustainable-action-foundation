@@ -3,7 +3,7 @@
 	import { pbFetch } from "@functions";
 	import Layout from "@layouts/Layout.astro"
 
-	const articles_latest: Array<Article> = await pbFetch({
+	const articles_latest: any = await pbFetch({
 		collection: "news",
 		sort: "-published_date",
 		list_options: { page: 1, perPage: 3 },
@@ -87,7 +87,7 @@
 			<container class="margin-inline-auto" style="font-size: 1.25rem;">
 				<h2 class="text-align-center margin-bottom-300">Senaste nyheter</h2>
 				<grid class="news-grid-layout margin-inline-auto" style="--nr_columns: 3;">
-					{articles_latest.map((article: Article) => (
+					{articles_latest.items.map((article: Article) => (
 						<NewsCard article={article} />
 					))}
 				</grid>

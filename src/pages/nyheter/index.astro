@@ -1,10 +1,11 @@
 ---
 import Layout from "@layouts/Layout.astro"
-import { pbFetch, removeTags } from "@functions";
+import { pbFetch } from "@functions";
 import NewsCard from "@components/NewsCard.astro";
 import Pagination from "@components/Pagination.astro";
 
-const news: Array<Article> = await pbFetch({
+// TODO: figure out typing when pbFetch does not return an array of items
+const news: any = await pbFetch({
   collection: "news",
   sort: "-published_date",
   expand: "author",
@@ -25,13 +26,13 @@ const news: Array<Article> = await pbFetch({
             <container class="margin-inline-auto">
                 <h1 class="text-align-center margin-block-300">Nyheter</h1>
                 <grid class="news-grid-layout" style="--nr_columns: 4;">
-                    { news.map((article: Article) => (
+                    { news.items.map((article: Article) => (
                         <NewsCard article={article} />
                     )) }
                 </grid>
                 <flex class="justify-content-center margin-top-300">
                     <Pagination
-                        length={1}
+                        length={news.totalPages}
                         current_index={1}
                         initial_route={{text: 'nyheter', href: '/nyheter'}}
                     />

@@ -56,7 +56,7 @@ export async function pbFetch(params: PocketBaseParams): Promise<any> {
         } 
 
         if (list_options) {
-            return (await collectionRef.getList(list_options.page, list_options.perPage, options)).items;
+            return (await collectionRef.getList(list_options.page, list_options.perPage, options));
         }
 
         // Default to fetch full list with sorting

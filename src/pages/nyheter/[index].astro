@@ -36,7 +36,7 @@ export async function getStaticPaths() {
     return params;   
 }
 
-const news: Array<Article> = await pbFetch({
+const news: any = await pbFetch({
     collection: 'news',
     expand: 'author',
     sort: '-published_date',
@@ -58,13 +58,13 @@ const news: Array<Article> = await pbFetch({
             <container class="margin-inline-auto">
                 <h1 class="text-align-center margin-block-300">Nyheter</h1>
                 <grid class="news-grid-layout" style="--nr_columns: 4;">
-                    { news.map((article: Article) => (
+                    { news.items.map((article: Article) => (
                         <NewsCard article={article} />
                     )) }
                 </grid>
                 <flex class="justify-content-center margin-top-300">
                     <Pagination
-                        length={1}
+                        length={news.totalPages}
                         current_index={parseInt(index)}
                         initial_route={{text: 'nyheter', href: '/nyheter'}}
                     />
