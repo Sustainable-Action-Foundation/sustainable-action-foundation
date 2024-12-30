@@ -37,6 +37,7 @@ export async function getStaticPaths() {
 const news: Array<Article> = await pbFetch({
     collection: 'news',
     expand: 'author',
+    sort: '-published_date',
     interval: {
         start: parseInt(index),
         end: article_chunk_size
@@ -60,7 +61,11 @@ const news: Array<Article> = await pbFetch({
                     )) }
                 </grid>
                 <flex class="justify-content-center margin-top-300">
-                    <Pagination />
+                    <Pagination
+                        length={1}
+                        current_index={parseInt(index)}
+                        initial_route={{text: 'nyheter', href: '/nyheter'}}
+                    />
                 </flex>
             </container>
         </section>

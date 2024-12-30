@@ -1,7 +1,13 @@
 ---
-    const length: number = 1
-    const current_index: number = 1
-    const initial_route: Route = { text: 'nyheter', href: '/nyheter' } 
+
+    interface Props {
+        length: number,
+        current_index: number,
+        initial_route: Route
+    }
+
+    const { length, current_index, initial_route  } = Astro.props;
+
 
     function returnIndices(length: number, current_index: number): Array<number> {
 
