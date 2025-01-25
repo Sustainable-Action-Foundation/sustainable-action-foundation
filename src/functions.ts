@@ -76,14 +76,27 @@ export async function pbFetch(params: PocketBaseParams): Promise<any> {
  * @param htmlString - A string which contains html tags
 */
 
+// TODO: There is probably a better way to do this
 export function removeTags(htmlString: string) {
-    if ((htmlString === null) || (htmlString === ''))
-        return false;
-    else
-        htmlString = htmlString.toString();
+    if (!htmlString) return '';
 
-    // Regular expression to identify HTML tags in
-    // the input string. Replacing the identified
-    // HTML tag with a null string.
-    return htmlString.replace(/(<([^>]+)>)/ig, '');
+    // Remove HTML tags
+    const withoutTags = htmlString.replace(/(<([^>]+)>)/gi, '');
+
+    // Decode common HTML entities (extend this as needed)
+    const entityMap: Record<string, string> = {
+        '&auml;': 'ä',
+        '&ouml;': 'ö',
+        '&uuml;': 'ü',
+        '&Auml;': 'Ä',
+        '&Ouml;': 'Ö',
+        '&Uuml;': 'Ü',
+        '&amp;': '&',
+        '&quot;': '"',
+        '&lt;': '<',
+        '&gt;': '>',
+        '&#39;': "'",
+    };
+
+    return withoutTags.replace(/&[a-z]+;/gi, (entity) => entityMap[entity] || entity);
 }

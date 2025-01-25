@@ -20,7 +20,7 @@ if (previewString && previewString.length > 100) {
 
 
 <article>
-    <a href={`/nyheter/${article.id}`} class="flex gap-50 align-items-center"> 
+    <a href={`/nyheter/${article.id}`} class="flex gap-100 align-items-center"> 
         {article.banner ? (
             <Image src={`${import.meta.env.PB_URL}/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="240" width="426" />
         ) : (
@@ -38,11 +38,12 @@ if (previewString && previewString.length > 100) {
 <style>
 
     article {
-        box-shadow: 0 0 .5rem -1px lightgray;
+        box-shadow: 0 0 .5rem -.25rem gray;
+        transition: box-shadow .2s ease;
     }
 
     article:has(a:hover) {
-        text-decoration: underline;
+        box-shadow: 0 0 .5rem -.25rem black;
     } 
 
     a {

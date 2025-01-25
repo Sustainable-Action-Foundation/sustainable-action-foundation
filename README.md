@@ -23,7 +23,8 @@ Any static assets, like images, can be placed in the `public/` directory.
 
 ### 🧞 Commands
 
-All commands are run from the root of the project, from a terminal:
+All commands are run from the root of the project, from
+ a terminal:
 
 | Command                   | Action                                           |
 | :------------------------ | :----------------------------------------------- |
@@ -52,3 +53,7 @@ The following steps apply assuming you have a **sustainable-action-foundation.po
     - `PB_USERNAME=""`
 
 6. Open the PocketBase server using `pocketbase serve`.
+
+Grönt, bakgrund,
+blått, huvudfärg
+Stadstema på tematiska bilder

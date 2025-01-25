@@ -1,6 +1,6 @@
 --- 
     import { pbFetch, removeTags } from "@functions";
-import Layout from "@layouts/Layout.astro";
+    import Layout from "@layouts/Layout.astro";
 
     const programs: Array<Program> = await pbFetch({
         collection: "programs",
@@ -34,9 +34,9 @@ import Layout from "@layouts/Layout.astro";
                 </p>
                 <ul>
                     {programs.map((program: Program) => (
-                        <li>
-                            <a href={`/program/${program.id}`}>
-                                <h2>{program.title}</h2> 
+                        <li class="padding-block-100">
+                            <a href={`/program/${program.id}`} class="inline-block" style="vertical-align: middle;">
+                                <h2 class="margin-0">{program.title}</h2> 
                                 {program.preview}
                             </a>
                         </li>
