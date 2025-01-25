@@ -22,9 +22,13 @@ const om: Route = {
 	href: "/om",
     subroutes: [
         {text: "Om", href: "/om"},
-		{text: "Program & projekt", href: "/program"},
         {text: "Medarbetare", href: "/medarbetare"}
     ]
+}
+
+const program_and_projects: Route = {
+	text: 'Program & projekt',
+	href: '/program'
 }
 
 const nyheter: Route = {
@@ -35,6 +39,7 @@ const nyheter: Route = {
 const links = [
 	hem,
 	om,
+	program_and_projects,
 	nyheter
 ]
 
