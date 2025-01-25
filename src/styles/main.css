@@ -1,3 +1,8 @@
+/* Custom */ 
+#wcb_2 {
+  display: none !important;
+}
+
 /* Added stuff */
 
 a:has(img[src="/icons/chevron-right.svg"]) {
