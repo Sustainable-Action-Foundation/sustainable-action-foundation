@@ -55,6 +55,7 @@ if (previewString && previewString.length > 100) {
     title={`${article.title} - Sustainable action foundation`}
     description={article.preview ?? article.title} 
     url={`https://sustainable-action.org/nyheter/${article_id}/`}
+    image_url={`${import.meta.env.PB_URL}/api/files/${article.collectionId}/${article.id}/${article.banner}`}
 >   
     <main>
         <block class="padding-inline-50">
