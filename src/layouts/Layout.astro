@@ -8,9 +8,10 @@ import '@styles/layouts.css'
 interface Props {
 	title: string,
 	description: string,
+	url: string
 }
 
-const { title, description } = Astro.props;
+const { title, description, url } = Astro.props;
 
 const hem: Route = {
 	text: "Hem", 
@@ -54,6 +55,15 @@ const links = [
 		<meta name="viewport" content="width=device-width" />		
 		<meta name="generator" content={Astro.generator} />
 		<meta charset="utf-8" />
+
+		{/* Open graph Meta Tags */}
+		<meta name="og:site_name" content="Sustainable Action Foundation" />
+		<meta property="og:url" content={url} />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		{/* TODO: Make this image dynamic, should have a separate image for each news article for example */}
+		<meta property="og:image" content="https://images.unsplash.com/photo-1473984951266-787b955c9e0b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
 		
 		<script>
 			const header = document.getElementsByTagName("header")[0];

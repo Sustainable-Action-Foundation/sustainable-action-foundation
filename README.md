@@ -54,6 +54,13 @@ The following steps apply assuming you have a **sustainable-action-foundation.po
 
 6. Open the PocketBase server using `pocketbase serve`.
 
+## Themes
 Grönt, bakgrund,
 blått, huvudfärg
 Stadstema på tematiska bilder
+
+## Sources
+https://plus.unsplash.com/premium_photo-1697729828023-35f1eb84db3e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+https://visitsweden.com/_next/image/?url=https%3A%2F%2Fs3-eu-north-1.amazonaws.com%3A443%2Fpy3.visitsweden.com%2Foriginal_images%2F_DSC4801_CopyrightSteampipeProductionStudio_tif_CMSTemplate_QvrJEQn.jpg&w=1980&q=75
+https://malmo.se/images/18.7595c891188fbebc4fa88690/1695724614046/MicrosoftTeams-image%20(25)1.jpg
+https://img.freepik.com/premium-photo/blur-colorful-background-gradient-blurred-colorful-with-grain-noise-effect_558873-5103.jpg?semt=ais_hybrid
