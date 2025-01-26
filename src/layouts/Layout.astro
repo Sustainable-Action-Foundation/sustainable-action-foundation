@@ -9,7 +9,7 @@ interface Props {
 	title: string,
 	description: string,
 	url: string,
-	image_url: string
+	image_url: string,
 }
 
 const { title, description, url, image_url } = Astro.props;
@@ -68,6 +68,22 @@ const links = [
 		{/* Optional open graph Meta Tags */}
 		<meta name="og:site_name" content="Sustainable Action Foundation" />
 		<meta property="og:description" content={description} />
+
+		<script>
+			const header = document.getElementsByTagName("header")[0];
+			header.style.backgroundColor = 'unset';
+			window.onscroll = function() {
+				if (window.scrollY > 50) { // Do seperate scroll levels for different pages?
+					header.style.transition = 'background-color .2s ease'
+					header.style.backgroundColor = 'rgba(245, 245, 245, .92)';
+					header.style.backdropFilter = 'blur(2px)'
+				} else {
+					header.style.transition = 'background-color .2s ease'
+					header.style.backgroundColor = 'unset';
+					header.style.backdropFilter = 'unset'
+				}
+			};
+        </script>
 
 	</head>
 	<body>
@@ -153,9 +169,9 @@ const links = [
 		background-color: rgb(245, 245, 245, .92);
 		backdrop-filter: blur(2px);
 		border-radius: .25rem;
-		margin-inline: 1rem;
-		margin-top: 1rem;
-		top: 1rem;
+		margin-inline: .5rem;
+		margin-top: .5rem;
+		top: .5rem;
 	}
 
 	header:has(input[type="checkbox"]:checked) {

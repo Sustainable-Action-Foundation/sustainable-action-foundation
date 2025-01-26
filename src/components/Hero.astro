@@ -1,0 +1,70 @@
+<div class="wrapper">
+    <div class="background-wrapper"> 
+        <h1 class="text-align-center margin-0 position-relative">Sustainable Action Foundation</h1>
+        <h2 class="font-weight-500 text-align-center margin-top-100 position-relative">För en hållbar framtid inom planetens gränser</h2>
+        <img class="background-image" src="/ambient/background-gradient.avif" />
+    </div> 
+    <grid class="position-relative margin-inline-auto gap-100" >
+        <img  src="/ambient/stockholm.avif"  />
+        <img  src="/ambient/gothenburg.webp"  />			
+        <img src="/ambient/malmö.jpg" style="transform: scaleX(-1)" />
+    </grid>
+</div>
+
+<style>
+    .wrapper {
+        --background-image-height: 750px;
+        --grid-image-height: 350px;
+        --grid-image-transform: -125px;
+        --header-height: 53px;
+
+        height: calc(var(--background-image-height) + var(--grid-image-height) + var(--grid-image-transform) - var(--header-height));
+        margin-bottom: 3rem;
+    }
+
+    .background-wrapper {
+        height: calc(var(--background-image-height) - var(--header-height));
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    h1 {
+        font-size: 4rem;
+    }
+
+    h1, h2 {
+        z-index: 2;
+    }
+
+    h2 {
+        margin-bottom: 125px;
+    }
+
+    .background-image {
+        position: absolute;
+        top: calc(var(--header-height) * -1 - .5rem); /* Header minus margins */
+        margin-top: .5rem;
+        left: 50%;
+        transform: translateX(-50%); 
+        height: var(--background-image-height);
+        width: calc(100% - 1rem);
+        border-radius: .5rem; 
+        z-index: 1; 
+    }
+
+    grid {
+        grid-template-columns: 1fr 1fr 1fr; 
+        width: min(1250px, 100%); 
+        z-index: 2;
+        transform: translateY(var(--grid-image-transform));
+    }
+
+    grid img {
+        width: 100%; 
+        height: 350px; 
+        border-radius: .25rem;
+        object-fit: cover;
+        overflow-clip-margin: unset;
+    }
+</style>

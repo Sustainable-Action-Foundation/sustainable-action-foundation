@@ -1,5 +1,6 @@
 ---
-	import NewsCard from "@components/NewsCard.astro";
+	import Hero from "@components/Hero.astro";
+import NewsCard from "@components/NewsCard.astro";
 	import { pbFetch } from "@functions";
 	import Layout from "@layouts/Layout.astro"
 
@@ -26,20 +27,10 @@
 	<main>
 
 		<section class="position-relative padding-inline-50">
-			<container 
-				class="margin-inline-auto flex flex-direction-column justify-content-center position-relative" 
-				style="z-index: 2; height: calc(85vh - 69px);"> 
-				<h1 class="text-align-center margin-0" style="font-size: 4rem;">Sustainable Action Foundation</h1>
-				<h2 class="font-weight-500 text-align-center margin-top-100">För en hållbar framtid inom planetens gränser</h2>
-			</container> 
-			<img 
-				class="position-absolute margin-inline-50"
-				style="top: calc(-53px - .5rem); left: 0; width: calc(100% - 1rem); object-position: bottom; z-index: 1; border-radius: .5rem; height: 750px"
-				src="https://img.freepik.com/premium-photo/blur-colorful-background-gradient-blurred-colorful-with-grain-noise-effect_558873-5103.jpg?semt=ais_hybrid" 
-			/>
+			<Hero />
 		</section>
 
-		<section class="padding-inline-50 padding-block-300" style="font-size: 1.25rem; background-color: #f9f9f9;" id="about"> 
+		<section class="padding-inline-50 padding-block-300" style="font-size: 1.25rem;" id="about"> 
 			<container-text class="margin-inline-auto">
 				<h2 class="text-align-center">Om stiftelsen</h2>
 				<p>
