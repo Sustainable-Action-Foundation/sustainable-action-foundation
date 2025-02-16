@@ -58,13 +58,17 @@ const projects = await pbFetch({
                         {projects.map((project: Project) => (
                             <li>
                                 <h3>{project.title}</h3>
-                                <time datetime={`${project.start_date}`}>
-                                    {new Date(project.start_date).toLocaleDateString('sv-SE', year_month)}
-                                </time>
-                                - 
-                                <time datetime={`${project.end_date}`}>
-                                    {new Date(project.end_date).toLocaleDateString('sv-SE', year_month)}
-                                </time>
+                                {project.start_date ? (
+                                    <>
+                                        <time datetime={`${project.start_date}`}>
+                                            {new Date(project.start_date).toLocaleDateString('sv-SE', year_month)}
+                                        </time>
+                                        - 
+                                        <time datetime={`${project.end_date}`}>
+                                            {new Date(project.end_date).toLocaleDateString('sv-SE', year_month)}
+                                        </time>
+                                    </>
+                                ): null}
                             </li>
                         ))}
                     </ul>
