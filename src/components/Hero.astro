@@ -5,18 +5,39 @@
         <img class="background-image" src="/ambient/vindkraftverk.avif" />
     </div> 
     <grid class="position-relative margin-inline-auto gap-100" >
-        <a href="/about">
-            Om stiftelsen
-            <img src="/icons/chevron-right.svg" alt="" />
-        </a>
-        <a href="/program">
-            Program och projekt
-            <img src="/icons/chevron-right.svg" alt="" />
-        </a>
-        <a href="/nyheter">
-            Nyheter
-            <img src="/icons/chevron-right.svg" alt="" />
-        </a>
+        <article> 
+            <h2 class="margin-block-100 text-align-center">Om stiftelsen</h2>
+            <p class="flex-grow-100">
+                Insamlingsstiftelsens övergripande ändamål är att främja ett välfungerande samhälle 
+                som är långsiktigt hållbart ur ett ekonomiskt, ekologiskt och socialt perspektiv och som 
+                håller...
+            </p>
+            <a href="/about" class="justify-content-center" style="width: 100%;">
+                Läs mer om stiftelsen
+                <img src="/icons/chevron-right.svg" alt="" />
+            </a>
+        </article>
+        <article>
+            <h2 class="margin-block-100 text-align-center">Program och projekt</h2>
+            <p class="flex-grow-100">
+                Stiftelsen planerar att organisera sitt arbete under program, vilka i sin tur 
+                inrymmer olika projekt. Programmen kan ha sin egna styrelse, budget och referensgrupp.
+            </p>
+            <a href="/program" class="justify-content-center" style="width: 100%;">
+                Visa program och projekt
+                <img src="/icons/chevron-right.svg" alt="" />
+            </a>
+        </article>
+        <article>
+            <h2 class="margin-block-100 text-align-center">Nyheter</h2>
+            <p class="flex-grow-100">
+                Stiftelsen publicerar regelbundet nyheter...
+            </p>
+            <a href="/nyheter" class="justify-content-center" style="width: 100%;">
+                Läs fler nyheter
+                <img src="/icons/chevron-right.svg" alt="" />
+            </a>
+        </article>
     </grid>
 </div>
 
@@ -46,7 +67,7 @@
         z-index: 2;
     }
 
-    h2 {
+    .background-wrapper h2 {
         margin-bottom: 125px;
     }
 
@@ -70,24 +91,17 @@
         transform: translateY(var(--grid-image-transform));
     }
 
-    grid a {
+    grid article {
+        font-size: 1.25em;
         background-color: #f9f9f9;
         box-shadow: 0 0 .5rem -.25rem gray;
         transition: box-shadow .2s ease, gap .2s ease;
-        display: block;
         width: 100%;
         height: var(--grid-image-height); 
         border-radius: .25rem;
+        padding: 1.5rem;
         display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        padding: 1rem;
-        font-size: 1.25rem;
-        font-weight: bold;
-    }
-
-    grid a:hover {
-        box-shadow: 0 .5rem -.25rem black
+        flex-direction: column;
     }
 
 </style>
