@@ -86,7 +86,7 @@
     grid {
         background-color: rgba(245, 245, 245);
         border-radius: .25rem;
-        padding: .5rem;
+        padding-block: 1rem;
         grid-template-columns: 1fr 1fr 1fr; 
         width: min(1088px, 100%); 
         z-index: 2;
@@ -96,13 +96,26 @@
     grid article {
         transition: box-shadow .2s ease, gap .2s ease;
         width: 100%;
-        padding: .5rem 1rem;
+        padding-inline: 1.5rem;
         display: flex;
         flex-direction: column;
+        position: relative;
+    }
+
+    grid article:not(:last-child):after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translate(calc(.5rem + 1px), -50%);
+        height: 40px;
+        width: 1px;
+        background-color: silver;
     }
 
     grid article h2 {
         margin-bottom: 0;
+
     }
 
     grid article p {

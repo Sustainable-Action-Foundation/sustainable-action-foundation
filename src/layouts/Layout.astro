@@ -108,11 +108,11 @@ const links = [
 						</>
 					)}
 				</nav>
-				<a href="/#contact" class="call-to-action">Kontakta oss</a>
-				<div class="hamburger">
-					<Hamburger links={links} />
-				</div>
 			</flex>
+			<a href="/#contact" class="call-to-action">Kontakta oss</a>
+			<div class="hamburger">
+				<Hamburger links={links} />
+			</div>
 		</header>
         <slot></slot>
 		<footer class="padding-inline-50 padding-block-300">
@@ -203,6 +203,9 @@ const links = [
 		color: white;
 		transition: box-shadow .2s ease,
 					background-color .2s ease;
+		display: grid;
+		place-content: center;
+		line-height: 1;
 	}
 
 	.call-to-action:hover {
