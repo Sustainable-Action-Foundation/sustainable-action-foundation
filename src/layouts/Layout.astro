@@ -75,18 +75,39 @@ const links = [
 
 		<script>
 			const header = document.getElementsByTagName("header")[0];
-			header.style.backgroundColor = 'unset';
-			window.onscroll = function() {
+			const links = document.querySelectorAll("header a:not(.call-to-action)")
+			
+			// TODO: Might be very inneficient to update all links seperatly?
+			function updateHeader() {
 				if (window.scrollY > 0) { // Do seperate scroll levels for different pages?
 					header.style.transition = 'background-color .2s ease'
 					header.style.backgroundColor = 'rgba(245, 245, 245, .92)';
 					header.style.backdropFilter = 'blur(2px)'
+					if (links) {
+						links.forEach(link => {
+							(link as HTMLElement).style.transition = 'color .2s ease';
+							(link as HTMLElement).style.color = 'black'
+						});
+					}
 				} else {
 					header.style.transition = 'background-color .2s ease'
 					header.style.backgroundColor = 'unset';
 					header.style.backdropFilter = 'unset'
+					if (links) {
+						links.forEach(link => {
+							(link as HTMLElement).style.transition = 'color .2s ease';
+							(link as HTMLElement).style.color = 'white'
+						});
+					}
 				}
 			};
+			
+			// TODO: Does this need "window.onload" or something similar?
+			updateHeader()
+
+			// Run function when scrolling
+			window.addEventListener("scroll", updateHeader);
+
         </script>
 
 	</head>
@@ -171,11 +192,11 @@ const links = [
 		top: 0;
 		z-index: 9999;
 		background-color: rgb(245, 245, 245, .92);
-		backdrop-filter: blur(2px);
 		border-radius: .25rem;
 		margin-inline: .5rem;
 		margin-top: .5rem;
 		top: .5rem;
+		font-size: 18px;
 	}
 
 	header:has(input[type="checkbox"]:checked) {
