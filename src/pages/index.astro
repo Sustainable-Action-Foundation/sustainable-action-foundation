@@ -52,14 +52,9 @@ import NewsCard from "@components/NewsCard.astro";
 			</container-text>
 		</section>
 		
-		<section class="padding-inline-50 padding-block-300" id="programs" style="font-size: 1.25rem; background-color: #f5f5f5;">
+		<section class="padding-inline-50 padding-block-300" id="programs" style="font-size: 1.25rem; background-color: #e8e9ff;">
 			<container class="margin-inline-auto" style="font-size: 1.25rem;">
 				<h2 class="text-align-center">Progam och projekt</h2>
-				<p class="text-align-center margin-inline-auto">
-                    Stiftelsen planerar att organisera sitt arbete under program, vilka i sin tur inrymmer olika projekt. 
-                    Programmen kan ha sin egna styrelse, budget och referensgrupp.
-				</p>
-				<h3>Några av våra program</h3>
 				<ul>
 					{programs.map((program: Program) => (
 						<li>
@@ -76,7 +71,7 @@ import NewsCard from "@components/NewsCard.astro";
 			</container>
 		</section>
 
-		<section class="padding-inline-50 padding-block-300" id="about" style="font-size: 1.25rem; background-color: #f5f5f5;"> 
+		<section class="padding-inline-50 padding-block-300" id="about" style="font-size: 1.25rem;"> 
 			<container class="margin-inline-auto" style="font-size: 1.25rem;">
 				<h2 class="text-align-center margin-bottom-300">Senaste nyheter</h2>
 				<grid class="news-grid-layout margin-inline-auto" style="--nr_columns: 3;">
