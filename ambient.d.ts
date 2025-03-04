@@ -31,6 +31,7 @@ type Article = pbItem & {
 }
 
 type Program = pbItem & {
+    image?: string,
     title: string,
     description: string,
     preview?: string,

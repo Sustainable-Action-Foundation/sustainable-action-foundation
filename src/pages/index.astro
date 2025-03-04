@@ -1,8 +1,9 @@
 ---
 	import Hero from "@components/Hero.astro";
-import NewsCard from "@components/NewsCard.astro";
-	import { pbFetch } from "@functions";
+	import NewsCard from "@components/NewsCard.astro";
+	import { pbFetch, removeTags } from "@functions";
 	import Layout from "@layouts/Layout.astro"
+	import Image from "astro/components/Image.astro";
 
 	const articles_latest: any = await pbFetch({
 		collection: "news",
@@ -15,6 +16,16 @@ import NewsCard from "@components/NewsCard.astro";
         collection: "programs",
         sort: "-created",
     });
+
+    programs.forEach((program: Program) => {
+        const previewString = removeTags(program.description)
+        if (previewString && previewString.length > 100) {
+            program.preview = `${previewString.slice(0, 97)}...`
+        } else if (previewString) {
+            program.preview = previewString
+        }
+
+    }) 
 
 ---
 
@@ -30,7 +41,7 @@ import NewsCard from "@components/NewsCard.astro";
 			<Hero />
 		</section>
 
-		<section class="padding-inline-50 padding-block-300" style="font-size: 1.25rem;" id="about"> 
+		<section class="padding-inline-50 padding-block-300" id="about"> 
 			<container-text class="margin-inline-auto">
 				<h2 class="text-align-center">Om stiftelsen</h2>
 				<p>
@@ -52,18 +63,19 @@ import NewsCard from "@components/NewsCard.astro";
 			</container-text>
 		</section>
 		
-		<section class="padding-inline-50 padding-block-300" id="programs" style="font-size: 1.25rem; background-color: #e8e9ff;">
-			<container class="margin-inline-auto" style="font-size: 1.25rem;">
-				<h2 class="text-align-center">Progam och projekt</h2>
-				<ul>
+		<section class="padding-inline-50 padding-block-300" id="programs">
+			<container class="margin-inline-auto">
+				<h2 class="text-align-center">Program och projekt</h2>
+				<grid class="programs-grid-layout margin-inline-auto" style="--nr_columns: 3;">
 					{programs.map((program: Program) => (
-						<li>
-							<a href={`/program/${program.id}`} class="inline-block" style="color: black; text-decoration: none;">
-								<h4 class="margin-block-50">{program.title}</h4> 
-							</a>
-						</li>
+						<article class="padding-50">
+							<Image src={`${import.meta.env.PB_URL}/api/files/${program.collectionId}/${program.id}/${program.image}`}  alt="" height={1280} width={720} style="width: 100%; height: 176px; border-radius: .25rem;" />
+							<h3 style="font-size: 1.25rem; font-family: 'inter';">{program.title}</h3> 
+							<p>{program.preview}</p>
+							<a href={`/program/${program.id}`}>Läs mer om {program.title}</a>
+						</article>
 					))}
-				</ul>
+				</grid>
 				<a class="margin-bottom-300 margin-top-200 margin-inline-auto" href="/program">
 					Se alla program
 					<img src="/icons/chevron-right.svg" alt="" />
@@ -71,8 +83,8 @@ import NewsCard from "@components/NewsCard.astro";
 			</container>
 		</section>
 
-		<section class="padding-inline-50 padding-block-300" id="about" style="font-size: 1.25rem;"> 
-			<container class="margin-inline-auto" style="font-size: 1.25rem;">
+		<section class="padding-inline-50 padding-block-300" id="about"> 
+			<container class="margin-inline-auto">
 				<h2 class="text-align-center margin-bottom-300">Senaste nyheter</h2>
 				<grid class="news-grid-layout margin-inline-auto" style="--nr_columns: 3;">
 					{articles_latest.items.map((article: Article) => (

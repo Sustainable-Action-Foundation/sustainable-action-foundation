@@ -196,6 +196,7 @@ const links = [
 		margin-inline: .5rem;
 		margin-top: .5rem;
 		top: .5rem;
+		align-items: center;
 	}
 
 	header:has(input[type="checkbox"]:checked) {
@@ -223,9 +224,6 @@ const links = [
 		color: white;
 		transition: box-shadow .2s ease,
 					background-color .2s ease;
-		display: grid;
-		place-content: center;
-		line-height: 1;
 	}
 
 	.call-to-action:hover {
@@ -236,11 +234,12 @@ const links = [
     .hamburger {
 		display: none;
 		@media(max-width: 850px) {
-			display: initial;
+			display: grid;
+			place-content: center;
 		}
 	}
 
-	header nav {
+	header flex:has(nav) {
 		@media(max-width: 850px) {
 			display: none;
 		}
