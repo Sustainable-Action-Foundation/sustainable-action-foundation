@@ -1,3 +1,13 @@
+---
+interface Props {
+	latest_news: Array<any>,
+	featured_programs: Array<Program>,
+}
+
+const { latest_news, featured_programs } = Astro.props;
+
+---
+
 <div class="wrapper">
     <div class="background-wrapper"> 
         <h1 class="text-align-center margin-0 position-relative" style="color: white; font-family: inter; text-shadow: 0 0 2px rgba(0,0,0,.75);">Sustainable Action Foundation</h1>
@@ -13,25 +23,33 @@
                 håller...
             </p>
             <a href="/om" class="justify-content-center" style="width: 100%;">
-                Läs mer om stiftelsen
+                Mer om stiftelsen
                 <img src="/icons/chevron-right.svg" alt="" />
             </a>
         </article>
         <article>
-            <h2 class="margin-block-100 text-align-center">Program och projekt</h2>
-            <p class="flex-grow-100">
-                Stiftelsen planerar att organisera sitt arbete under program, vilka i sin tur 
-                inrymmer olika projekt. Programmen kan ha sin egna styrelse, budget och referensgrupp.
-            </p>
+            <h2 class="margin-block-100 text-align-center">Våra program</h2>
+            <ul class="flex-grow-100 padding-0 padding-left-100 margin-0 margin-block-100">
+                {featured_programs.map((program: Program) => (
+                    <li>
+                        <a href={`/nyheter/${program.id}`} title={program.title}>{program.title}</a>
+                    </li>
+                ))}
+            </ul>
             <a href="/program" class="justify-content-center" style="width: 100%;">
-                Visa program och projekt
+                Visa alla program
                 <img src="/icons/chevron-right.svg" alt="" />
             </a>
         </article>
         <article>
-            <h2 class="margin-block-100 text-align-center">Nyheter</h2>
-            <p class="flex-grow-100">
-             </p>
+            <h2 class="margin-block-100 text-align-center">Senaste nyheter</h2>
+            <ul class="flex-grow-100 padding-0 padding-left-100 margin-0 margin-block-100">
+                {latest_news.items.map((article: Article) => (
+                    <li>
+                        <a href={`/nyheter/${article.id}`} title={article.title}>{article.title}</a>
+                    </li>
+                ))}
+            </ul>
             <a href="/nyheter" class="justify-content-center" style="width: 100%;">
                 Läs fler nyheter
                 <img src="/icons/chevron-right.svg" alt="" />
@@ -88,7 +106,7 @@
         background-color: rgba(245, 245, 245);
         border-radius: .25rem;
         padding-block: 1rem;
-        grid-template-columns: 1fr 1fr 1fr; 
+        grid-template-columns: repeat(3, calc((1088px / 3) - (2rem / 3))); 
         width: min(1088px, 100%); 
         z-index: 2;
         transform: translateY(var(--grid-image-transform));
@@ -125,6 +143,22 @@
         -webkit-line-clamp: 3; /* number of lines to show */
                 line-clamp: 3; 
         -webkit-box-orient: vertical;
+    }
+
+    li a {
+        vertical-align: bottom;
+        white-space: nowrap;
+        max-width: 100%;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: black;
+        text-decoration: none
+    }
+
+    li a:active {
+        text-decoration: underline;
+        color: red;
     }
 
 </style>
