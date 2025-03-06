@@ -15,8 +15,8 @@ const { latest_news, featured_programs } = Astro.props;
         <img src="/images/bi.avif" alt="" />
     </div> 
 
-    <grid class="position-relative margin-inline-auto gap-100" id="shortcut-menu">
-        <article> 
+    <grid class="position-relative margin-inline-auto gap-100 padding-block-100" id="shortcut-menu">
+        <article class="position-relative flex flex-direction-column  padding-inline-200"> 
             <h2 class="margin-top-100 margin-bottom-0 text-align-center">Om stiftelsen</h2>
             <p class="flex-grow-100">
                 Insamlingsstiftelsens övergripande ändamål är att främja ett välfungerande samhälle 
@@ -29,7 +29,7 @@ const { latest_news, featured_programs } = Astro.props;
             </a>
         </article>
 
-        <article>
+        <article class="position-relative flex flex-direction-column padding-inline-200">
             <h2 class="margin-block-100 margin-bottom-0 text-align-center">Våra program</h2>
             <ul class="flex-grow-100 padding-0 padding-left-100 margin-0 margin-block-100">
                 {featured_programs.map((program: Program) => (
@@ -44,7 +44,7 @@ const { latest_news, featured_programs } = Astro.props;
             </a>
         </article>
 
-        <article>
+        <article class="position-relative flex flex-direction-column padding-inline-200">
             <h2 class="margin-block-100 margin-bottom-0 text-align-center">Senaste nyheter</h2>
             <ul class="flex-grow-100 padding-0 padding-left-100 margin-0 margin-block-100">
                 {latest_news.items.map((article: Article) => (
@@ -104,7 +104,6 @@ const { latest_news, featured_programs } = Astro.props;
     }
 
     .title-wrapper img {
-        object-fit: cover;
         position: absolute;
         top: calc(var(--header-height) * -1 - .5rem); /* Header minus margins */
         margin-top: .5rem;
@@ -114,38 +113,35 @@ const { latest_news, featured_programs } = Astro.props;
         width: calc(100% - 1rem);
         border-radius: .5rem; 
         z-index: 1; 
+        object-fit: cover;
         object-position: bottom;
     }
 
     /* Shortcuts to /om, /program and /nyheter */
     grid {
-        background-color: rgba(245, 245, 245);
-        border-radius: .5rem;
-        padding-block: 1rem;
         grid-template-columns: repeat(3, calc((1088px / 3) - (2rem / 3))); 
         width: min(1088px, 100%); 
-        z-index: 2;
+        background-color: rgba(245, 245, 245);
+        border-radius: .5rem;
         transform: translateY(var(--shortcut-menu-transformY));
+        z-index: 2;
+
     }
 
     grid article {
-        transition: box-shadow .2s ease, gap .2s ease;
-        width: 100%;
-        padding-inline: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        position: relative;
+        transition: box-shadow .2s ease, 
+                    gap .2s ease;
     }
 
     grid article:not(:last-child):after {
         content: '';
         position: absolute;
+        width: 1px;
+        height: 48px;
+        background-color: silver;
         right: 0;
         top: 50%;
         transform: translate(calc(.5rem + 1px), -50%);
-        height: 40px;
-        width: 1px;
-        background-color: silver;
     }
 
     grid article p {
@@ -157,14 +153,18 @@ const { latest_news, featured_programs } = Astro.props;
     }
 
     li a {
+        display: inline-block;
+        max-width: 100%;
+        color: black;
+        text-decoration: none;
         vertical-align: bottom;
         white-space: nowrap;
-        max-width: 100%;
-        display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: black;
-        text-decoration: none
+    }
+
+    li a:hover {
+        text-decoration: underline;
     }
 
     li a:active {
