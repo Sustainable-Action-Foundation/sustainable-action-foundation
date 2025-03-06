@@ -8,27 +8,29 @@ const { latest_news, featured_programs } = Astro.props;
 
 ---
 
-<div class="wrapper">
-    <div class="background-wrapper"> 
-        <h1 class="text-align-center margin-0 position-relative" style="color: white; font-family: inter; text-shadow: 0 0 2px rgba(0,0,0,.75);">Sustainable Action Foundation</h1>
-        <h2 class="font-weight-500 text-align-center margin-top-100 position-relative" style="color: white;  text-shadow: 0 0 1px black;">För en hållbar framtid inom planetens gränser</h2>
-        <img class="background-image" src="/ambient/bi.avif" />
+<div class="hero-section">
+    <div class="title-wrapper"> 
+        <h1 class="text-align-center margin-0 position-relative">Sustainable Action Foundation</h1>
+        <h2 class="font-weight-500 text-align-center margin-0 position-relative">För en hållbar framtid inom planetens gränser</h2>
+        <img src="/images/bi.avif" alt="" />
     </div> 
-    <grid class="position-relative margin-inline-auto gap-100" >
+
+    <grid class="position-relative margin-inline-auto gap-100" id="shortcut-menu">
         <article> 
-            <h2 class="margin-block-100 text-align-center">Om stiftelsen</h2>
+            <h2 class="margin-top-100 margin-bottom-0 text-align-center">Om stiftelsen</h2>
             <p class="flex-grow-100">
                 Insamlingsstiftelsens övergripande ändamål är att främja ett välfungerande samhälle 
                 som är långsiktigt hållbart ur ett ekonomiskt, ekologiskt och socialt perspektiv och som 
                 håller...
             </p>
-            <a href="/om" class="justify-content-center" style="width: 100%;">
+            <a href="/om" class="justify-content-center place-self-center">
                 Mer om stiftelsen
                 <img src="/icons/chevron-right.svg" alt="" />
             </a>
         </article>
+
         <article>
-            <h2 class="margin-block-100 text-align-center">Våra program</h2>
+            <h2 class="margin-block-100 margin-bottom-0 text-align-center">Våra program</h2>
             <ul class="flex-grow-100 padding-0 padding-left-100 margin-0 margin-block-100">
                 {featured_programs.map((program: Program) => (
                     <li>
@@ -36,13 +38,14 @@ const { latest_news, featured_programs } = Astro.props;
                     </li>
                 ))}
             </ul>
-            <a href="/program" class="justify-content-center" style="width: 100%;">
+            <a href="/program" class="justify-content-center place-self-center">
                 Visa alla program
                 <img src="/icons/chevron-right.svg" alt="" />
             </a>
         </article>
+
         <article>
-            <h2 class="margin-block-100 text-align-center">Senaste nyheter</h2>
+            <h2 class="margin-block-100 margin-bottom-0 text-align-center">Senaste nyheter</h2>
             <ul class="flex-grow-100 padding-0 padding-left-100 margin-0 margin-block-100">
                 {latest_news.items.map((article: Article) => (
                     <li>
@@ -50,7 +53,7 @@ const { latest_news, featured_programs } = Astro.props;
                     </li>
                 ))}
             </ul>
-            <a href="/nyheter" class="justify-content-center" style="width: 100%;">
+            <a href="/nyheter" class="justify-content-center place-self-center">
                 Läs fler nyheter
                 <img src="/icons/chevron-right.svg" alt="" />
             </a>
@@ -59,36 +62,48 @@ const { latest_news, featured_programs } = Astro.props;
 </div>
 
 <style>
-    .wrapper {
-        --background-image-height: 750px;
-        --grid-image-height: 208px;
-        --grid-image-transform: -64px;
-        --header-height: calc(40px + 1rem);
+    /* Hero */
+    .hero-section {
+        --background-image-height: 750px;   /* Height of our background image */ 
+                                            /* TODO: Change value based on screen width */
 
-        height: calc(var(--background-image-height) + var(--grid-image-height) + var(--grid-image-transform) - var(--header-height));
+        --shortcut-menu-height: 208px;      /* Value of the 'Height' property of our shortcut menu */ 
+                                            /* TODO: Height is currently set dynamically meaning this is a hardcoded value based on value as of 2025-03-06*/
+
+        --shortcut-menu-transformY: -64px;  /* Value of the 'transformY' property of our shortcut menu (Arbritrary value) */
+
+        --header-height: calc(40px + 1rem); /* Height of header (largest element + padding) */ 
+                                            /* TODO: will be wonky if largest element changes size */
+
+        /* Calculate the overall height of our hero section based on above variables */
+        /* This overlapping content caused by 'position: absolute;' in lower sections  */
+        height: calc(var(--background-image-height) + var(--shortcut-menu-height) + var(--shortcut-menu-transformY) - var(--header-height));
         margin-bottom: 3rem;
     }
 
-    .background-wrapper {
+    /* Title, subtitle and background image */
+    .title-wrapper {
         height: calc(var(--background-image-height) - var(--header-height));
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
     }
 
-    h1 {
+    .title-wrapper h1 {
         font-size: 4rem;
+        font-family: inter; 
+        text-shadow: 0 0 10px rgba(0,0,0,.5);
+        top: calc((var(--background-image-height) / 2) - var(--header-height) - .5rem - calc(99px / 2)); /* I do not understand this abomination but hey it works the text is centered */
     }
 
-    h1, h2 {
+    .title-wrapper h2 {
+        text-shadow: 0 0 10px rgba(0,0,0,.5);
+        top: calc((var(--background-image-height) / 2) - var(--header-height) - .5rem - calc(99px / 2)); /* I do not understand this abomination but hey it works the text is centered */
+    }
+
+    .title-wrapper h1, .title-wrapper h2 {
         z-index: 2;
+        color: white;  
     }
 
-    .background-wrapper h2 {
-        margin-bottom: 125px;
-    }
-
-    .background-image {
+    .title-wrapper img {
         object-fit: cover;
         position: absolute;
         top: calc(var(--header-height) * -1 - .5rem); /* Header minus margins */
@@ -102,6 +117,7 @@ const { latest_news, featured_programs } = Astro.props;
         object-position: bottom;
     }
 
+    /* Shortcuts to /om, /program and /nyheter */
     grid {
         background-color: rgba(245, 245, 245);
         border-radius: .5rem;
@@ -109,7 +125,7 @@ const { latest_news, featured_programs } = Astro.props;
         grid-template-columns: repeat(3, calc((1088px / 3) - (2rem / 3))); 
         width: min(1088px, 100%); 
         z-index: 2;
-        transform: translateY(var(--grid-image-transform));
+        transform: translateY(var(--shortcut-menu-transformY));
     }
 
     grid article {
@@ -132,15 +148,10 @@ const { latest_news, featured_programs } = Astro.props;
         background-color: silver;
     }
 
-    grid article h2 {
-        margin-bottom: 0;
-
-    }
-
     grid article p {
         overflow: hidden;
         display: -webkit-box;
-        -webkit-line-clamp: 3; /* number of lines to show */
+        -webkit-line-clamp: 3;
                 line-clamp: 3; 
         -webkit-box-orient: vertical;
     }
