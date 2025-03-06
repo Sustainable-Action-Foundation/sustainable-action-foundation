@@ -63,9 +63,9 @@
 			</container-text>
 		</section>
 		
-		<section class="padding-inline-50 padding-block-300" id="programs">
+		<section class="padding-inline-50 padding-block-300" id="programs" style="background-color: #e8eaef;">
 			<container class="margin-inline-auto">
-				<h2 class="text-align-center">Program och projekt</h2>
+				<h2 class="text-align-center margin-bottom-300 margin-top-200">Program och projekt</h2>
 				<grid class="programs-grid-layout margin-inline-auto" style="--nr_columns: 3;">
 					{programs.map((program: Program) => (
 						<article class="padding-50">
@@ -99,21 +99,24 @@
 		</section>
 
 		<section class="padding-inline-50 padding-block-300" id="contact">
-			<container-text class="margin-inline-auto">
+			<container class="margin-inline-auto">
 				<h2 class="margin-revert margin-top-100">Kontakt</h2>
-				<form>
-					<label class="font-weight-500 block margin-block-100">
-						E-postadress
-						<input class="margin-block-25" type="email" />
-					</label>
-					<label class="font-weight-500 block margin-block-100">
-						Meddelande
-						<textarea class="margin-block-25" style="min-height: 175px;" />
-					</label>
-					<button type="submit" class="font-weight-500" >Skicka meddelande</button>
-				</form>
-			</container-text>
+				<container-text>
+					<form>
+						<label class="font-weight-500 block margin-block-100">
+							E-postadress
+							<input class="margin-block-25" type="email" />
+						</label>
+						<label class="font-weight-500 block margin-block-100">
+							Meddelande
+							<textarea class="margin-block-25" style="min-height: 175px;" />
+						</label>
+						<button type="submit" class="font-weight-500" >Skicka meddelande</button>
+					</form>
+				<container-text>
+			</container>
 		</section>
+
 	</main>
 </Layout>
 
