@@ -1,5 +1,9 @@
 /* Added stuff */
 
+.text-black {
+  color: black !important;
+}
+
 a:has(img[src*="/icons/chevron-right"]) {
   color: #000;
   font-weight: 500;

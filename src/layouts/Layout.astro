@@ -10,9 +10,10 @@ interface Props {
 	description: string,
 	url: string,
 	image_url: string,
+	default_link_color: string,
 }
 
-const { title, description, url, image_url } = Astro.props;
+const { title, description, url, image_url, default_link_color } = Astro.props;
 
 const hem: Route = {
 	text: "Hem", 
@@ -44,7 +45,6 @@ const links = [
 	program_and_projects,
 	nyheter
 ]
-
 
 ---
 
@@ -87,7 +87,7 @@ const links = [
 					if (links) {
 						links.forEach(link => {
 							(link as HTMLElement).style.transition = 'color .2s ease';
-							(link as HTMLElement).style.color = 'black'
+							(link as HTMLElement).classList.add('text-black')
 						});
 					}
 				} else {
@@ -97,12 +97,12 @@ const links = [
 					if (links) {
 						links.forEach(link => {
 							(link as HTMLElement).style.transition = 'color .2s ease';
-							(link as HTMLElement).style.color = 'white'
-						});
+							(link as HTMLElement).classList.remove('text-black')
+ 						});
 					}
 				}
 			};
-			
+
 			// TODO: Does this need "window.onload" or something similar?
 			updateHeader()
 
@@ -122,10 +122,10 @@ const links = [
 					{links.map((route: Route) => 
 						<>
 							{!route.subroutes &&
-								<a href={route.href}>{route.text}</a> 
+								<a href={route.href} style={`color: ${default_link_color}`}>{route.text}</a> 
 							} 
 							{route.subroutes && 
-								<Dropdown route={route} /> 
+								<Dropdown route={route} default_link_color={default_link_color} /> 
 							}
 						</>
 					)}
@@ -184,6 +184,7 @@ const links = [
 </html>
 
 <style>
+
     body {
         margin: 0;
         background-color: rgb(245, 245, 245);
@@ -205,7 +206,6 @@ const links = [
     }
 
 	header a:not(.call-to-action) {
-		color: white;
 		font-weight: 500;
 		text-decoration: none;
 		text-underline-offset: 2px;
