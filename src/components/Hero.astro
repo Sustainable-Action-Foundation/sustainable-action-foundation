@@ -13,7 +13,8 @@ const { latest_news, featured_programs } = Astro.props;
     <div class="title-wrapper"> 
         <h1 class="text-align-center margin-0 position-relative">Sustainable Action Foundation</h1>
         <h2 class="font-weight-500 text-align-center margin-0 position-relative">För en hållbar framtid inom planetens gränser</h2>
-        <img src="/images/bi.avif" alt="" />
+        {/* Image is ~53kb, therefore no need for further optimisation using Image tag  */}
+        <img src="/images/bi.avif" alt="" style="user-select: none;" />
     </div> 
 
     <grid class="position-relative margin-inline-auto gap-100 padding-block-100" id="shortcut-menu">
@@ -27,7 +28,7 @@ const { latest_news, featured_programs } = Astro.props;
             <div class="flex-grow-100"></div>  {/* Empty div to ensure anchor tag placed at bottom */}
             <a href="/om" class="place-self-center">
                 Mer om stiftelsen
-                <img src="/icons/chevron-right.svg" alt="" />
+                <img src="/icons/chevron-right.svg" alt="" style="user-select: none;"/>
             </a>
         </article>
 
@@ -43,7 +44,7 @@ const { latest_news, featured_programs } = Astro.props;
             <div class="flex-grow-100"></div> {/* Empty div to ensure anchor tag placed at bottom */}
             <a href="/program" class="place-self-center">
                 Visa alla program
-                <img src="/icons/chevron-right.svg" alt="" />
+                <img src="/icons/chevron-right.svg" alt="" style="user-select: none;"/>
             </a>
         </article>
 
@@ -59,7 +60,7 @@ const { latest_news, featured_programs } = Astro.props;
             <div class="flex-grow-100"></div> {/* Empty div to ensure anchor tag placed at bottom */}
             <a href="/nyheter" class="place-self-center">
                 Läs fler nyheter
-                <img src="/icons/chevron-right.svg" alt="" />
+                <img src="/icons/chevron-right.svg" alt="" style="user-select: none;"/>
             </a>
         </article>
     </grid>

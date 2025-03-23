@@ -27,11 +27,11 @@ if (previewString && previewString.length > 100) {
         )}
         <section class="padding-75 flex flex-direction-column flex-grow-100">
             <h2 class="margin-0 text-align-center">{article.title}</h2>
-            <time datetime={article.published_date.toString()} class="block text-align-center" style="color: gray; font-size: .9rem;">
+            <time datetime={article.published_date.toString()} class="block text-align-center" style="color: #595959; font-size: .9rem;">
                 {new Date(article.published_date).toLocaleDateString('sv-SE', options)}
             </time>
             <div class="margin-top-100 preview">{article.preview}</div>
-            <address class="flex align-items-flex-end flex-grow-100 margin-top-75" style="font-size: .75rem; color: gray;">
+            <address class="flex align-items-flex-end flex-grow-100 margin-top-75" style="font-size: .75rem; color: #595959;">
                 Av: {article.expand.author.name}
             </address>
         </section>
