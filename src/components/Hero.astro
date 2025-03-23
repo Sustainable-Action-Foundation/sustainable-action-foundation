@@ -88,11 +88,12 @@ const { latest_news, featured_programs } = Astro.props;
         margin-bottom: 3rem;
 
         @media (max-width: calc(1088px + 3rem)) {
-            --shortcut-menu-height: calc(208px * 2)   
+            --shortcut-menu-height: calc(208px * 2);  
         }
 
         @media (max-width: calc(816px + 3rem)) {
-            --shortcut-menu-height: calc(208px * 3)   
+            --shortcut-menu-height: calc(208px * 3);
+            --background-image-height: 550px;
         }
 
     }
@@ -107,11 +108,19 @@ const { latest_news, featured_programs } = Astro.props;
         font-family: inter; 
         text-shadow: 0 0 10px rgba(0,0,0,.5);
         top: calc((var(--background-image-height) / 2) - var(--header-height) - .5rem - calc(99px / 2)); /* I do not understand this abomination but hey it works the text is centered */
+        @media (max-width: calc(816px + 3rem)) {
+            font-size: 2.5rem;
+            top: calc((var(--background-image-height) / 2) - var(--header-height) - .5rem - calc(99px / 2)  - 75px); /* Arbitrarily of shoot text for better visibilty on phones */
+        }
     }
 
     .title-wrapper h2 {
         text-shadow: 0 0 10px rgba(0,0,0,.5);
         top: calc((var(--background-image-height) / 2) - var(--header-height) - .5rem - calc(99px / 2)); /* I do not understand this abomination but hey it works the text is centered */
+        @media (max-width: calc(816px + 3rem)) {
+            font-size: 1.15rem;
+            top: calc((var(--background-image-height) / 2) - var(--header-height) - .5rem - calc(99px / 2) - 75px); /* Arbitrarily of shoot text for better visibilty on phones */
+        }
     }
 
     .title-wrapper h1, .title-wrapper h2 {
@@ -131,6 +140,9 @@ const { latest_news, featured_programs } = Astro.props;
         z-index: 1; 
         object-fit: cover;
         object-position: bottom;
+        @media (max-width: calc(816px + 3rem)) {
+            object-position: 75% bottom;
+        }
     }
 
     /* Shortcuts to /om, /program and /nyheter */
