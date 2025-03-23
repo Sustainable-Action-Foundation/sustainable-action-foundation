@@ -26,6 +26,8 @@
     grid-template-columns: repeat(auto-fit, var(--column-width));
 }
 
+/* TODO: Theese layouts cause issues with overflow if viewport width is less than --column-width */
+/* Visible in programs grid but not news or coworkers grid as viewport width rarely subceeds 300px */
 .programs-grid-layout {
     --nr_columns: 3; /* Default value corresponds to our homepage */ 
     --gap: 3rem;
