@@ -17,7 +17,7 @@ const { latest_news, featured_programs } = Astro.props;
         <img src="/images/bi.avif" alt="" style="user-select: none;" />
     </div> 
 
-    <grid class="position-relative margin-inline-auto gap-100 padding-block-100" id="shortcut-menu">
+    <grid class="position-relative margin-inline-auto padding-block-100" id="shortcut-menu">
         <article class="position-relative flex flex-direction-column padding-inline-200"> 
             <h2 class="margin-top-100 margin-bottom-0 text-align-center">Om stiftelsen</h2>
             <p>
@@ -88,11 +88,11 @@ const { latest_news, featured_programs } = Astro.props;
         margin-bottom: 3rem;
 
         @media (max-width: calc(1088px + 3rem)) {
-            --shortcut-menu-height: calc(208px * 2);  
+            --shortcut-menu-height: calc(208px * 2 + 3rem);  
         }
 
         @media (max-width: calc(816px + 3rem)) {
-            --shortcut-menu-height: calc(208px * 3);
+            --shortcut-menu-height: calc(208px * 3 + (3rem * 2));
             --background-image-height: 550px;
         }
 
@@ -148,6 +148,8 @@ const { latest_news, featured_programs } = Astro.props;
     /* Shortcuts to /om, /program and /nyheter */
     grid {
         grid-template-columns: repeat(3, calc((1088px / 3) - (2rem / 3))); 
+        column-gap: 1rem;
+        row-gap: 3rem;
         width: min(1088px, 100%); 
         background-color: rgba(245, 245, 245);
         border-radius: .5rem;
