@@ -175,6 +175,32 @@ const { latest_news, featured_programs } = Astro.props;
                     gap .2s ease;
     }
 
+    @media (min-width: calc(1088px + 3rem)) {
+        grid article:not(:last-child):after {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 48px;
+            background-color: silver;
+            right: 0;
+            top: 50%;
+            transform: translate(calc(.5rem + 1px), -50%);
+        }
+    }
+
+    @media (min-width: calc(816px + 3rem)) {
+        grid article:first-child:after {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 48px;
+            background-color: silver;
+            right: 0;
+            top: 50%;
+            transform: translate(calc(.5rem + 1px), -50%);
+        }
+    }
+
     grid article p {
         overflow: hidden;
         display: -webkit-box;
