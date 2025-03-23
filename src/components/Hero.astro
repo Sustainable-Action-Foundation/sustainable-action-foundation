@@ -1,10 +1,11 @@
 ---
 interface Props {
-	latest_news: Array<any>,
+	latest_news: pbCollection,
 	featured_programs: Array<Program>,
 }
 
 const { latest_news, featured_programs } = Astro.props;
+
 
 ---
 
@@ -18,12 +19,13 @@ const { latest_news, featured_programs } = Astro.props;
     <grid class="position-relative margin-inline-auto gap-100 padding-block-100" id="shortcut-menu">
         <article class="position-relative flex flex-direction-column padding-inline-200"> 
             <h2 class="margin-top-100 margin-bottom-0 text-align-center">Om stiftelsen</h2>
-            <p class="flex-grow-100">
+            <p>
                 Insamlingsstiftelsens övergripande ändamål är att främja ett välfungerande samhälle 
                 som är långsiktigt hållbart ur ett ekonomiskt, ekologiskt och socialt perspektiv och som 
                 håller...
             </p>
-            <a href="/om" class="justify-content-center place-self-center">
+            <div class="flex-grow-100"></div>  {/* Empty div to ensure anchor tag placed at bottom */}
+            <a href="/om" class="place-self-center">
                 Mer om stiftelsen
                 <img src="/icons/chevron-right.svg" alt="" />
             </a>
@@ -31,14 +33,15 @@ const { latest_news, featured_programs } = Astro.props;
 
         <article class="position-relative flex flex-direction-column padding-inline-200">
             <h2 class="margin-block-100 margin-bottom-0 text-align-center">Våra program</h2>
-            <ul class="flex-grow-100 padding-0 padding-left-100 margin-0 margin-block-100">
+            <ul class="padding-0 padding-left-100 margin-0 margin-block-100">
                 {featured_programs.map((program: Program) => (
                     <li>
                         <a href={`/program/${program.id}`} title={program.title}>{program.title}</a>
                     </li>
                 ))}
             </ul>
-            <a href="/program" class="justify-content-center place-self-center">
+            <div class="flex-grow-100"></div> {/* Empty div to ensure anchor tag placed at bottom */}
+            <a href="/program" class="place-self-center">
                 Visa alla program
                 <img src="/icons/chevron-right.svg" alt="" />
             </a>
@@ -46,14 +49,15 @@ const { latest_news, featured_programs } = Astro.props;
 
         <article class="position-relative flex flex-direction-column padding-inline-200">
             <h2 class="margin-block-100 margin-bottom-0 text-align-center">Senaste nyheter</h2>
-            <ul class="flex-grow-100 padding-0 padding-left-100 margin-0 margin-block-100">
-                {latest_news.items.map((article: Article) => (
+            <ul class="padding-0 padding-left-100 margin-0 margin-block-100">
+                {(latest_news.items as Article[]).map((article: Article) => (
                     <li>
                         <a href={`/nyheter/${article.id}`} title={article.title}>{article.title}</a>
                     </li>
                 ))}
             </ul>
-            <a href="/nyheter" class="justify-content-center place-self-center">
+            <div class="flex-grow-100"></div> {/* Empty div to ensure anchor tag placed at bottom */}
+            <a href="/nyheter" class="place-self-center">
                 Läs fler nyheter
                 <img src="/icons/chevron-right.svg" alt="" />
             </a>
@@ -70,6 +74,8 @@ const { latest_news, featured_programs } = Astro.props;
         --shortcut-menu-height: 208px;      /* Value of the 'Height' property of our shortcut menu */ 
                                             /* TODO: Height is currently set dynamically meaning this is a hardcoded value based on value as of 2025-03-06*/
 
+        --shortcut-menu-item-height: 208px; /* Value of the 'Height' property of one element inside our shortcut menu */
+
         --shortcut-menu-transformY: -64px;  /* Value of the 'transformY' property of our shortcut menu (Arbritrary value) */
 
         --header-height: calc(40px + 1rem); /* Height of header (largest element + padding) */ 
@@ -79,6 +85,15 @@ const { latest_news, featured_programs } = Astro.props;
         /* This overlapping content caused by 'position: absolute;' in lower sections  */
         height: calc(var(--background-image-height) + var(--shortcut-menu-height) + var(--shortcut-menu-transformY) - var(--header-height));
         margin-bottom: 3rem;
+
+        @media (max-width: calc(1088px + 3rem)) {
+            --shortcut-menu-height: calc(208px * 2)   
+        }
+
+        @media (max-width: calc(816px + 3rem)) {
+            --shortcut-menu-height: calc(208px * 3)   
+        }
+
     }
 
     /* Title, subtitle and background image */
@@ -125,14 +140,27 @@ const { latest_news, featured_programs } = Astro.props;
         border-radius: .5rem;
         transform: translateY(var(--shortcut-menu-transformY));
         z-index: 2;
+        
+        @media (max-width: calc(1088px + 3rem)) {
+            width: min(816px, 100%);
+            grid-template-columns: repeat(2, calc((816px / 2) - (2rem / 2)));
+            grid-template-rows: var(--shortcut-menu-item-height) var(--shortcut-menu-item-height);
+        }
 
+        @media (max-width: calc(816px + 3rem)) {
+            width: min(60ch, calc(100% - 1rem));
+            grid-template-columns: 1fr;
+            grid-template-rows: var(--shortcut-menu-item-height) var(--shortcut-menu-item-height) var(--shortcut-menu-item-height);
+        }
     }
 
     grid article {
         transition: box-shadow .2s ease, 
                     gap .2s ease;
+        overflow: hidden;
     }
 
+    {/* TODO: This is invisible for some reason? */}
     grid article:not(:last-child):after {
         content: '';
         position: absolute;
