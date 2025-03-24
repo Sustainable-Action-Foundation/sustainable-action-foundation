@@ -36,4 +36,7 @@
     gap: var(--gap);
     width: min(calc(var(--column-width) * var(--nr_columns) + var(--gap) * var(--nr_columns)), 100%);
     grid-template-columns: repeat(auto-fit, var(--column-width));
+    @media (max-width: 375px) { /* Want to use --column-width here, find a way around that*/
+        grid-template-columns: 1fr;
+    }
 }
