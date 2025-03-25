@@ -83,8 +83,7 @@ const links = [
 				if (window.scrollY > 0) { // Do seperate scroll levels for different pages?
 					header.style.transition = 'background-color .2s ease'
 					header.style.backgroundColor = 'rgba(245, 245, 245, .92)';
-					header.style.backdropFilter = 'blur(2px)'
-					if (links) {
+ 					if (links) {
 						links.forEach(link => {
 							(link as HTMLElement).style.transition = 'color .2s ease';
 							(link as HTMLElement).classList.add('text-black')
@@ -93,8 +92,7 @@ const links = [
 				} else {
 					header.style.transition = 'background-color .2s ease'
 					header.style.backgroundColor = 'unset';
-					header.style.backdropFilter = 'unset'
-					if (links) {
+ 					if (links) {
 						links.forEach(link => {
 							(link as HTMLElement).style.transition = 'color .2s ease';
 							(link as HTMLElement).classList.remove('text-black')
@@ -131,10 +129,12 @@ const links = [
 					)}
 				</nav>
 			</flex>
-			<a href="/#contact" class="call-to-action">Kontakta oss</a>
-			<div class="hamburger">
-				<Hamburger links={links} />
-			</div>
+			<flex class="gap-50 align-items-center">
+				<a href="/#contact" class="call-to-action">Kontakta oss</a>
+				<div class="hamburger">
+					<Hamburger links={links} />
+				</div>
+			</flex>
 		</header>
         <slot></slot>
 		<footer class="padding-inline-50 padding-block-300">
@@ -190,6 +190,18 @@ const links = [
         background-color: rgb(245, 245, 245);
     }
 
+	header::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		backdrop-filter: blur(2px);
+		z-index: -1;
+		border-radius: .25rem .25rem 0 0;
+	}
+
 	header {
 		top: 0;
 		z-index: 9999;
@@ -203,6 +215,7 @@ const links = [
 
 	header:has(input[type="checkbox"]:checked) {
         background-color: rgba(245, 245, 245, .92) !important;
+		border-radius: .25rem .25rem 0 0;
     }
 
 	header a:not(.call-to-action) {
@@ -240,7 +253,7 @@ const links = [
 		}
 	}
 
-	header flex:has(nav) {
+	header flex:first-of-type:has(nav) {
 		@media(max-width: 850px) {
 			display: none;
 		}
