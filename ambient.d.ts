@@ -4,6 +4,14 @@ type Route = {
     subroutes?: Array<{text: string, href: string}>  
 }
 
+type pbCollection = {
+    page: number,
+    perPage: number,
+    totalItems: number,
+    totalPages: number,
+    items: Array<Person> | Array<Article> | Array<Program> | Array<Project>,
+}
+
 type pbItem = {
     collectionId: string,
     collectionName: string, 
@@ -31,6 +39,7 @@ type Article = pbItem & {
 }
 
 type Program = pbItem & {
+    image?: string,
     title: string,
     description: string,
     preview?: string,

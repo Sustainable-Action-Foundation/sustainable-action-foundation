@@ -1,0 +1,235 @@
+---
+interface Props {
+	latest_news: pbCollection,
+	featured_programs: Array<Program>,
+}
+
+const { latest_news, featured_programs } = Astro.props;
+
+
+---
+
+<div class="hero-section">
+    <div class="title-wrapper"> 
+        <h1 class="text-align-center margin-0 position-relative">Sustainable Action Foundation</h1>
+        <h2 class="font-weight-500 text-align-center margin-0 position-relative">För en hållbar framtid inom planetens gränser</h2>
+        {/* Image is ~53kb, therefore no need for further optimisation using Image tag  */}
+        <img src="/images/bi.avif" alt="" style="user-select: none;" />
+    </div> 
+
+    <grid class="position-relative margin-inline-auto padding-block-100" id="shortcut-menu">
+        <article class="position-relative flex flex-direction-column padding-inline-200"> 
+            <h2 class="margin-top-100 margin-bottom-0 text-align-center">Om stiftelsen</h2>
+            <p>
+                Insamlingsstiftelsens övergripande ändamål är att främja ett välfungerande samhälle 
+                som är långsiktigt hållbart ur ett ekonomiskt, ekologiskt och socialt perspektiv och som 
+                håller...
+            </p>
+            <div class="flex-grow-100"></div>  {/* Empty div to ensure anchor tag placed at bottom */}
+            <a href="/om" class="place-self-center">
+                Mer om stiftelsen
+                <img src="/icons/chevron-right.svg" alt="" style="user-select: none;"/>
+            </a>
+        </article>
+
+        <article class="position-relative flex flex-direction-column padding-inline-200">
+            <h2 class="margin-block-100 margin-bottom-0 text-align-center">Våra program</h2>
+            <ul class="padding-0 padding-left-100 margin-0 margin-block-100">
+                {featured_programs.map((program: Program) => (
+                    <li>
+                        <a href={`/program/${program.id}`} title={program.title}>{program.title}</a>
+                    </li>
+                ))}
+            </ul>
+            <div class="flex-grow-100"></div> {/* Empty div to ensure anchor tag placed at bottom */}
+            <a href="/program" class="place-self-center">
+                Visa alla program
+                <img src="/icons/chevron-right.svg" alt="" style="user-select: none;"/>
+            </a>
+        </article>
+
+        <article class="position-relative flex flex-direction-column padding-inline-200">
+            <h2 class="margin-block-100 margin-bottom-0 text-align-center">Senaste nyheter</h2>
+            <ul class="padding-0 padding-left-100 margin-0 margin-block-100">
+                {(latest_news.items as Article[]).map((article: Article) => (
+                    <li>
+                        <a href={`/nyheter/${article.id}`} title={article.title}>{article.title}</a>
+                    </li>
+                ))}
+            </ul>
+            <div class="flex-grow-100"></div> {/* Empty div to ensure anchor tag placed at bottom */}
+            <a href="/nyheter" class="place-self-center">
+                Läs fler nyheter
+                <img src="/icons/chevron-right.svg" alt="" style="user-select: none;"/>
+            </a>
+        </article>
+    </grid>
+</div>
+
+<style>
+    /* Hero */
+    .hero-section {
+        --background-image-height: 750px;   /* Height of our background image */ 
+                                            /* TODO: Change value based on screen width */
+
+        --shortcut-menu-height: 208px;      /* Value of the 'Height' property of our shortcut menu */ 
+                                            /* TODO: Height is currently set dynamically meaning this is a hardcoded value based on value as of 2025-03-06*/
+
+        --shortcut-menu-item-height: 208px; /* Value of the 'Height' property of one element inside our shortcut menu */
+
+        --shortcut-menu-transformY: -64px;  /* Value of the 'transformY' property of our shortcut menu (Arbritrary value) */
+
+        --header-height: calc(40px + 1rem); /* Height of header (largest element + padding) */ 
+                                            /* TODO: will be wonky if largest element changes size */
+
+        /* Calculate the overall height of our hero section based on above variables */
+        /* This overlapping content caused by 'position: absolute;' in lower sections  */
+        height: calc(var(--background-image-height) + var(--shortcut-menu-height) + var(--shortcut-menu-transformY) - var(--header-height));
+        margin-bottom: 3rem;
+
+        @media (max-width: calc(1088px + 3rem)) {
+            --shortcut-menu-height: calc(208px * 2 + 3rem);  
+        }
+
+        @media (max-width: calc(816px + 3rem)) {
+            --shortcut-menu-height: 0;
+            --background-image-height: 450px;
+            margin-bottom: -3rem;
+        }
+
+    }
+
+    /* Title, subtitle and background image */
+    .title-wrapper {
+        height: calc(var(--background-image-height) - var(--header-height));
+    }
+
+    .title-wrapper h1 {
+        text-wrap: pretty;
+        font-size: 4rem;
+        font-family: inter; 
+        text-shadow: 0 0 10px rgba(0,0,0,.5);
+        top: calc((var(--background-image-height) / 2) - var(--header-height) - .5rem - calc(99px / 2)); /* I do not understand this abomination but hey it works the text is centered */
+        @media (max-width: calc(816px + 3rem)) {
+            font-size: 2.25rem;
+            top: calc((var(--background-image-height) / 2) - var(--header-height) - .5rem - calc(99px / 2) - 40px);
+        }
+    }
+
+    .title-wrapper h2 {
+        text-wrap: pretty;
+        text-shadow: 0 0 10px rgba(0,0,0,.5);
+        top: calc((var(--background-image-height) / 2) - var(--header-height) - .5rem - calc(99px / 2)); /* I do not understand this abomination but hey it works the text is centered */
+        @media (max-width: calc(816px + 3rem)) {
+            font-size: 1.15rem;
+            top: calc((var(--background-image-height) / 2) - var(--header-height) - .5rem - calc(99px / 2) - 40px);
+        }
+    }
+
+    .title-wrapper h1, .title-wrapper h2 {
+        z-index: 2;
+        color: white;  
+    }
+
+    .title-wrapper img {
+        position: absolute;
+        top: calc(var(--header-height) * -1 - .5rem); /* Header minus margins */
+        margin-top: .5rem;
+        left: 50%;
+        transform: translateX(-50%) scaleX(-1); 
+        height: var(--background-image-height);
+        width: calc(100% - 1rem);
+        border-radius: .5rem; 
+        z-index: 1; 
+        object-fit: cover;
+        object-position: bottom;
+        @media (max-width: calc(816px + 3rem)) {
+            object-position: 70% bottom;
+        }
+    }
+
+    /* Shortcuts to /om, /program and /nyheter */
+    grid {
+        grid-template-columns: repeat(3, calc((1088px / 3) - (2rem / 3))); 
+        column-gap: 1rem;
+        row-gap: 3rem;
+        width: min(1088px, 100%); 
+        background-color: rgba(245, 245, 245);
+        border-radius: .5rem;
+        transform: translateY(var(--shortcut-menu-transformY));
+        z-index: 2;
+        
+        @media (max-width: calc(1088px + 3rem)) {
+            width: min(816px, 100%);
+            grid-template-columns: repeat(2, calc((816px / 2) - (2rem / 2)));
+            grid-template-rows: var(--shortcut-menu-item-height) var(--shortcut-menu-item-height);
+        }
+
+        @media (max-width: calc(816px + 3rem)) {
+            display: none;
+        }
+    }
+
+    grid article {
+        transition: box-shadow .2s ease, 
+                    gap .2s ease;
+    }
+
+    @media (min-width: calc(1088px + 3rem)) {
+        grid article:not(:last-child):after {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 48px;
+            background-color: silver;
+            right: 0;
+            top: 50%;
+            transform: translate(calc(.5rem + 1px), -50%);
+        }
+    }
+
+    @media (min-width: calc(816px + 3rem)) {
+        grid article:first-child:after {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 48px;
+            background-color: silver;
+            right: 0;
+            top: 50%;
+            transform: translate(calc(.5rem + 1px), -50%);
+        }
+    }
+
+    grid article p {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+                line-clamp: 3; 
+        -webkit-box-orient: vertical;
+    }
+
+    li a {
+        display: inline-block;
+        max-width: 100%;
+        color: black;
+        text-decoration: none;
+        vertical-align: bottom;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+                line-clamp: 1; 
+        -webkit-box-orient: vertical;
+    }
+
+    li a:hover {
+        text-decoration: underline;
+    }
+
+    li a:active {
+        text-decoration: underline;
+        color: red;
+    }
+
+</style>

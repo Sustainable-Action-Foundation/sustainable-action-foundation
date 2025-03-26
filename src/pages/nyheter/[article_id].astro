@@ -56,13 +56,19 @@ if (previewString && previewString.length > 100) {
     description={article.preview ?? article.title} 
     url={`https://sustainable-action.org/nyheter/${article_id}/`}
     image_url={`${import.meta.env.PB_URL}/api/files/${article.collectionId}/${article.id}/${article.banner}`}
+    default_link_color='black'
 >   
     <main>
         <block class="padding-inline-50">
-            <container class="margin-inline-auto padding-block-500">
+            <container-text class="margin-inline-auto padding-bottom-500 padding-top-300">
                 <article class="flex gap-100 flex-wrap-wrap-reverse justify-content-space-between align-items-flex-end">
                     <container-text>
-                        <h1 class="margin-bottom-25 margin-top-0">{article.title}</h1>
+                        {article.banner ? (
+                            <Image src={`${import.meta.env.PB_URL}/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="1080" width="1920" />
+                        ) : (
+                            <img src='/images/article.png' alt="" height="320" />
+                        )}
+                        <h1 class="margin-bottom-25">{article.title}</h1>
                         <block>
                             Publicerad
                             <time datetime={article.published_date.toString()}>
@@ -78,17 +84,12 @@ if (previewString && previewString.length > 100) {
                             </time>
                         </small>
                     </container-text>
-                    {article.banner ? (
-                        <Image src={`${import.meta.env.PB_URL}/api/files/${article.collectionId}/${article.id}/${article.banner}`}  alt="" height="1080" width="1920" />
-                    ) : (
-                        <img src='/images/article.png' alt="" height="320" />
-                    )}
                 </article>
-            </container>
+            </container-text>
         </block>
     </main>
     <nav class="padding-inline-50 padding-block-500 container margin-inline-auto">
-        <container-text>
+        <container-text class="margin-inline-auto">
             <flex class="justify-content-space-between gap-50 margin-bottom-200 padding-bottom-100" style="border-bottom: 1px solid lightgray;">
                 <h2 class="margin-0">Fler nyheter</h2>
                 <a href="/nyheter">
@@ -106,10 +107,10 @@ if (previewString && previewString.length > 100) {
 </Layout>
 
 <style>
-    article > img {
-        border-radius: 2px;
-        object-fit: cover;
-        width: min(350px, 100%);
+    article img {
+        margin-inline: auto;
+        object-fit: contain;
+        max-width: 100%;
         height: 350px;
     }
 </style>

@@ -1,9 +1,11 @@
 ---
+	import Hero from "@components/Hero.astro";
 	import NewsCard from "@components/NewsCard.astro";
-	import { pbFetch } from "@functions";
+	import { pbFetch, removeTags } from "@functions";
 	import Layout from "@layouts/Layout.astro"
+	import Image from "astro/components/Image.astro";
 
-	const articles_latest: any = await pbFetch({
+	const articles_latest: pbCollection = await pbFetch({
 		collection: "news",
 		sort: "-published_date",
 		list_options: { page: 1, perPage: 3 },
@@ -15,6 +17,16 @@
         sort: "-created",
     });
 
+    programs.forEach((program: Program) => {
+        const previewString = removeTags(program.description)
+        if (previewString && previewString.length > 100) {
+            program.preview = `${previewString.slice(0, 97)}...`
+        } else if (previewString) {
+            program.preview = previewString
+        }
+
+    }) 
+
 ---
 
 <Layout
@@ -22,24 +34,15 @@
 	description="Vi arbetar för långsiktigt hållbara lokalsamhällen inom de planetära gränserna genom kommunala och regionala färdplaner."
 	url="https://sustainable-action.org/"
 	image_url="https://images.unsplash.com/photo-1473984951266-787b955c9e0b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+	default_link_color="white"
 >
 	<main>
+
 		<section class="position-relative padding-inline-50">
-			<container 
-				class="margin-inline-auto flex flex-direction-column justify-content-center position-relative" 
-				style="z-index: 2; height: calc(85vh - 69px);"> 
-				<h1 class="margin-0">Sustainable Action Foundation</h1>
-				<h2 class="margin-0 font-weight-500" style="font-style: italic;">För en hållbar framtid inom planetens gränser</h2>
-				<a class="cta-neutral margin-block-100" href="#about">Läs mer</a>
-			</container> 
-			<img 
-				class="position-absolute"
-				style="top: -69px; right: 0; width: 100%; height: 85vh; object-fit: cover; object-position: bottom; z-index: 1; filter: grayscale(1);"
-				src="https://images.unsplash.com/photo-1473984951266-787b955c9e0b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-			/>
+			<Hero latest_news={articles_latest} featured_programs={programs} />
 		</section>
 
-		<section class="padding-inline-50 padding-block-300" style="font-size: 1.25rem; background-color: #f9f9f9;" id="about"> 
+		<section class="padding-inline-50 padding-block-300" id="about"> 
 			<container-text class="margin-inline-auto">
 				<h2 class="text-align-center">Om stiftelsen</h2>
 				<p>
@@ -61,23 +64,25 @@
 			</container-text>
 		</section>
 		
-		<section class="padding-inline-50 padding-block-300" id="programs">
-			<container class="margin-inline-auto" style="font-size: 1.25rem;">
-				<h2 class="text-align-center">Progam och projekt</h2>
-				<p class="text-align-center margin-inline-auto">
-                    Stiftelsen planerar att organisera sitt arbete under program, vilka i sin tur inrymmer olika projekt. 
-                    Programmen kan ha sin egna styrelse, budget och referensgrupp.
-				</p>
-				<h3>Några av våra program</h3>
-				<ul>
+		<section class="padding-inline-50 padding-block-300" id="programs" style="background-color: #e8eaef;">
+			<container class="margin-inline-auto">
+				<h2 class="text-align-center margin-bottom-300 margin-top-200">Program och projekt</h2>
+				<grid class="programs-grid-layout margin-inline-auto">
 					{programs.map((program: Program) => (
-						<li>
-							<a href={`/program/${program.id}`} class="inline-block" style="color: black; text-decoration: none;">
-								<h4 class="margin-block-50">{program.title}</h4> 
-							</a>
-						</li>
+						<a href={`/program/${program.id}`} class="TODO">
+							<article class="padding-50">
+								<Image 
+									src={`${import.meta.env.PB_URL}/api/files/${program.collectionId}/${program.id}/${program.image}`}  
+									alt="" 
+									height={1280} width={720} 
+									style="width: 100%; height: 176px; border-radius: .25rem;" 
+								/>
+								<h3 style="font-size: 1.25rem; font-family: 'inter';">{program.title}</h3> 
+								<p>{program.preview}</p>
+							</article>
+						</a>
 					))}
-				</ul>
+				</grid>
 				<a class="margin-bottom-300 margin-top-200 margin-inline-auto" href="/program">
 					Se alla program
 					<img src="/icons/chevron-right.svg" alt="" />
@@ -85,11 +90,11 @@
 			</container>
 		</section>
 
-		<section class="padding-inline-50 padding-block-300" id="about" style="font-size: 1.25rem; background-color: #f9f9f9;"> 
-			<container class="margin-inline-auto" style="font-size: 1.25rem;">
+		<section class="padding-inline-50 padding-block-300" id="about"> 
+			<container class="margin-inline-auto">
 				<h2 class="text-align-center margin-bottom-300">Senaste nyheter</h2>
 				<grid class="news-grid-layout margin-inline-auto" style="--nr_columns: 3;">
-					{articles_latest.items.map((article: Article) => (
+					{(articles_latest.items as Article[]).map((article: Article) => (
 						<NewsCard article={article} />
 					))}
 				</grid>
@@ -100,22 +105,25 @@
 			</container>
 		</section>
 
-		<section class="padding-inline-50 padding-block-300" id="contact" style="background-color: #f9f9f9;">
-			<container-text class="margin-inline-auto">
+		<section class="padding-inline-50 padding-block-300" id="contact">
+			<container class="margin-inline-auto">
 				<h2 class="margin-revert margin-top-100">Kontakt</h2>
-				<form>
-					<label class="font-weight-500 block margin-block-100">
-						E-postadress
-						<input class="margin-block-25" type="email" />
-					</label>
-					<label class="font-weight-500 block margin-block-100">
-						Meddelande
-						<textarea class="margin-block-25" style="min-height: 175px;" />
-					</label>
-					<button type="submit" class="font-weight-500" >Skicka meddelande</button>
-				</form>
-			</container-text>
+				<container-text>
+					<form>
+						<label class="font-weight-500 block margin-block-100">
+							E-postadress
+							<input class="margin-block-25" type="email" />
+						</label>
+						<label class="font-weight-500 block margin-block-100">
+							Meddelande
+							<textarea class="margin-block-25" style="min-height: 175px;" />
+						</label>
+						<button type="submit" class="font-weight-500" >Skicka meddelande</button>
+					</form>
+				<container-text>
+			</container>
 		</section>
+
 	</main>
 </Layout>
 
@@ -142,6 +150,15 @@
 	.cta-neutral:hover {
 		background-color: #191919;
 		box-shadow: 2px 2px black;
+	}
+
+	.TODO {
+		text-decoration: none;
+		color: black;
+	}
+
+	.TODO:hover {
+		text-decoration: underline;
 	}
 
 </style>

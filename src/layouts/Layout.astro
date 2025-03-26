@@ -9,10 +9,11 @@ interface Props {
 	title: string,
 	description: string,
 	url: string,
-	image_url: string
+	image_url: string,
+	default_link_color: string,
 }
 
-const { title, description, url, image_url } = Astro.props;
+const { title, description, url, image_url, default_link_color } = Astro.props;
 
 const hem: Route = {
 	text: "Hem", 
@@ -45,11 +46,15 @@ const links = [
 	nyheter
 ]
 
-
 ---
 
 <html lang="se">
 	<head>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+		<link rel="icon" type="image/x-icon" href="/favicon.jfif">
 		<title>{title}</title>
 		<meta name="description" content={description}>
 
@@ -69,50 +74,67 @@ const links = [
 		<meta name="og:site_name" content="Sustainable Action Foundation" />
 		<meta property="og:description" content={description} />
 
-
 		<script>
 			const header = document.getElementsByTagName("header")[0];
-			header.style.backgroundColor = 'unset';
-
-			window.onscroll = function() {
-				if (window.scrollY > 50) {
+			const links = document.querySelectorAll("header a:not(.call-to-action)")
+			
+			// TODO: Might be very inneficient to update all links seperatly?
+			function updateHeader() {
+				if (window.scrollY > 0) { // Do seperate scroll levels for different pages?
 					header.style.transition = 'background-color .2s ease'
 					header.style.backgroundColor = 'rgba(245, 245, 245, .92)';
-					header.style.backdropFilter = 'blur(2px)'
+ 					if (links) {
+						links.forEach(link => {
+							(link as HTMLElement).style.transition = 'color .2s ease';
+							(link as HTMLElement).classList.add('text-black')
+						});
+					}
 				} else {
 					header.style.transition = 'background-color .2s ease'
 					header.style.backgroundColor = 'unset';
-					header.style.backdropFilter = 'unset'
+ 					if (links) {
+						links.forEach(link => {
+							(link as HTMLElement).style.transition = 'color .2s ease';
+							(link as HTMLElement).classList.remove('text-black')
+ 						});
+					}
 				}
 			};
+
+			// TODO: Does this need "window.onload" or something similar?
+			updateHeader()
+
+			// Run function when scrolling
+			window.addEventListener("scroll", updateHeader);
+
         </script>
 
 	</head>
 	<body>
-		<header class="position-sticky padding-inline-50 padding-block-100">
-			<container class="margin-inline-auto flex align-items-center justify-content-space-between">
-				<a href="/" class="font-weight-500 flex align-items-center gap-100">
-					Sustainable action foundation
-				</a>
-				<flex class="align-items-center justify-content-flex-end gap-100">
-					<nav class="flex align-items-center gap-100">
-						{links.map((route: Route) => 
-							<>
-								{!route.subroutes &&
-									<a href={route.href}>{route.text}</a> 
-								} 
-								{route.subroutes && 
-									<Dropdown route={route} /> 
-								}
-							</>
-						)}
-					</nav>
-					<a href="/#contact" class="call-to-action">Kontakta oss</a>
-					<div class="hamburger">
-						<Hamburger links={links} />
-					</div>
-				</flex>
-			</container>
+		<header class="position-sticky padding-50 flex justify-content-space-between">
+			<a href="/" class="font-weight-500 flex align-items-center gap-100">
+				<img src="/favicon.jfif" width="40" height="40" style="border-radius: .25rem;" alt="Sustainable action foundation" />
+			</a>
+			<flex class="align-items-center justify-content-flex-end gap-100">
+				<nav class="flex align-items-center gap-100">
+					{links.map((route: Route) => 
+						<>
+							{!route.subroutes &&
+								<a href={route.href} style={`color: ${default_link_color}`}>{route.text}</a> 
+							} 
+							{route.subroutes && 
+								<Dropdown route={route} default_link_color={default_link_color} /> 
+							}
+						</>
+					)}
+				</nav>
+			</flex>
+			<flex class="gap-50 align-items-center">
+				<a href="/#contact" class="call-to-action">Kontakta oss</a>
+				<div class="hamburger">
+					<Hamburger links={links} />
+				</div>
+			</flex>
 		</header>
         <slot></slot>
 		<footer class="padding-inline-50 padding-block-300">
@@ -120,13 +142,13 @@ const links = [
 				<flex class="align-items-center justify-content-space-between gap-100 flex-wrap-wrap-reverse">
 					<nav class="flex gap-50 align-items-center">
 						<a href="https://www.linkedin.com/company/stiftelsen-sustainable-action/posts/" target="_blank">
-							<img src="/icons/linkedin.svg" width="24" height="24">
+							<img src="/icons/linkedin.svg" width="24" height="24" alt="Sustainable action foundation on linkedin">
 						</a>
 						<a href="https://mastodon.social/@sustainableaction" target="_blank">
-							<img src="/icons/mastodon.svg" width="24" height="24">
+							<img src="/icons/mastodon.svg" width="24" height="24" alt="Sustainable action foundation on mastodon">
 						</a>
 						<a href="https://bsky.app/profile/sustainable-action.org" target="_blank">
-							<img src="/icons/bluesky.svg" width="24" height="24">
+							<img src="/icons/bluesky.svg" width="24" height="24" alt="Sustainable action foundation on bluesky">
 						</a>
 					</nav>
 					<div>
@@ -162,24 +184,41 @@ const links = [
 </html>
 
 <style>
+
     body {
         margin: 0;
         background-color: rgb(245, 245, 245);
     }
 
+	header::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		backdrop-filter: blur(2px);
+		z-index: -1;
+		border-radius: .25rem .25rem 0 0;
+	}
+
 	header {
 		top: 0;
 		z-index: 9999;
 		background-color: rgb(245, 245, 245, .92);
-		backdrop-filter: blur(2px);
+		border-radius: .25rem;
+		margin-inline: .5rem;
+		margin-top: .5rem;
+		top: .5rem;
+		align-items: center;
 	}
 
 	header:has(input[type="checkbox"]:checked) {
         background-color: rgba(245, 245, 245, .92) !important;
+		border-radius: .25rem .25rem 0 0;
     }
 
 	header a:not(.call-to-action) {
-		color: black;
 		font-weight: 500;
 		text-decoration: none;
 		text-underline-offset: 2px;
@@ -193,7 +232,7 @@ const links = [
 		text-wrap: nowrap;
 		text-decoration: none;
 		font-weight: 500;
-		border-radius: 2px;
+		border-radius: .25rem;
 		padding: .5rem;
 		background-color: black;
 		color: white;
@@ -204,6 +243,37 @@ const links = [
 	.call-to-action:hover {
 		background-color: #191919;
 		box-shadow: 2px 2px black;
+	}
+
+    .hamburger {
+		display: none;
+		@media(max-width: 850px) {
+			display: grid;
+			place-content: center;
+		}
+	}
+
+	header flex:first-of-type:has(nav) {
+		@media(max-width: 850px) {
+			display: none;
+		}
+	}
+
+
+	/* Footer */
+	footer {
+		border-top: 1px solid #e0e6eb;
+		box-shadow: 0 -.5rem .5rem -.75rem lightgray;
+	}
+ 
+
+	footer a {
+		color: black;
+		text-decoration: none;
+	}
+
+	footer a:hover {
+		text-decoration: underline;
 	}
 
 	a:has(img[src="/icons/linkedin.svg"]), 
@@ -221,32 +291,5 @@ const links = [
 		background-color: #e0e6eb;
 	}
 
-    .hamburger {
-		display: none;
-		@media(max-width: 850px) {
-			display: initial;
-		}
-	}
-
-	header nav {
-		@media(max-width: 850px) {
-			display: none;
-		}
-	}
-
-	footer {
-		border-top: 1px solid #e0e6eb;
-		box-shadow: 0 -.5rem .5rem -.75rem lightgray;
-	}
- 
-
-	footer a {
-		color: black;
-		text-decoration: none;
-	}
-
-	footer a:hover {
-		text-decoration: underline;
-	}
 
 </style>

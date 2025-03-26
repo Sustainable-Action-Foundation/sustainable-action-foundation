@@ -1,11 +1,10 @@
-/* Custom */ 
-#wcb_2 {
-  display: none !important;
-}
-
 /* Added stuff */
 
-a:has(img[src="/icons/chevron-right.svg"]) {
+.text-black {
+  color: black !important;
+}
+
+a:has(img[src*="/icons/chevron-right"]) {
   color: #000;
   font-weight: 500;
   text-decoration: none;
@@ -16,7 +15,7 @@ a:has(img[src="/icons/chevron-right.svg"]) {
   transition: gap .2s ease;
 }
 
-a:has(img[src="/icons/chevron-right.svg"]):hover {
+a:has(img[src*="/icons/chevron-right"]):hover {
   gap: .5rem;
 }
 
@@ -62,6 +61,10 @@ aside h1,
 nav h1, 
 section h1 {
   font-size: 2em;
+}
+
+.place-self-center {
+  place-self: center;
 }
 
 /* CSS reset */

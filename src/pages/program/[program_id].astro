@@ -42,34 +42,33 @@ const projects = await pbFetch({
     description={program.title}
     url={`https://sustainable-action.org/program/${program_id}`}
     image_url='https://images.unsplash.com/photo-1473984951266-787b955c9e0b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    default_link_color='black'
 >
     <main>
         <section class="padding-inline-50 padding-block-300">
-            <container class="margin-inline-auto">
-                <container-text>        
-                    <a href="/program" class="margin-bottom-100">
-                        <img src="/icons/back.svg" width="24" height="24" alt="" />
-                        Tillbaka till program
-                    </a>
-                    <h1>{program.title}</h1>
-                    <div set:html={program.description}></div>
-                    <h2>Projekt inom programmet</h2>
-                    <ul>
-                        {projects.map((project: Project) => (
-                            <li>
-                                <h3>{project.title}</h3>
-                                <time datetime={`${project.start_date}`}>
-                                    {new Date(project.start_date).toLocaleDateString('sv-SE', year_month)}
-                                </time>
-                                - 
-                                <time datetime={`${project.end_date}`}>
-                                    {new Date(project.end_date).toLocaleDateString('sv-SE', year_month)}
-                                </time>
-                            </li>
-                        ))}
-                    </ul>
-                </container-text>
-            </container>
+            <container-text class="margin-inline-auto">        
+                <h1>{program.title}</h1>
+                <div set:html={program.description}></div>
+                <h2>Projekt inom programmet</h2>
+                <ul>
+                    {projects.map((project: Project) => (
+                        <li>
+                            <h3>{project.title}</h3>
+                            {project.start_date ? (
+                                <>
+                                    <time datetime={`${project.start_date}`}>
+                                        {new Date(project.start_date).toLocaleDateString('sv-SE', year_month)}
+                                    </time>
+                                    - 
+                                    <time datetime={`${project.end_date}`}>
+                                        {new Date(project.end_date).toLocaleDateString('sv-SE', year_month)}
+                                    </time>
+                                </>
+                            ): null}
+                        </li>
+                    ))}
+                </ul>
+            </container-text>
         </section>
     </main>
 </Layout>
