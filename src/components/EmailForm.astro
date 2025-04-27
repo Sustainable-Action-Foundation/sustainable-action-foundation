@@ -20,7 +20,22 @@
             socket.send(JSON.stringify(data));
         });
         
-        socket.addEventListener("message", () => {
+        // TODO: Logged messages should be displayed to the user
+        socket.addEventListener("message", (message) => {
+            const response = JSON.parse(message.data)
+
+            if (response.context == 'email') {
+                if (response.status == false) {
+                    console.log('Något gick fel när ditt meddelande skulle skickas. Vänligen uppdatera sidan eller vänta en stund och försök igen.') // TODO: Seperate messages for a failed captcha and failure to send email?
+                } else {
+                    console.log('Ditt meddelande har skickats!')
+                }
+            } 
+            
+            if (response.context == 'turnstile'){
+                console.log('Något gick fel när ditt meddelande skulle skickas. Vänligen uppdatera sidan eller vänta en stund och försök igen.')
+            }
+
             socket.close()
         })
     }
@@ -40,7 +55,7 @@
         Meddelande
         <textarea class="margin-block-25" name="contents" id="contents" style="min-height: 175px; resize: vertical;" />
     </label>
-    <button class="font-weight-500 margin-inline-auto block" type="submit" id="submit-email" style="background-color: #337c3b; color: white; width: min(400px, 100%);" >Skicka meddelande</button>
+    <button class="font-weight-500 margin-inline-auto block margin-top-200" type="submit" id="submit-email" style="background-color: #337c3b; color: white; width: min(400px, 100%);" >Skicka meddelande</button>
     <div class="margin-top-200 margin-inline-auto" style="height: 65px; width: 300px;">
         <div 
             class="cf-turnstile" 
