@@ -15,16 +15,21 @@
             contents: contents.value
         }
 
-        const socket = new WebSocket("ws://api.sustainable-action-foundation.org");
+        const socket = new WebSocket("ws://localhost:8080");
         socket.addEventListener("open", () => {
             socket.send(JSON.stringify(data));
         });
-        socket.close()
+        
+        socket.addEventListener("message", () => {
+            socket.close()
+        })
     }
 
     document.getElementById('email-form')?.addEventListener('submit', submitMail)
-    
+
 </script>
+
+{/* <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> */}
 
 <form id="email-form">
     <label class="font-weight-500 block margin-block-100">
@@ -36,4 +41,7 @@
         <textarea class="margin-block-25" id="contents" style="min-height: 175px;" />
     </label>
     <button type="submit" id="submit-email" class="font-weight-500" >Skicka meddelande</button>
+    <div class="margin-top-100">
+        {/* <div class="cf-turnstile" data-sitekey="0x4AAAAAABVKHoNTtZQdCs02" data-callback="javascriptCallback"></div>  */}
+    </div>
 </form>
