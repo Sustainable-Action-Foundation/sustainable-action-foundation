@@ -40,8 +40,13 @@
         Meddelande
         <textarea class="margin-block-25" name="contents" id="contents" style="min-height: 175px;" />
     </label>
-    <button type="submit" id="submit-email" class="font-weight-500" >Skicka meddelande</button>
-    <div class="margin-top-100">
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAABVKHoNTtZQdCs02" data-callback="javascriptCallback"></div>
+    <button class="font-weight-500 margin-inline-auto block" type="submit" id="submit-email" >Skicka meddelande</button>
+    <div class="margin-top-100 margin-inline-auto" style="height: 65px; width: 300px;">
+        <div 
+            class="cf-turnstile" 
+            data-sitekey="0x4AAAAAABVKHoNTtZQdCs02" 
+            data-callback="javascriptCallback" 
+            data-theme="light">
+        </div>
     </div>
 </form>

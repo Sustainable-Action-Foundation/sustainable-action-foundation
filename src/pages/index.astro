@@ -94,7 +94,7 @@ import EmailForm from "@components/EmailForm.astro";
 			</container>
 		</section>
 
-		<section class="padding-inline-50 padding-block-300" id="about"> 
+		<section class="padding-inline-50 padding-block-300" id="about" style="background-color: #dde2ed"> 
 			<container class="margin-inline-auto">
 				<h2 class="text-align-center margin-bottom-300">Senaste nyheter</h2>
 				<grid class="news-grid-layout margin-inline-auto" style="--nr_columns: 3;">
@@ -110,12 +110,10 @@ import EmailForm from "@components/EmailForm.astro";
 		</section>
 
 		<section class="padding-inline-50 padding-block-300" id="contact">
-			<container class="margin-inline-auto">
-				<h2 class="margin-revert margin-top-100">Kontakt</h2>
-				<container-text>
-					<EmailForm />
-				<container-text>
-			</container>
+			<container-text class="margin-inline-auto">
+				<h2 class="margin-bottom-300 text-align-center">Kontakt</h2>
+				<EmailForm />
+ 			</container-text>
 		</section>
 
 	</main>
