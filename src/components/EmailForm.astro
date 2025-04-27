@@ -1,0 +1,39 @@
+---
+
+---
+
+<script>    
+
+    function submitMail(event: Event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email') as HTMLInputElement
+        const contents = document.getElementById('contents') as HTMLTextAreaElement
+
+        const data = {
+            email: email.value,
+            contents: contents.value
+        }
+
+        const socket = new WebSocket("ws://api.sustainable-action-foundation.org");
+        socket.addEventListener("open", () => {
+            socket.send(JSON.stringify(data));
+        });
+        socket.close()
+    }
+
+    document.getElementById('email-form')?.addEventListener('submit', submitMail)
+    
+</script>
+
+<form id="email-form">
+    <label class="font-weight-500 block margin-block-100">
+        E-postadress
+        <input class="margin-block-25" type="email" id="email" />
+    </label>
+    <label class="font-weight-500 block margin-block-100">
+        Meddelande
+        <textarea class="margin-block-25" id="contents" style="min-height: 175px;" />
+    </label>
+    <button type="submit" id="submit-email" class="font-weight-500" >Skicka meddelande</button>
+</form>

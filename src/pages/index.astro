@@ -4,6 +4,10 @@
 	import { pbFetch, removeTags } from "@functions";
 	import Layout from "@layouts/Layout.astro"
 	import Image from "astro/components/Image.astro";
+	import hydro from "../images/hydroelectric.jpg"
+	import solar from "../images/solarpanels.jpg"
+	import wind from "../images/windturbines.jpg"
+import EmailForm from "@components/EmailForm.astro";
 
 	const articles_latest: pbCollection = await pbFetch({
 		collection: "news",
@@ -36,7 +40,7 @@
 	image_url="https://images.unsplash.com/photo-1473984951266-787b955c9e0b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 	default_link_color="white"
 >
-	<main>
+	<main>	
 
 		<section class="position-relative padding-inline-50">
 			<Hero latest_news={articles_latest} featured_programs={programs} />
@@ -109,17 +113,7 @@
 			<container class="margin-inline-auto">
 				<h2 class="margin-revert margin-top-100">Kontakt</h2>
 				<container-text>
-					<form>
-						<label class="font-weight-500 block margin-block-100">
-							E-postadress
-							<input class="margin-block-25" type="email" />
-						</label>
-						<label class="font-weight-500 block margin-block-100">
-							Meddelande
-							<textarea class="margin-block-25" style="min-height: 175px;" />
-						</label>
-						<button type="submit" class="font-weight-500" >Skicka meddelande</button>
-					</form>
+					<EmailForm />
 				<container-text>
 			</container>
 		</section>
