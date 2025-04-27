@@ -7,12 +7,12 @@
     function submitMail(event: Event) {
         event.preventDefault();
 
-        const email = document.getElementById('email') as HTMLInputElement
-        const contents = document.getElementById('contents') as HTMLTextAreaElement
+        const formData = new FormData(event.currentTarget as HTMLFormElement);
 
         const data = {
-            email: email.value,
-            contents: contents.value
+            email: formData.get("email"),
+            contents: formData.get("contents"), 
+            siteVerifyToken: formData.get("cf-turnstile-response")
         }
 
         const socket = new WebSocket("ws://localhost:8080");
@@ -29,19 +29,19 @@
 
 </script>
 
-{/* <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> */}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <form id="email-form">
     <label class="font-weight-500 block margin-block-100">
         E-postadress
-        <input class="margin-block-25" type="email" id="email" />
+        <input class="margin-block-25" type="email" name="email" id="email" />
     </label>
     <label class="font-weight-500 block margin-block-100">
         Meddelande
-        <textarea class="margin-block-25" id="contents" style="min-height: 175px;" />
+        <textarea class="margin-block-25" name="contents" id="contents" style="min-height: 175px;" />
     </label>
     <button type="submit" id="submit-email" class="font-weight-500" >Skicka meddelande</button>
     <div class="margin-top-100">
-        {/* <div class="cf-turnstile" data-sitekey="0x4AAAAAABVKHoNTtZQdCs02" data-callback="javascriptCallback"></div>  */}
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAABVKHoNTtZQdCs02" data-callback="javascriptCallback"></div>
     </div>
 </form>
