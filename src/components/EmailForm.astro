@@ -85,7 +85,6 @@
             class="flex align-items-center justify-content-space-between gap-100 padding-inline-100 font-weight-500" 
             type="submit" 
             id="submit-email" 
-            style="background-color: #337c3b; color: white; font-size: .85rem; border-radius: .25rem; line-height: 1; min-height: 36px;" 
         >
             Skicka meddelande
             <img src="/icons/send.svg" width="20" height="20" alt="" />
@@ -98,4 +97,27 @@
     span {
         max-width: 50ch;
     }
+
+    button {
+        background-color: #2f7537; 
+        color: white; 
+        font-size: .85rem; 
+        border-radius: .25rem; 
+        line-height: 1; 
+        min-height: 36px;
+        transition: box-shadow .2s ease,
+                    background-color .2s ease;
+    }
+
+    button:hover {
+		background-color: #378540;
+		box-shadow: 3px 3px #2f7537;
+	}
+
+    button:active {
+        transform: scale(.97);
+        box-shadow: none;
+    }
+
+
 </style>
