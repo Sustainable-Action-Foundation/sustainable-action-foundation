@@ -1,35 +1,33 @@
 ---
-	import Hero from "@components/Hero.astro";
-	import NewsCard from "@components/NewsCard.astro";
-	import { pbFetch, removeTags } from "@functions";
-	import Layout from "@layouts/Layout.astro"
-	import Image from "astro/components/Image.astro";
-	import hydro from "../images/hydroelectric.jpg"
-	import solar from "../images/solarpanels.jpg"
-	import wind from "../images/windturbines.jpg"
+// TODO: Decide on a consistent font-scheme
+
+import Hero from "@components/Hero.astro";
+import NewsCard from "@components/NewsCard.astro";
+import { pbFetch, removeTags } from "@functions";
+import Layout from "@layouts/Layout.astro"
+import Image from "astro/components/Image.astro";
 import EmailForm from "@components/EmailForm.astro";
 
-	const articles_latest: pbCollection = await pbFetch({
-		collection: "news",
-		sort: "-published_date",
-		list_options: { page: 1, perPage: 3 },
-		expand: 'author'
-	});
+const articles_latest: pbCollection = await pbFetch({
+	collection: "news",
+	sort: "-published_date",
+	list_options: { page: 1, perPage: 3 },
+	expand: 'author'
+});
 
-    const programs: Array<Program> = await pbFetch({
-        collection: "programs",
-        sort: "-created",
-    });
+const programs: Array<Program> = await pbFetch({
+	collection: "programs",
+	sort: "-created",
+});
 
-    programs.forEach((program: Program) => {
-        const previewString = removeTags(program.description)
-        if (previewString && previewString.length > 100) {
-            program.preview = `${previewString.slice(0, 97)}...`
-        } else if (previewString) {
-            program.preview = previewString
-        }
-
-    }) 
+programs.forEach((program: Program) => {
+	const previewString = removeTags(program.description)
+	if (previewString && previewString.length > 100) {
+		program.preview = `${previewString.slice(0, 97)}...`
+	} else if (previewString) {
+		program.preview = previewString
+	}
+}) 
 
 ---
 
@@ -110,8 +108,8 @@ import EmailForm from "@components/EmailForm.astro";
 		</section>
 
 		<section class="padding-inline-50 padding-block-300" id="contact">
-			<container-text class="margin-inline-auto">
-				<h2 class="margin-bottom-300 text-align-center">Kontakta oss</h2>
+			<container-text class="margin-inline-auto" style="font-family: 'Inter';">
+				<h2 class="margin-bottom-300">Skicka ett meddelande</h2>
 				<EmailForm />
  			</container-text>
 		</section>
