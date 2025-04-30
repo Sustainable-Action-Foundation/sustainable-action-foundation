@@ -125,8 +125,8 @@ input[type=month],
 input[type=time],
 input[type=week],
 textarea):focus {
-  outline: 1px solid #2449a5;
-  box-shadow: 0 0 .5rem -3px #2449a5;
+  outline: 1px solid #000;
+  box-shadow: 0 0 .5rem -3px #000;
 }
 
 /* Button inputs (button, reset, submit, image) */
