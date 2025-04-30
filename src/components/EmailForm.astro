@@ -5,14 +5,22 @@
 <script>    
 
     function submitMail(event: Event) {
+        event.preventDefault();
+
         const status_message_element = document.getElementById('message_status') 
-        if (!status_message_element) { // TODO: Can i just do this? 
+        const submitButtonElement = document.getElementById('submit-email')
+        if (!status_message_element || !submitButtonElement) {
             return
         }
 
-        event.preventDefault();
+        // Set form aria-busy="true" to indicate it is doing stuff 
+        const formElement = (event.currentTarget as HTMLFormElement)
+        formElement.setAttribute('aria-busy', 'true');
 
-        const formData = new FormData(event.currentTarget as HTMLFormElement);
+        // Disable submit button while loading
+        submitButtonElement.setAttribute('disabled', 'true')
+
+        const formData = new FormData(formElement);
 
         const data = {
             name: formData.get("name"),
@@ -24,9 +32,6 @@
         const socket = new WebSocket("ws://localhost:8080");
         socket.addEventListener("open", () => {
             socket.send(JSON.stringify(data));
-            // TODO: Can i add a loader here?
-            // TODO: If so set aria and style loading spinner using css
-            // TODO: Disable button while loading aswell
         });
         
         socket.addEventListener("message", (message) => {
@@ -47,6 +52,9 @@
                 status_message_element.innerText = 'Något gick fel när ditt meddelande skulle skickas. Vänligen uppdatera sidan eller vänta en stund och försök igen.'
             }
 
+            // TODO: Appropriate to set aria-busy and disabled to false here?
+            formElement.setAttribute('aria-busy', 'false');
+            submitButtonElement.removeAttribute('disabled')
             socket.close()
         }) 
     }
@@ -71,7 +79,7 @@
         Meddelande
         <textarea class="margin-block-25" name="contents" id="contents" style="min-height: 175px; resize: vertical;" />
     </label>
-    <div class="margin-block-100" style="height: 65px;">
+    <block class="margin-block-100" style="height: 65px;">
         <div 
             class="cf-turnstile" 
             data-sitekey="0x4AAAAAABVKHoNTtZQdCs02" 
@@ -79,22 +87,22 @@
             data-theme="light"
             data-size="flexible">
         </div>
-    </div>
+    </block>
     <flex class="justify-content-space-between align-items-center gap-100 flex-wrap-wrap">
         <button 
-            class="flex align-items-center justify-content-space-between gap-100 padding-inline-100 font-weight-500" 
+            class="position-relative flex align-items-center justify-content-space-between gap-100 padding-inline-100 font-weight-500" 
             type="submit" 
             id="submit-email" 
         >
             Skicka meddelande
             <img src="/icons/send.svg" width="20" height="20" alt="" />
         </button>
-        <span id="message_status"></span>
+        <output id="message_status"></output>
     </flex>
 </form>
 
 <style> 
-    span {
+    output {
         max-width: 50ch;
     }
 
@@ -115,8 +123,25 @@
 	}
 
     button:active {
-        transform: scale(.97);
-        box-shadow: none;
+        transform: scale(.98);
+    }
+
+    form[aria-busy="true"] button {
+        background-color: #2f7537 !important;
+        box-shadow: none !important;
+    }
+
+    form[aria-busy="true"] button::after {
+        content: url('/icons/ring-resize.svg');
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 1rem;
+        display: grid;
+        place-content: center;
+        background-color: #2f7537;
     }
 
 
