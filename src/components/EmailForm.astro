@@ -3,13 +3,15 @@
 ---
 
 <script>    
-
+    // TODO: rename variables using snake_case
     function submitMail(event: Event) {
         event.preventDefault();
 
-        const status_message_element = document.getElementById('message_status') 
         const submitButtonElement = document.getElementById('submit-email')
-        if (!status_message_element || !submitButtonElement) {
+        const message_status_output  = document.getElementById('message-status-output')
+        const message_status_image  = document.getElementById('message-status-image') as HTMLImageElement
+        const message_status_text = document.getElementById('message-status-text')
+        if (!message_status_text || !message_status_output || !message_status_image || !submitButtonElement) {
             return
         }
 
@@ -29,6 +31,7 @@
             siteVerifyToken: formData.get("cf-turnstile-response")
         }
 
+        // TODO: Replace this websocket once live
         const socket = new WebSocket("ws://localhost:8080");
         socket.addEventListener("open", () => {
             socket.send(JSON.stringify(data));
@@ -37,19 +40,25 @@
         socket.addEventListener("message", (message) => {
             const response = JSON.parse(message.data)
 
+            // Reset output appearance
+            message_status_output.classList.remove("output-success", "output-error");
+
             if (response.context == 'email') {
                 if (response.status == false) {
-                    status_message_element.style.color = 'red'
-                    status_message_element.innerText = 'Något gick fel när ditt meddelande skulle skickas. Vänligen uppdatera sidan eller vänta en stund och försök igen.'  // TODO: Seperate messages for a failed captcha and failure to send email?
+                    message_status_output.classList.add('output-error')
+                    message_status_image.src = '/icons/mail-exclamation.svg'
+                    message_status_text.innerText = 'Något gick fel när ditt meddelande skulle skickas. Vänligen uppdatera sidan eller vänta en stund och försök igen.'  // TODO: Seperate messages for a failed captcha and failure to send email?
                 } else {
-                    status_message_element.style.color = 'green'
-                    status_message_element.innerText = 'Tack för ditt meddelande!'
+                    message_status_output.classList.add('output-success')
+                    message_status_image.src = '/icons/mail-check.svg'
+                    message_status_text.innerText = 'Tack för ditt meddelande!'
                 }
             } 
             
             if (response.context == 'turnstile') {
-                status_message_element.style.color = 'red'
-                status_message_element.innerText = 'Något gick fel när ditt meddelande skulle skickas. Vänligen uppdatera sidan eller vänta en stund och försök igen.'
+                message_status_output.classList.add('output-error')
+                    message_status_image.src = '/icons/mail-exclamation.svg'
+                message_status_text.innerText = 'Något gick fel när ditt meddelande skulle skickas. Vänligen uppdatera sidan eller vänta en stund och försök igen.'
             }
 
             // TODO: Appropriate to set aria-busy and disabled to false here?
@@ -69,15 +78,15 @@
 <form id="email-form">
     <label class="font-weight-500 block margin-block-100">
         Namn
-        <input class="margin-block-25" type="text" name="name" id="name" />
+        <input class="margin-block-25" type="text" name="name" id="name" required />
     </label>
     <label class="font-weight-500 block margin-block-100">
         E-postadress
-        <input class="margin-block-25" type="email" name="email" id="email" />
+        <input class="margin-block-25" type="email" name="email" id="email" required />
     </label>
     <label class="font-weight-500 block margin-block-100">
         Meddelande
-        <textarea class="margin-block-25" name="contents" id="contents" style="min-height: 175px; resize: vertical;" />
+        <textarea class="margin-block-25" name="contents" id="contents" style="min-height: 175px; resize: vertical;" required />
     </label>
     <block class="margin-block-100" style="height: 65px;">
         <div 
@@ -88,22 +97,42 @@
             data-size="flexible">
         </div>
     </block>
-    <flex class="justify-content-space-between align-items-center gap-100 flex-wrap-wrap">
-        <button 
-            class="position-relative flex align-items-center justify-content-space-between gap-100 padding-inline-100 font-weight-500" 
-            type="submit" 
-            id="submit-email" 
-        >
-            Skicka
-            <img src="/icons/send.svg" width="20" height="20" alt="" />
-        </button>
-        <output id="message_status"></output>
-    </flex>
+    <button 
+        class="position-relative flex align-items-center justify-content-space-between gap-100 padding-inline-100 font-weight-500" 
+        type="submit" 
+        id="submit-email" 
+    >
+        Skicka
+        <img src="/icons/send.svg" width="20" height="20" alt="" />
+    </button>
+    <output id="message-status-output" class="flex align-items-center gap-100 margin-top-100">
+        <img src="" width="24" height="24" id="message-status-image" />
+        <p class="margin-0 font-weight-500" id="message-status-text"></p>
+    </output>
 </form>
 
-<style> 
+<style>  
     output {
-        max-width: 50ch;
+        padding-block: .5rem;
+        padding-inline: 1rem;
+        border-radius: .25rem;
+    }
+
+    .output-error {
+        color: #d40000;
+        border: 1px solid #d40000;
+        background-color: rgba(255, 0, 0, .05);
+    }
+
+    .output-success {
+        color: green;
+        border: 1px solid green;
+        background-color: rgba(0, 255, 0, .05);
+    }
+
+    /* Hide output image if no source is set */
+    output img[src=""] {
+        display: none; 
     }
 
     button {
