@@ -1,31 +1,33 @@
 ---
-	import Hero from "@components/Hero.astro";
-	import NewsCard from "@components/NewsCard.astro";
-	import { pbFetch, removeTags } from "@functions";
-	import Layout from "@layouts/Layout.astro"
-	import Image from "astro/components/Image.astro";
+// TODO: Decide on a consistent font-scheme
 
-	const articles_latest: pbCollection = await pbFetch({
-		collection: "news",
-		sort: "-published_date",
-		list_options: { page: 1, perPage: 3 },
-		expand: 'author'
-	});
+import Hero from "@components/Hero.astro";
+import NewsCard from "@components/NewsCard.astro";
+import { pbFetch, removeTags } from "@functions";
+import Layout from "@layouts/Layout.astro"
+import Image from "astro/components/Image.astro";
+import EmailForm from "@components/EmailForm.astro";
 
-    const programs: Array<Program> = await pbFetch({
-        collection: "programs",
-        sort: "-created",
-    });
+const articles_latest: pbCollection = await pbFetch({
+	collection: "news",
+	sort: "-published_date",
+	list_options: { page: 1, perPage: 3 },
+	expand: 'author'
+});
 
-    programs.forEach((program: Program) => {
-        const previewString = removeTags(program.description)
-        if (previewString && previewString.length > 100) {
-            program.preview = `${previewString.slice(0, 97)}...`
-        } else if (previewString) {
-            program.preview = previewString
-        }
+const programs: Array<Program> = await pbFetch({
+	collection: "programs",
+	sort: "-created",
+});
 
-    }) 
+programs.forEach((program: Program) => {
+	const previewString = removeTags(program.description)
+	if (previewString && previewString.length > 100) {
+		program.preview = `${previewString.slice(0, 97)}...`
+	} else if (previewString) {
+		program.preview = previewString
+	}
+}) 
 
 ---
 
@@ -36,7 +38,7 @@
 	image_url="https://images.unsplash.com/photo-1473984951266-787b955c9e0b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 	default_link_color="white"
 >
-	<main>
+	<main>	
 
 		<section class="position-relative padding-inline-50">
 			<Hero latest_news={articles_latest} featured_programs={programs} />
@@ -90,7 +92,7 @@
 			</container>
 		</section>
 
-		<section class="padding-inline-50 padding-block-300" id="about"> 
+		<section class="padding-inline-50 padding-block-300" id="about" style="background-color: #dde2ed"> 
 			<container class="margin-inline-auto">
 				<h2 class="text-align-center margin-bottom-300">Senaste nyheter</h2>
 				<grid class="news-grid-layout margin-inline-auto" style="--nr_columns: 3;">
@@ -106,22 +108,14 @@
 		</section>
 
 		<section class="padding-inline-50 padding-block-300" id="contact">
-			<container class="margin-inline-auto">
-				<h2 class="margin-revert margin-top-100">Kontakt</h2>
-				<container-text>
-					<form>
-						<label class="font-weight-500 block margin-block-100">
-							E-postadress
-							<input class="margin-block-25" type="email" />
-						</label>
-						<label class="font-weight-500 block margin-block-100">
-							Meddelande
-							<textarea class="margin-block-25" style="min-height: 175px;" />
-						</label>
-						<button type="submit" class="font-weight-500" >Skicka meddelande</button>
-					</form>
-				<container-text>
-			</container>
+			<container-text class="margin-inline-auto" style="width: min(65ch, 100%);">
+				<h2 class="margin-bottom-200" 
+					style="font-family: 'Inter'; font-size: 1.75rem;"
+				>
+					Skicka ett meddelande
+				</h2>
+				<EmailForm />
+			</container-text>
 		</section>
 
 	</main>

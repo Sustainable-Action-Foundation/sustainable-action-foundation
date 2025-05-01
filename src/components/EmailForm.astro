@@ -1,0 +1,198 @@
+---
+
+---
+
+<script>    
+    // TODO: rename variables using snake_case
+    function submitMail(event: Event) {
+        event.preventDefault();
+
+        // Get all elements, stop function if they do not exist
+        const submitButtonElement = document.getElementById('submit-email')
+        const message_status_output  = document.getElementById('message-status-output')
+        const message_status_image  = document.getElementById('message-status-image') as HTMLImageElement
+        const message_status_text = document.getElementById('message-status-text')
+        if (!message_status_text || !message_status_output || !message_status_image || !submitButtonElement) {
+            return
+        }
+
+        // Set form aria-busy="true" and disable submit button while waiting for response
+        const formElement = (event.currentTarget as HTMLFormElement)
+        formElement.setAttribute('aria-busy', 'true');
+        submitButtonElement.setAttribute('disabled', 'true')
+
+        const formData = new FormData(formElement);
+
+        const data = {
+            name: formData.get("name"),
+            email: formData.get("email"),
+            contents: formData.get("contents"), 
+            siteVerifyToken: formData.get("cf-turnstile-response")
+        }
+
+        const socket = new WebSocket(import.meta.env.PUBLIC_BACKEND_URL);
+
+        // Stop function if there is a connection error
+        socket.addEventListener("error", () => { 
+            // Reset output appearance
+            message_status_output.classList.remove("output-success", "output-error");
+
+            message_status_output.classList.add('output-error')
+            message_status_image.src = '/icons/bug.svg'
+            message_status_text.innerText = '500 - Internal Server Error'
+
+            formElement.setAttribute('aria-busy', 'false');
+            submitButtonElement.setAttribute('disabled', 'false')
+
+            return
+        });
+
+        // Send data if websocket connection is succesfull
+        socket.addEventListener("open", () => { 
+            socket.send(JSON.stringify(data));
+        });
+        
+        // Do stuff with the message returned from websocket connection
+        socket.addEventListener("message", (message) => {
+            const response = JSON.parse(message.data)
+
+            // Reset output appearance
+            message_status_output.classList.remove("output-success", "output-error");
+
+            if (response.context == 'message_input_values') {
+                message_status_output.classList.add('output-error')
+                message_status_image.src = '/icons/mail-exclamation.svg'
+                message_status_text.innerText = 'Fyll i alla fält och skicka formuläret igen'
+            }
+
+            if (response.context == 'email') {
+                if (response.status == false) {
+                    message_status_output.classList.add('output-error')
+                    message_status_image.src = '/icons/mail-exclamation.svg'
+                    message_status_text.innerText = 'Något gick fel när ditt meddelande skulle skickas. Vänligen uppdatera sidan eller vänta en stund och försök igen.'  // TODO: Seperate messages for a failed captcha and failure to send email?
+                } else {
+                    message_status_output.classList.add('output-success')
+                    message_status_image.src = '/icons/mail-check.svg'
+                    message_status_text.innerText = 'Tack för ditt meddelande!'
+                }
+            } 
+            
+            if (response.context == 'turnstile' || response.context == 'message_json_format' || response.context == 'message_format') {
+                message_status_output.classList.add('output-error')
+                message_status_image.src = '/icons/mail-exclamation.svg'
+                message_status_text.innerText = 'Något gick fel när ditt meddelande skulle skickas. Vänligen uppdatera sidan eller vänta en stund och försök igen.'
+            }
+
+            formElement.setAttribute('aria-busy', 'false');
+            submitButtonElement.removeAttribute('disabled')
+            socket.close()
+        }) 
+    }
+
+    document.getElementById('email-form')?.addEventListener('submit', submitMail)
+
+</script>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+{/* TODO: Clarify names and id's here */}
+<form id="email-form">
+    <label class="font-weight-500 block margin-block-100">
+        Namn
+        <input class="margin-block-25" type="text" name="name" id="name" required />
+    </label>
+    <label class="font-weight-500 block margin-block-100">
+        E-postadress
+        <input class="margin-block-25" type="email" name="email" id="email" required />
+    </label>
+    <label class="font-weight-500 block margin-block-100">
+        Meddelande
+        <textarea class="margin-block-25" name="contents" id="contents" style="min-height: 175px; resize: vertical;" required />
+    </label>
+    <block class="margin-block-100" style="height: 65px;">
+        <div 
+            class="cf-turnstile" 
+            data-sitekey="0x4AAAAAABVKHoNTtZQdCs02" 
+            data-callback="javascriptCallback" 
+            data-theme="light"
+            data-size="flexible">
+        </div>
+    </block>
+    <button 
+        class="position-relative flex align-items-center justify-content-space-between gap-100 padding-inline-100 font-weight-500" 
+        type="submit" 
+        id="submit-email" 
+    >
+        Skicka
+        <img src="/icons/send.svg" width="20" height="20" alt="" />
+    </button>
+    <output id="message-status-output" class="flex align-items-center gap-100 margin-top-100">
+        <img src="" width="24" height="24" id="message-status-image" />
+        <p class="margin-0 font-weight-500" id="message-status-text"></p>
+    </output>
+</form>
+
+<style>  
+    output {
+        padding-block: .5rem;
+        padding-inline: 1rem;
+        border-radius: .25rem;
+    }
+
+    .output-error {
+        color: #d40000;
+        border: 1px solid #d40000;
+        background-color: rgba(255, 0, 0, .05);
+    }
+
+    .output-success {
+        color: green;
+        border: 1px solid green;
+        background-color: rgba(0, 255, 0, .05);
+    }
+
+    /* Hide output image if no source is set */
+    output img[src=""] {
+        display: none; 
+    }
+
+    button {
+        background-color: #000; 
+        color: white; 
+        font-size: .85rem; 
+        border-radius: .25rem; 
+        line-height: 1; 
+        min-height: 36px;
+        transition: box-shadow .2s ease,
+                    background-color .2s ease;
+    }
+
+    button:hover {
+		background-color: #191919;
+		box-shadow: 2px 2px #000;
+	}
+
+    button:active {
+        transform: scale(.98);
+    }
+
+    form[aria-busy="true"] button {
+        background-color: #000 !important;
+        box-shadow: none !important;
+    }
+
+    form[aria-busy="true"] button::after {
+        content: url('/icons/ring-resize.svg');
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 1rem;
+        display: grid;
+        place-content: center;
+        background-color: #000;
+    }
+
+
+</style>

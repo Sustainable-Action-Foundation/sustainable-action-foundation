@@ -105,12 +105,12 @@ input[type=month],
 input[type=time],
 input[type=week]),
 textarea {
-  background-color: #e0e6eb;
+  background-color: white;
   display: block;
   width: 100%;
   padding: 0.5rem;
-  border: none;
-  border-radius: 3px;
+  border-radius: .25rem;
+  border: 1px solid silver;
 }
 :where(input[type=text],
 input[type=email],
@@ -125,9 +125,8 @@ input[type=month],
 input[type=time],
 input[type=week],
 textarea):focus {
-  outline: 2px solid #0075FF;
-  box-shadow: 0 0 0.5rem -3px #0075FF;
-  background-color: transparent;
+  outline: 1px solid #000;
+  box-shadow: 0 0 .5rem -3px #000;
 }
 
 /* Button inputs (button, reset, submit, image) */
