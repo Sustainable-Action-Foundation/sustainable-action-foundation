@@ -31,8 +31,7 @@
             siteVerifyToken: formData.get("cf-turnstile-response")
         }
 
-        // TODO: Replace this websocket once live
-        const socket = new WebSocket("ws://localhost:8080");
+        const socket = new WebSocket(import.meta.env.PUBLIC_BACKEND_URL);
         socket.addEventListener("open", () => {
             socket.send(JSON.stringify(data));
         });
