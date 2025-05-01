@@ -43,6 +43,12 @@
             // Reset output appearance
             message_status_output.classList.remove("output-success", "output-error");
 
+            if (response.context == 'message_input_values') {
+                message_status_output.classList.add('output-error')
+                message_status_image.src = '/icons/mail-exclamation.svg'
+                message_status_text.innerText = 'Fyll i alla fält och skicka formuläret igen'
+            }
+
             if (response.context == 'email') {
                 if (response.status == false) {
                     message_status_output.classList.add('output-error')
@@ -55,9 +61,9 @@
                 }
             } 
             
-            if (response.context == 'turnstile') {
+            if (response.context == 'turnstile' || response.context == 'message_json_format' || response.context == 'message_format') {
                 message_status_output.classList.add('output-error')
-                    message_status_image.src = '/icons/mail-exclamation.svg'
+                message_status_image.src = '/icons/mail-exclamation.svg'
                 message_status_text.innerText = 'Något gick fel när ditt meddelande skulle skickas. Vänligen uppdatera sidan eller vänta en stund och försök igen.'
             }
 
