@@ -7,6 +7,7 @@
     function submitMail(event: Event) {
         event.preventDefault();
 
+        // Get all elements, stop function if they do not exist
         const submitButtonElement = document.getElementById('submit-email')
         const message_status_output  = document.getElementById('message-status-output')
         const message_status_image  = document.getElementById('message-status-image') as HTMLImageElement
@@ -15,11 +16,9 @@
             return
         }
 
-        // Set form aria-busy="true" to indicate it is doing stuff 
+        // Set form aria-busy="true" and disable submit button while waiting for response
         const formElement = (event.currentTarget as HTMLFormElement)
         formElement.setAttribute('aria-busy', 'true');
-
-        // Disable submit button while loading
         submitButtonElement.setAttribute('disabled', 'true')
 
         const formData = new FormData(formElement);
@@ -32,10 +31,28 @@
         }
 
         const socket = new WebSocket(import.meta.env.PUBLIC_BACKEND_URL);
-        socket.addEventListener("open", () => {
+
+        // Stop function if there is a connection error
+        socket.addEventListener("error", () => { 
+            // Reset output appearance
+            message_status_output.classList.remove("output-success", "output-error");
+
+            message_status_output.classList.add('output-error')
+            message_status_image.src = '/icons/bug.svg'
+            message_status_text.innerText = '500 - Internal Server Error'
+
+            formElement.setAttribute('aria-busy', 'false');
+            submitButtonElement.setAttribute('disabled', 'false')
+
+            return
+        });
+
+        // Send data if websocket connection is succesfull
+        socket.addEventListener("open", () => { 
             socket.send(JSON.stringify(data));
         });
         
+        // Do stuff with the message returned from websocket connection
         socket.addEventListener("message", (message) => {
             const response = JSON.parse(message.data)
 
@@ -66,7 +83,6 @@
                 message_status_text.innerText = 'Något gick fel när ditt meddelande skulle skickas. Vänligen uppdatera sidan eller vänta en stund och försök igen.'
             }
 
-            // TODO: Appropriate to set aria-busy and disabled to false here?
             formElement.setAttribute('aria-busy', 'false');
             submitButtonElement.removeAttribute('disabled')
             socket.close()
