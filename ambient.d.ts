@@ -27,6 +27,7 @@ type Person = pbItem &  {
     role: string,
     email?: string,
     phone?: string,
+    employed?: boolean
 }
 
 type Article = pbItem & {
