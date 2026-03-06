@@ -1,4 +1,4 @@
-onRecordAfterCreateRequest(() => {
+onRecordAfterCreateSuccess(() => {
     $http.send({
         method: 'POST',
         url: 'https://api.github.com/repos/Sustainable-Action-Foundation/sustainable-action-foundation/actions/workflows/deploy.yml/dispatches',
@@ -14,7 +14,7 @@ onRecordAfterCreateRequest(() => {
     })
 })
 
-onRecordAfterUpdateRequest(() => {
+onRecordAfterUpdateSuccess(() => {
     $http.send({
         method: 'POST',
         url: 'https://api.github.com/repos/Sustainable-Action-Foundation/sustainable-action-foundation/actions/workflows/deploy.yml/dispatches',
@@ -29,7 +29,7 @@ onRecordAfterUpdateRequest(() => {
         }),    
     })})
 
-onRecordAfterDeleteRequest(() => {
+onRecordAfterDeleteSuccess(() => {
     $http.send({
         method: 'POST',
         url: 'https://api.github.com/repos/Sustainable-Action-Foundation/sustainable-action-foundation/actions/workflows/deploy.yml/dispatches',
