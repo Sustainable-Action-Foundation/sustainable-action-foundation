@@ -43,8 +43,7 @@ The following steps apply assuming you have a **sustainable-action-foundation.po
 
 1. Download the latest release of PocketBase v.0.22 from <a href="https://github.com/pocketbase/pocketbase/releases">pocketbase on github</a> into the root of this project. 
 2. Extract the files into `/pocketbase` and create the path: `/pocketbase/pb_data/`.
-3. Head to the current <a href="https://sustainable-action-foundation.pockethost.io/_/#/settings/backups
-">live version</a> of our pocketbase instance and download the latest backup.
+3. Head to the current <a href="https://sustainable-action-foundation.pockethost.io/_/#/settings/backups">live version</a> of our pocketbase instance and download the latest backup.
 4. Extract the backup and copy the files to: `/pocketbase/pb_data/`.
 5. Setup the following enviroment variables:
 

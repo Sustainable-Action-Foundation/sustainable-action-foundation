@@ -23,8 +23,12 @@ jobs:
       PB_URL: ${{ secrets.PB_URL }}
       PUBLIC_BACKEND_URL: ${{ vars.PUBLIC_BACKEND_URL }} 
     steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+    
       - name: Checkout your repository using git
         uses: actions/checkout@v6
+        
       - name: Install, build, and upload your site
         uses: withastro/action@v6
         with:
