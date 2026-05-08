@@ -39,6 +39,8 @@ const pb = new PocketBase(import.meta.env.PB_URL);
 
 {/* TOOD: return an actual type */}
 export async function pbFetch(params: PocketBaseParams): Promise<any> { 
+    await pb.admins.authWithPassword(import.meta.env.PB_USERNAME, import.meta.env.PB_PASSWORD);
+
     const { collection, id, sort, filter, expand, list_options } = params;
     const options: any = {};
 
@@ -47,27 +49,11 @@ export async function pbFetch(params: PocketBaseParams): Promise<any> {
     if (expand) options.expand = expand
 
     try {
-        if (!import.meta.env.PB_URL) {
-            console.warn('PB_URL not set — skipping PocketBase request and returning empty result');
-            return [];
-        }
-
-        // Attempt admin auth only when credentials are provided. If auth fails, continue unauthenticated.
-        if (import.meta.env.PB_USERNAME && import.meta.env.PB_PASSWORD) {
-            try {
-                await pb.admins.authWithPassword(import.meta.env.PB_USERNAME, import.meta.env.PB_PASSWORD);
-            } catch (authErr) {
-                console.warn('PocketBase admin auth failed — continuing without admin auth', authErr instanceof Error ? authErr.message : authErr);
-            }
-        } else {
-            console.warn('PB_USERNAME or PB_PASSWORD not set — proceeding without admin auth');
-        }
-
         const collectionRef = pb.collection(collection);
 
         if (id) {
             return await collectionRef.getOne(id, options);
-        }
+        } 
 
         if (list_options) {
             return (await collectionRef.getList(list_options.page, list_options.perPage, options));
@@ -77,7 +63,7 @@ export async function pbFetch(params: PocketBaseParams): Promise<any> {
         return await collectionRef.getFullList(options);
     } catch (error) {
         console.error("Error fetching data from PocketBase:", error);
-        return [];
+        throw new Error("An error occurred while fetching data. Please try again.");
     } 
     finally {
         pb.authStore.clear();
