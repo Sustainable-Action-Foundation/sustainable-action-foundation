@@ -1,6 +1,7 @@
 {
-  "name": "",
+  "name": "sustainable-action-foundation",
   "type": "module",
+  "private": true,
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
@@ -14,5 +15,6 @@
     "astro": "^5.17.3",
     "pocketbase": "^0.21.5",
     "typescript": "^5.6.3"
-  }
+  },
+  "packageManager": "yarn@4.14.1"
 }
