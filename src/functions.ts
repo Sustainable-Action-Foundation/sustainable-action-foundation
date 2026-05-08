@@ -27,6 +27,44 @@ type PocketBaseParams = IdExclusiveParams | NonIdParams;
 
 const pb = new PocketBase(import.meta.env.PB_URL);
 
+async function authenticateSuperuser(identity: string, password: string) {
+    const base = (import.meta.env.PB_URL ?? '').replace(/\/$/, '');
+    const payload = JSON.stringify({ identity, password });
+    const headers = { 'Content-Type': 'application/json' };
+
+    const endpoints = [
+        `${base}/api/admins/auth-with-password`,
+        `${base}/api/collections/_superusers/auth-with-password`,
+    ];
+
+    let lastError: any = null;
+
+    for (const endpoint of endpoints) {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers,
+            body: payload,
+        });
+
+        const data: any = await response.json().catch(() => ({}));
+
+        // 404 means this PB version doesn't expose this endpoint; try next fallback.
+        if (response.status === 404) {
+            lastError = data;
+            continue;
+        }
+
+        if (!response.ok || !data?.token) {
+            throw new Error(data?.message ?? `PocketBase auth failed with status ${response.status}`);
+        }
+
+        pb.authStore.save(data.token, data.record ?? null);
+        return;
+    }
+
+    throw new Error(lastError?.message ?? 'PocketBase auth endpoint not found');
+}
+
 /**
  * Gets data from pocketbase
  * @param collection - Collection name
@@ -56,7 +94,7 @@ export async function pbFetch(params: PocketBaseParams): Promise<any> {
         // If credentials are present but auth fails, fail fast so CI surfaces the real issue.
         if (import.meta.env.PB_USERNAME && import.meta.env.PB_PASSWORD) {
             try {
-                await pb.admins.authWithPassword(import.meta.env.PB_USERNAME, import.meta.env.PB_PASSWORD);
+                await authenticateSuperuser(import.meta.env.PB_USERNAME, import.meta.env.PB_PASSWORD);
             } catch (authErr) {
                 console.error('PocketBase admin auth failed', authErr instanceof Error ? authErr.message : authErr);
                 throw new Error('PocketBase admin authentication failed. Verify PB_URL, PB_USERNAME, and PB_PASSWORD.');
