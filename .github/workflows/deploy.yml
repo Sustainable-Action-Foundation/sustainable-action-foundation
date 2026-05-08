@@ -33,6 +33,13 @@ jobs:
     
       - name: Checkout your repository using git
         uses: actions/checkout@v6
+
+      - name: CI PocketBase auth check
+        run: |
+          if [ -z "$PB_URL" ] || [ -z "$PB_USERNAME" ] || [ -z "$PB_PASSWORD" ]; then
+            echo "One of PB_URL / PB_USERNAME / PB_PASSWORD is missing"; exit 1
+          fi
+          node -e "const PocketBase=require('pocketbase');const pb=new PocketBase(process.env.PB_URL);pb.admins.authWithPassword(process.env.PB_USERNAME,process.env.PB_PASSWORD).then(r=>{console.log('AUTH OK', !!r.token);console.log('admin id:', r.record?.id);}).catch(e=>{console.error('AUTH ERR', e);process.exit(1);});"
         
       - name: Install, build, and upload your site
         uses: withastro/action@v6
