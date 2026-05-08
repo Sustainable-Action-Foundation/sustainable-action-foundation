@@ -26,16 +26,20 @@ type PocketBaseParams = IdExclusiveParams | NonIdParams;
 
 
 const pb = new PocketBase(import.meta.env.PB_URL);
+let authEndpoint: string | null = null;
+let authPromise: Promise<void> | null = null;
 
 async function authenticateSuperuser(identity: string, password: string) {
     const base = (import.meta.env.PB_URL ?? '').replace(/\/$/, '');
     const payload = JSON.stringify({ identity, password });
     const headers = { 'Content-Type': 'application/json' };
 
-    const endpoints = [
-        `${base}/api/admins/auth-with-password`,
-        `${base}/api/collections/_superusers/auth-with-password`,
-    ];
+    const endpoints = authEndpoint
+        ? [authEndpoint]
+        : [
+            `${base}/api/admins/auth-with-password`,
+            `${base}/api/collections/_superusers/auth-with-password`,
+        ];
 
     let lastError: any = null;
 
@@ -58,6 +62,7 @@ async function authenticateSuperuser(identity: string, password: string) {
             throw new Error(data?.message ?? `PocketBase auth failed with status ${response.status}`);
         }
 
+        authEndpoint = endpoint;
         pb.authStore.save(data.token, data.record ?? null);
         return;
     }
@@ -94,7 +99,13 @@ export async function pbFetch(params: PocketBaseParams): Promise<any> {
         // If credentials are present but auth fails, fail fast so CI surfaces the real issue.
         if (import.meta.env.PB_USERNAME && import.meta.env.PB_PASSWORD) {
             try {
-                await authenticateSuperuser(import.meta.env.PB_USERNAME, import.meta.env.PB_PASSWORD);
+                if (!pb.authStore.isValid) {
+                    authPromise ??= authenticateSuperuser(import.meta.env.PB_USERNAME, import.meta.env.PB_PASSWORD).finally(() => {
+                        authPromise = null;
+                    });
+
+                    await authPromise;
+                }
             } catch (authErr) {
                 console.error('PocketBase admin auth failed', authErr instanceof Error ? authErr.message : authErr);
                 throw new Error('PocketBase admin authentication failed. Verify PB_URL, PB_USERNAME, and PB_PASSWORD.');
@@ -128,9 +139,6 @@ export async function pbFetch(params: PocketBaseParams): Promise<any> {
         }
         return [];
     } 
-    finally {
-        pb.authStore.clear();
-    }
 }
 
 
