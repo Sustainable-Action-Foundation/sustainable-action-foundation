@@ -61,13 +61,13 @@ const news: any = await pbFetch({
             <container class="margin-inline-auto">
                 <h1 class="text-align-center margin-block-300">Nyheter</h1>
                 <grid class="news-grid-layout" style="--nr_columns: 4;">
-                    { news.items.map((article: Article) => (
+                    { (news.items ?? []).map((article: Article) => (
                         <NewsCard article={article} />
                     )) }
                 </grid>
                 <flex class="justify-content-center margin-top-300">
                     <Pagination
-                        length={news.totalPages}
+                        length={news.totalPages ?? 0}
                         current_index={parseInt(index)}
                         initial_route={{text: 'nyheter', href: '/nyheter'}}
                     />

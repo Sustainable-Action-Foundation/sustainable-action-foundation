@@ -52,12 +52,14 @@ export async function pbFetch(params: PocketBaseParams): Promise<any> {
             return [];
         }
 
-        // Attempt admin auth only when credentials are provided. If auth fails, continue unauthenticated.
+        // Attempt admin auth only when credentials are provided.
+        // If credentials are present but auth fails, fail fast so CI surfaces the real issue.
         if (import.meta.env.PB_USERNAME && import.meta.env.PB_PASSWORD) {
             try {
                 await pb.admins.authWithPassword(import.meta.env.PB_USERNAME, import.meta.env.PB_PASSWORD);
             } catch (authErr) {
-                console.warn('PocketBase admin auth failed — continuing without admin auth', authErr instanceof Error ? authErr.message : authErr);
+                console.error('PocketBase admin auth failed', authErr instanceof Error ? authErr.message : authErr);
+                throw new Error('PocketBase admin authentication failed. Verify PB_URL, PB_USERNAME, and PB_PASSWORD.');
             }
         } else {
             console.warn('PB_USERNAME or PB_PASSWORD not set — proceeding without admin auth');
@@ -77,6 +79,15 @@ export async function pbFetch(params: PocketBaseParams): Promise<any> {
         return await collectionRef.getFullList(options);
     } catch (error) {
         console.error("Error fetching data from PocketBase:", error);
+        if (list_options) {
+            return {
+                page: list_options.page,
+                perPage: list_options.perPage,
+                totalItems: 0,
+                totalPages: 0,
+                items: [],
+            };
+        }
         return [];
     } 
     finally {
