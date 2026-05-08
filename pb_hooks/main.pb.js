@@ -5,7 +5,7 @@ onRecordAfterCreateSuccess(() => {
         headers: {
             'Authorization': `Bearer ${process.env.GITHUB_ACCESS_KEY}`,
             'Accept': 'application/vnd.github.v3+json',
-            'X-GitHub-Api-Version': '2022-11-28',
+            'X-GitHub-Api-Version': '2026-03-10',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ 
@@ -21,7 +21,7 @@ onRecordAfterUpdateSuccess(() => {
         headers: {
             'Authorization': `Bearer ${process.env.GITHUB_ACCESS_KEY}`,
             'Accept': 'application/vnd.github.v3+json',
-            'X-GitHub-Api-Version': '2022-11-28',
+            'X-GitHub-Api-Version': '2026-03-10',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ 
@@ -36,7 +36,7 @@ onRecordAfterDeleteSuccess(() => {
         headers: {
             'Authorization': `Bearer ${process.env.GITHUB_ACCESS_KEY}`,
             'Accept': 'application/vnd.github.v3+json',
-            'X-GitHub-Api-Version': '2022-11-28',
+            'X-GitHub-Api-Version': '2026-03-10',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ 
