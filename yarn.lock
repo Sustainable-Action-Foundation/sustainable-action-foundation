@@ -5,7 +5,7 @@ __metadata:
   version: 9
   cacheKey: 10c0
 
-"@astrojs/check@npm:^0.9.6":
+"@astrojs/check@npm:^0.9.9":
   version: 0.9.9
   resolution: "@astrojs/check@npm:0.9.9"
   dependencies:
@@ -1389,7 +1389,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro@npm:^5.17.3":
+"astro@npm:^5.18.1":
   version: 5.18.1
   resolution: "astro@npm:5.18.1"
   dependencies:
@@ -3903,10 +3903,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "sustainable-action-foundation@workspace:."
   dependencies:
-    "@astrojs/check": "npm:^0.9.6"
-    astro: "npm:^5.17.3"
+    "@astrojs/check": "npm:^0.9.9"
+    astro: "npm:^5.18.1"
     pocketbase: "npm:^0.21.5"
-    typescript: "npm:^5.6.3"
+    typescript: "npm:^5.9.3"
   languageName: unknown
   linkType: soft
 
@@ -4022,7 +4022,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.6.3":
+"typescript@npm:^5.9.3":
   version: 5.9.3
   resolution: "typescript@npm:5.9.3"
   bin:
@@ -4032,7 +4032,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.6.3#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A^5.9.3#optional!builtin<compat/typescript>":
   version: 5.9.3
   resolution: "typescript@patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"
   bin:
