@@ -39,7 +39,7 @@ jobs:
           if [ -z "$PB_URL" ] || [ -z "$PB_USERNAME" ] || [ -z "$PB_PASSWORD" ]; then
             echo "One of PB_URL / PB_USERNAME / PB_PASSWORD is missing"; exit 1
           fi
-          node -e "const PocketBase=require('pocketbase');const pb=new PocketBase(process.env.PB_URL);pb.admins.authWithPassword(process.env.PB_USERNAME,process.env.PB_PASSWORD).then(r=>{console.log('AUTH OK', !!r.token);console.log('admin id:', r.record?.id);}).catch(e=>{console.error('AUTH ERR', e);process.exit(1);});"
+          node -e "(async()=>{const base=(process.env.PB_URL||'').replace(/\/$/,'');const res=await fetch(base + '/api/admins/auth-with-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({identity:process.env.PB_USERNAME,password:process.env.PB_PASSWORD})});const data=await res.json().catch(()=>({}));if(!res.ok){console.error('AUTH ERR',res.status,data);process.exit(1);}console.log('AUTH OK',!!data?.token);console.log('admin id:',data?.record?.id ?? 'unknown');})().catch((e)=>{console.error('AUTH ERR',e);process.exit(1);});"
         
       - name: Install, build, and upload your site
         uses: withastro/action@v6
