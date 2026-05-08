@@ -27,6 +27,8 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
+
+      - name: Enable Corepack (yarn)
         run: corepack enable yarn
     
       - name: Checkout your repository using git
