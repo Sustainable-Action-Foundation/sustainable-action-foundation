@@ -3,6 +3,9 @@ const DEPLOY_BRANCH = 'master';
 const DISPATCH_COOLDOWN_MS = 10 * 60 * 1000; // 10 minutes
 let nextDispatchAt = 0;
 let consecutiveFailures = 0;
+let scheduledDispatchTimer = null;
+const BASE_DEBOUNCE_MS = 20 * 1000; // 20s
+const JITTER_MS = 10 * 1000; // up to 10s random jitter
 
 function triggerDeploy() {
     const token = process.env.GITHUB_ACCESS_KEY;
@@ -10,13 +13,33 @@ function triggerDeploy() {
         console.log('Skipping deploy dispatch: GITHUB_ACCESS_KEY is missing.');
         return;
     }
-
-    const now = Date.now();
-    if (now < nextDispatchAt) {
-        console.log('Skipping deploy dispatch: next allowed at', new Date(nextDispatchAt).toISOString());
+    // Debounce multiple near-simultaneous triggerDeploy calls into a single dispatch.
+    if (scheduledDispatchTimer) {
+        console.log('Dispatch already scheduled; coalescing trigger.');
         return;
     }
 
+    const delay = BASE_DEBOUNCE_MS + Math.floor(Math.random() * JITTER_MS);
+    scheduledDispatchTimer = setTimeout(() => {
+        scheduledDispatchTimer = null;
+        // If nextDispatchAt is in the future, reschedule to that time + small jitter
+        const now = Date.now();
+        if (now < nextDispatchAt) {
+            const rescheduleDelay = (nextDispatchAt - now) + Math.floor(Math.random() * 5000);
+            console.log('Rescheduling dispatch to honor nextDispatchAt', new Date(nextDispatchAt).toISOString());
+            scheduledDispatchTimer = setTimeout(() => {
+                scheduledDispatchTimer = null;
+                _performDispatch(token);
+            }, rescheduleDelay);
+            return;
+        }
+
+        _performDispatch(token);
+    }, delay);
+    console.log('Scheduled deploy dispatch in', Math.round(delay / 1000), 's');
+}
+
+function _performDispatch(token) {
     try {
         const res = $http.send({
             method: 'POST',
@@ -30,7 +53,6 @@ function triggerDeploy() {
             body: JSON.stringify({ ref: DEPLOY_BRANCH }),
         });
 
-        // determine status and headers in a defensive way
         const status = res && (res.status || res.statusCode || res.status_code || 0);
         const headers = res && (res.headers || res.responseHeaders || {});
 
@@ -41,7 +63,6 @@ function triggerDeploy() {
             return;
         }
 
-        // Handle rate limiting / server busy
         if (status === 429 || status === 503) {
             consecutiveFailures += 1;
             const ra = headers['retry-after'] || headers['Retry-After'] || headers['retry-after-seconds'];
@@ -52,7 +73,6 @@ function triggerDeploy() {
             return;
         }
 
-        // For 4xx/5xx errors, back off progressively but log the response
         consecutiveFailures += 1;
         const backoffMs = Math.min(60 * 60 * 1000, DISPATCH_COOLDOWN_MS * Math.pow(2, consecutiveFailures));
         nextDispatchAt = Date.now() + backoffMs;
