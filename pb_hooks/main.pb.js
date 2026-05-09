@@ -1,6 +1,6 @@
 const DISPATCH_URL = 'https://api.github.com/repos/Sustainable-Action-Foundation/sustainable-action-foundation/actions/workflows/deploy.yml/dispatches';
 const DEPLOY_BRANCH = 'master';
-const DISPATCH_COOLDOWN_MS = 2 * 60 * 1000;
+const DISPATCH_COOLDOWN_MS = 10 * 60 * 1000; // 10 minutes
 let nextDispatchAt = 0;
 let consecutiveFailures = 0;
 
