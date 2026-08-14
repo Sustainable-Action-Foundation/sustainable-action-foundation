@@ -1,0 +1,9 @@
+{
+    "contacts": [
+        {
+            "email_address": "martin.wetterstedt@sustainable-action.ngo",
+            "matrix_id": "@vena:sustainable-action.ngo",
+            "role": "m.role.admin"
+        }
+    ]
+}

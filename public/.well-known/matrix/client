@@ -1,0 +1,45 @@
+{
+    "cc.etke.ketesa": {
+        "asManagedUsers": [],
+        "corsCredentials": "same-origin",
+        "etkeccAdmin": "https://scheduler.ctrl.etke.cc/admin/ee6607bb8df752a0697b826961ab935e424e876ebdb757cfb1c63d27a51af3cf",
+        "externalAuthProvider": false,
+        "menu": [
+            {
+                "i18n": {
+                    "de": "Hilfe",
+                    "fa": "\u0631\u0627\u0647\u0646\u0645\u0627",
+                    "fr": "Aide",
+                    "it": "Aiuto",
+                    "ja": "\u30d8\u30eb\u30d7",
+                    "ru": "\u0421\u043f\u0440\u0430\u0432\u043a\u0430",
+                    "uk": "\u0414\u043e\u0432\u0456\u0434\u043a\u0430",
+                    "zh": "\u5e2e\u52a9"
+                },
+                "icon": "HelpCenter",
+                "label": "Help",
+                "url": "https://etke.cc/help/?utm_source=ketesa&utm_medium=menu&utm_campaign=ketesa"
+            }
+        ],
+        "restrictBaseUrl": "https://matrix.sustainable-action.ngo",
+        "wellKnownDiscovery": true
+    },
+    "im.vector.riot.jitsi": {
+        "preferredDomain": "jitsi.sustainable-action.ngo"
+    },
+    "io.element.jitsi": {
+        "preferredDomain": "jitsi.sustainable-action.ngo"
+    },
+    "m.homeserver": {
+        "base_url": "https://matrix.sustainable-action.ngo"
+    },
+    "m.identity_server": {
+        "base_url": "https://vector.im"
+    },
+    "org.matrix.msc4143.rtc_foci": [
+        {
+            "livekit_service_url": "https://matrix.sustainable-action.ngo/livekit-jwt-service",
+            "type": "livekit"
+        }
+    ]
+}
